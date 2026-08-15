@@ -3,51 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>West Valley College Clubs</title>
+  <title>West Valley College - Club Directory</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="top">
 
-  <!-- Header Section -->
-  <header class="navbar">
-    <div class="nav-container">
-      <h1 id="college-title">Campus Clubs</h1>
-      <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
-    </div>
-  </header>
+  <!-- Floating Navigation Menu (FAB) -->
+  <div class="fab-wrapper" id="fabWrapper">
+    <ul class="fab-menu">
+      <li><a href="#top" onclick="toggleFab()"><span class="material-symbols-rounded">arrow_upward</span> Top</a></li>
+      <li><a href="#search-section" onclick="toggleFab()"><span class="material-symbols-rounded">search</span> Search & Filter</a></li>
+      <li><a href="#clubs" onclick="toggleFab()"><span class="material-symbols-rounded">groups</span> Directory</a></li>
+      <li><a href="#start-club" onclick="toggleFab()"><span class="material-symbols-rounded">add_circle</span> Start a Club</a></li>
+    </ul>
+    <button class="fab-btn" onclick="toggleFab()" aria-label="Navigation Menu">
+      <span class="material-symbols-rounded" id="fabIcon">map</span>
+    </button>
+  </div>
 
-  <!-- Main Content Area -->
-  <main class="container">
+  <div class="report-container">
     
-    <!-- Hero Search & Filter Section -->
-    <section class="search-section">
-      <input type="text" id="search-input" placeholder="🔍 Search by club name, major, or keyword...">
-      <div class="filter-pills" id="filter-pills">
-        <button class="pill active" data-category="All">All</button>
-        <button class="pill" data-category="STEM">STEM</button>
-        <button class="pill" data-category="Business">Business</button>
-        <button class="pill" data-category="Arts">Arts</button>
-        <button class="pill" data-category="Special Interest">Special Interest</button>
+    <!-- Hero Header -->
+    <header class="hero">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
+        <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
+      </button>
+      <h1 id="college-title">WVCC Clubs</h1>
+      <p>West Valley & Mission College Student Organizations</p>
+    </header>
+
+    <!-- Search & Filter Control Panel -->
+    <section id="search-section" class="glass control-panel">
+      <div class="search-box">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <input type="text" id="search-input" placeholder="Search by name, major, or keyword (pre-med, coding)...">
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-pills" id="filter-pills">
+          <button class="pill active" onclick="filterCategory('All', this)">All</button>
+          <button class="pill" onclick="filterCategory('STEM', this)">STEM</button>
+          <button class="pill" onclick="filterCategory('Business', this)">Business</button>
+          <button class="pill" onclick="filterCategory('Arts', this)">Arts</button>
+          <button class="pill" onclick="filterCategory('Special Interest', this)">Special Interest</button>
+        </div>
       </div>
     </section>
 
-    <!-- Club Cards Grid Container -->
-    <section id="club-grid" class="grid">
-      <!-- Loading Skeletons (Shown before data arrives) -->
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
-      <div class="card skeleton"></div>
+    <!-- Club Cards Grid -->
+    <section id="clubs">
+      <div id="club-grid" class="grid-cards">
+        <div class="glass card-small skeleton"></div>
+        <div class="glass card-small skeleton"></div>
+        <div class="glass card-small skeleton"></div>
+      </div>
     </section>
 
-  </main>
+    <!-- Start a Club Callout -->
+    <section id="start-club" class="glass callout-box">
+      <h2>Can't find your community?</h2>
+      <p>Launch your own organization at West Valley. It takes less than 5 minutes to submit an official proposal.</p>
+      <a href="#" id="start-club-btn" target="_blank" class="btn btn-primary">
+        <span class="material-symbols-rounded">rocket_launch</span> Start a New Club
+      </a>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>Student-led open-source project for West Valley College.</p>
-    <a href="#" id="start-club-link" target="_blank">Want to start a new club?</a>
-  </footer>
+    <!-- Footer Signature Block -->
+    <footer class="sig-block glass">
+      <div class="sig-info">
+        <h3>West Valley Student Directory</h3>
+        <div class="sig-role">Open-Source Campus Initiative</div>
+        <p class="sig-text">Designed & maintained by student leaders for the WVC community.</p>
+      </div>
+    </footer>
 
-  <!-- Scripts -->
+  </div>
+
   <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
