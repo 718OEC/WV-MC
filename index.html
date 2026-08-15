@@ -9,24 +9,11 @@
 </head>
 <body id="top">
 
-  <!-- Floating Navigation Menu (FAB) -->
-  <div class="fab-wrapper" id="fabWrapper">
-    <ul class="fab-menu">
-      <li><a href="#top" onclick="toggleFab()"><span class="material-symbols-rounded">arrow_upward</span> Top</a></li>
-      <li><a href="#search-section" onclick="toggleFab()"><span class="material-symbols-rounded">search</span> Search & Filter</a></li>
-      <li><a href="#clubs" onclick="toggleFab()"><span class="material-symbols-rounded">groups</span> Directory</a></li>
-      <li><a href="#start-club" onclick="toggleFab()"><span class="material-symbols-rounded">add_circle</span> Start a Club</a></li>
-    </ul>
-    <button class="fab-btn" onclick="toggleFab()" aria-label="Navigation Menu">
-      <span class="material-symbols-rounded" id="fabIcon">map</span>
-    </button>
-  </div>
-
   <div class="report-container">
     
     <!-- Hero Header -->
     <header class="hero">
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Dark Mode">
         <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
       </button>
       <h1 id="college-title">WVCC Clubs</h1>
@@ -37,7 +24,7 @@
     <section id="search-section" class="glass control-panel">
       <div class="search-box">
         <span class="material-symbols-rounded search-icon">search</span>
-        <input type="text" id="search-input" placeholder="Search by name, major, or keyword (pre-med, coding)...">
+        <input type="text" id="search-input" placeholder="Search by club name, president, email, or category...">
       </div>
 
       <div class="filter-row">
@@ -46,6 +33,7 @@
           <button class="pill" onclick="filterCategory('STEM', this)">STEM</button>
           <button class="pill" onclick="filterCategory('Business', this)">Business</button>
           <button class="pill" onclick="filterCategory('Arts', this)">Arts</button>
+          <button class="pill" onclick="filterCategory('Honors', this)">Honors</button>
           <button class="pill" onclick="filterCategory('Special Interest', this)">Special Interest</button>
         </div>
       </div>
