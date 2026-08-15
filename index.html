@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>West Valley College Clubs</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="navbar">
+    <div class="nav-container">
+      <h1 id="college-title">Campus Clubs</h1>
+      <button id="theme-toggle" aria-label="Toggle Dark Mode">🌙</button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+    
+    <!-- Hero Search & Filter Section -->
+    <section class="search-section">
+      <input type="text" id="search-input" placeholder="🔍 Search by club name, major, or keyword...">
+      <div class="filter-pills" id="filter-pills">
+        <button class="pill active" data-category="All">All</button>
+        <button class="pill" data-category="STEM">STEM</button>
+        <button class="pill" data-category="Business">Business</button>
+        <button class="pill" data-category="Arts">Arts</button>
+        <button class="pill" data-category="Special Interest">Special Interest</button>
+      </div>
+    </section>
+
+    <!-- Club Cards Grid Container -->
+    <section id="club-grid" class="grid">
+      <!-- Loading Skeletons (Shown before data arrives) -->
+      <div class="card skeleton"></div>
+      <div class="card skeleton"></div>
+      <div class="card skeleton"></div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>Student-led open-source project for West Valley College.</p>
+    <a href="#" id="start-club-link" target="_blank">Want to start a new club?</a>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
