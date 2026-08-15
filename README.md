@@ -1,4 +1,4 @@
-# 🚀 West Valley College (WVCC) Club Hub
+# West Valley College (WVCC) Club Hub
 (updated 2026 AUG 15)
 
 > **Developer Note:** This was built by Oscar Espinosa (aka Deion) as a QOL improvement of the CCC system and I welcome any and all students or educational faculty to use this code to improve their educational community.
@@ -9,18 +9,18 @@ Visually inspired by Liquid Glass and Material Design, this platform runs on a $
 
 ---
 
-## 🌟 Key Features (work in progress)
+## Key Features (work in progress)
 
-* **⚡ Zero-Friction Access:** Sub-500ms load times with zero login barriers for students browsing meeting times or rooms.
-* **🏷️ Smart Search & Category Filters:** Real-time search with instant filtering for tags (*STEM*, *Business*, *Arts*, *Special Interest*).
-* **🟢 Live Meeting Badges:** Dynamic tags highlighting clubs holding active meetings on the current day.
-* **📅 Universal Calendar Feed (`.ics` Sync):** One-tap sync directly to Apple Calendar, Google Calendar, and Microsoft Outlook.
-* **📝 Form Agnostic:** Supports both **Microsoft Forms** (Office 365) and **Google Forms** for officer updates and sign-ups.
-* **🌙 Native Dark Mode:** System-detected OLED dark mode toggle.
+* ** Zero-Friction Access:** Sub-500ms load times with zero login barriers for students browsing meeting times or rooms.
+* ** Smart Search & Category Filters:** Real-time search with instant filtering for tags (*STEM*, *Business*, *Arts*, *Special Interest*).
+* ** Live Meeting Badges:** Dynamic tags highlighting clubs holding active meetings on the current day.
+* ** Universal Calendar Feed (`.ics` Sync):** One-tap sync directly to Apple Calendar, Google Calendar, and Microsoft Outlook.
+* ** Form Agnostic:** Supports both **Microsoft Forms** (Office 365) and **Google Forms** for officer updates and sign-ups.
+* ** Native Dark Mode:** System-detected OLED dark mode toggle.
 
 ---
 
-## ⚙️ Centralized Setup (`config.js`)
+## Centralized Setup (`config.js`)
 
 All environment variables and links are maintained inside `config.js` so future student leaders can update the site without touching code:
 
