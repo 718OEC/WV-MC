@@ -43,21 +43,42 @@ function initTheme() {
 function switchCampus(campusCode, btnElement) {
   activeCampus = campusCode;
   
-  // Update iOS Toggle UI
+  // 1. Update iOS Toggle UI
   document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
   btnElement.classList.add('active');
 
-  // Update Page Title & Theme Class
+  // 2. Grab DOM elements for the title and callout section
   const titleEl = document.getElementById("college-title");
+  const calloutDesc = document.getElementById("callout-desc");
+  const calloutBtn = document.getElementById("start-club-btn");
+  const calloutIcon = document.getElementById("callout-icon");
+  const calloutBtnText = document.getElementById("callout-btn-text");
+
+  // 3. Apply Campus Specific Branding & Text
   if (campusCode === 'WV') {
+    // West Valley Theme & Text
     titleEl.innerText = "West Valley Clubs";
     document.body.classList.remove('theme-mc');
+    
+    calloutDesc.innerHTML = "Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.";
+    calloutBtn.href = CONFIG.startClubUrl;
+    calloutBtn.target = "_blank";
+    calloutIcon.innerText = "rocket_launch";
+    calloutBtnText.innerText = "Start a New Club";
+    
   } else {
+    // Mission College Theme & Text
     titleEl.innerText = "Mission College Clubs";
     document.body.classList.add('theme-mc');
+
+    calloutDesc.innerHTML = "Contact Yesenia Melgoza (Student Life Program Analyst) to start a new club at Mission College.<br><br><strong>📞 (408) 855-5406</strong>";
+    calloutBtn.href = "mailto:yesenia.melgoza@missioncollege.edu";
+    calloutBtn.target = "_self"; // Opens email client natively instead of a new tab
+    calloutIcon.innerText = "mail";
+    calloutBtnText.innerText = "Email Yesenia";
   }
 
-  // Re-filter and render
+  // 4. Re-filter and render the club cards
   filterClubs();
 }
 
