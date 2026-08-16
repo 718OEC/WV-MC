@@ -185,11 +185,11 @@ function renderClubCards(clubs) {
     return;
   }
 
-  grid.innerHTML = clubs.map(club => {
+grid.innerHTML = clubs.map(club => {
     // If no logo, use the first 3 letters of initials as the visual fallback
     const avatarHtml = club.logo 
-      ? `<img src="${club.logo}" alt="${club.name}" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,3)}';">`
-      : club.initials.slice(0,3);
+      ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,5)}';">`
+      : club.initials.slice(0,5);
 
     const primaryEmail = club.email.split(' ')[0];
 
