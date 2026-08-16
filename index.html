@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>West Valley College - Club Directory</title>
+  <title>West Valley College - Club Hub</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
 
-  <div class="report-container">
+  <div class="app-wrapper">
     
     <!-- Hero Header -->
     <header class="hero">
@@ -17,41 +17,47 @@
         <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
       </button>
       <h1 id="college-title">WVCC Clubs</h1>
-      <p>West Valley & Mission College Student Organizations</p>
+      <p>West Valley Student Organizations</p>
     </header>
 
     <!-- Search & Filter Control Panel -->
     <section id="search-section" class="glass control-panel">
       <div class="search-box">
         <span class="material-symbols-rounded search-icon">search</span>
-        <input type="text" id="search-input" placeholder="Search by club name, president, email, or category...">
+        <input type="text" id="search-input" placeholder="Search by club name, category, or president...">
       </div>
 
       <div class="filter-row">
         <div class="filter-pills" id="filter-pills">
           <button class="pill active" onclick="filterCategory('All', this)">All</button>
           <button class="pill" onclick="filterCategory('STEM', this)">STEM</button>
-          <button class="pill" onclick="filterCategory('Business', this)">Business</button>
+          <button class="pill" onclick="filterCategory('Minority', this)">Minority</button>
+          <button class="pill" onclick="filterCategory('Academics', this)">Academics</button>
+          <button class="pill" onclick="filterCategory('Biz', this)">Business</button>
+          <button class="pill" onclick="filterCategory('Community', this)">Community</button>
+          <button class="pill" onclick="filterCategory('Athletics', this)">Athletics</button>
           <button class="pill" onclick="filterCategory('Arts', this)">Arts</button>
-          <button class="pill" onclick="filterCategory('Honors', this)">Honors</button>
-          <button class="pill" onclick="filterCategory('Special Interest', this)">Special Interest</button>
+          <button class="pill" onclick="filterCategory('Psych', this)">Psychology</button>
+          <button class="pill" onclick="filterCategory('Law', this)">Law</button>
+          <button class="pill" onclick="filterCategory('Faith', this)">Faith</button>
+          <button class="pill" onclick="filterCategory('Journalism', this)">Journalism</button>
         </div>
       </div>
     </section>
 
-    <!-- Club Cards Grid -->
-    <section id="clubs">
+    <!-- Responsive Club Cards Grid -->
+    <main id="clubs">
       <div id="club-grid" class="grid-cards">
         <div class="glass card-small skeleton"></div>
         <div class="glass card-small skeleton"></div>
         <div class="glass card-small skeleton"></div>
       </div>
-    </section>
+    </main>
 
-    <!-- Start a Club Callout -->
+    <!-- Callout Section -->
     <section id="start-club" class="glass callout-box">
       <h2>Can't find your community?</h2>
-      <p>Launch your own organization at West Valley. It takes less than 5 minutes to submit an official proposal.</p>
+      <p>Launch your own organization at West Valley</p>
       <a href="#" id="start-club-btn" target="_blank" class="btn btn-primary">
         <span class="material-symbols-rounded">rocket_launch</span> Start a New Club
       </a>
@@ -63,6 +69,7 @@
         <h3>West Valley Student Directory</h3>
         <div class="sig-role">Open-Source Campus Initiative</div>
         <p class="sig-text">Designed & maintained by student leaders for the WVC community.</p>
+        <p class="sig-text">Founded by Oscar "Deion" Espinosa</p>
       </div>
     </footer>
 
