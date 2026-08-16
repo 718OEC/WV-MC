@@ -1,6 +1,6 @@
 let allClubsData = [];
 let activeCategory = 'All';
-let activeCampus = 'WV'; // Default to West Valley
+let activeCampus = 'ALL'; // Now defaults to 'ALL'
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-club-btn").href = CONFIG.startClubUrl;
@@ -47,7 +47,7 @@ function switchCampus(campusCode, btnElement) {
   document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
   btnElement.classList.add('active');
 
-  // 2. Grab DOM elements for the title and callout section
+  // 2. Grab DOM elements
   const titleEl = document.getElementById("college-title");
   const calloutDesc = document.getElementById("callout-desc");
   const calloutBtn = document.getElementById("start-club-btn");
@@ -55,12 +55,12 @@ function switchCampus(campusCode, btnElement) {
   const calloutBtnText = document.getElementById("callout-btn-text");
 
   // 3. Apply Campus Specific Branding & Text
-  if (campusCode === 'WV') {
-    // West Valley Theme & Text
-    titleEl.innerText = "West Valley Clubs";
+  if (campusCode === 'WV' || campusCode === 'ALL') {
+    // West Valley Theme & Text (Also used for 'ALL')
     document.body.classList.remove('theme-mc');
+    titleEl.innerText = campusCode === 'ALL' ? "All District Clubs" : "West Valley Clubs";
     
-    calloutDesc.innerHTML = "Launch your own club";
+    calloutDesc.innerHTML = "Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.";
     calloutBtn.href = CONFIG.startClubUrl;
     calloutBtn.target = "_blank";
     calloutIcon.innerText = "rocket_launch";
@@ -73,7 +73,7 @@ function switchCampus(campusCode, btnElement) {
 
     calloutDesc.innerHTML = "Contact Yesenia Melgoza (Student Life Program Analyst) to start a new club at Mission College.<br><br><strong>📞 (408) 855-5406</strong>";
     calloutBtn.href = "mailto:yesenia.melgoza@missioncollege.edu";
-    calloutBtn.target = "_self"; // Opens email client natively instead of a new tab
+    calloutBtn.target = "_self";
     calloutIcon.innerText = "mail";
     calloutBtnText.innerText = "Email Yesenia";
   }
@@ -90,14 +90,14 @@ function filterCategory(category, button) {
   filterClubs();
 }
 
-// Multi-Field Search & Filter Engine (Including Campus)
+// Multi-Field Search & Filter Engine (Including 'ALL' Campus logic)
 function filterClubs() {
   const searchInput = document.getElementById("search-input").value;
   const term = searchInput.trim().toLowerCase();
 
   const filtered = allClubsData.filter(club => {
-    // 1. Check Campus match
-    if (club.school !== activeCampus) return false;
+    // 1. Check Campus match (Bypass if 'ALL' is selected)
+    if (activeCampus !== 'ALL' && club.school !== activeCampus) return false;
 
     // 2. Check Category match
     const matchesCategory = (activeCategory === 'All' || club.category === activeCategory);
@@ -118,7 +118,7 @@ function filterClubs() {
   renderClubCards(filtered);
 }
 
-// Data Array including Mission College (MC) Sample Data
+// Data Array
 function loadClubsData() {
   allClubsData = [
     /* --- Club list --- */
@@ -170,8 +170,7 @@ function loadClubsData() {
 
   filterClubs();
 }
-
-// Render Engine: Initials only used as fallback in avatar
+// Render Engine
 function renderClubCards(clubs) {
   const grid = document.getElementById("club-grid");
 
@@ -185,11 +184,11 @@ function renderClubCards(clubs) {
     return;
   }
 
-grid.innerHTML = clubs.map(club => {
-    // If no logo, use the first 5 letters of initials as the visual fallback
+  grid.innerHTML = clubs.map(club => {
+    // If no logo, use the first 3 letters of initials as the visual fallback
     const avatarHtml = club.logo 
-      ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,5)}';">`
-      : club.initials.slice(0,5);
+      ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,3)}';">`
+      : club.initials.slice(0,3);
 
     const primaryEmail = club.email.split(' ')[0];
 
