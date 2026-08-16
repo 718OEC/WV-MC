@@ -137,11 +137,10 @@ function renderClubCards(clubs) {
           <div class="card-header-row">
             <div class="card-avatar">${avatarHtml}</div>
             <div class="badge-group">
-              <span class="badge badge-school">${club.school}</span>
               <span class="badge badge-category">${club.category}</span>
             </div>
           </div>
-          <h3>${club.name} (${club.initials})</h3>
+          <h3>${club.name}</h3>
           <div class="card-contact">
             👤 <strong>${club.president}</strong><br>
             ✉️ <a href="mailto:${primaryEmail}">${club.email}</a>
