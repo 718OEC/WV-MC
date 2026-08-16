@@ -1,39 +1,44 @@
-/* --- BRAND PALETTE & APPLE GLASS SYSTEM --- */
+/* --- OFFICIAL WEST VALLEY COLLEGE BRAND PALETTE --- */
 :root {
-  --a-blue: #007AFF;
-  --a-purple: #AF52DE;
-  --a-teal: #30B0C7;
-  --a-green: #34C759;
-  --a-red: #FF3B30;
+  /* Core WVC Brand Colors */
+  --wvc-blue: #14325F;
+  --wvc-blue-mid: #5683BA;
+  --wvc-blue-light: #B7CCEA;
+  
+  --viking-orange: #F86516;
+  --viking-orange-mid: #F7956B;
+  --viking-orange-light: #FFCAB3;
 
-  /* Light Mode Defaults */
-  --page-bg: #F5F5F7;
-  --text-main: #1D1D1F;
-  --text-sub: #86868B;
+  --wvc-charcoal: #404040;
 
-  --glass-panel: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-  --blur-amt: blur(24px);
+  /* Light Mode UI Mapping */
+  --page-bg: #F5F7FA;
+  --text-main: var(--wvc-charcoal);
+  --text-sub: #667085;
 
-  --toggle-bg: rgba(118, 118, 128, 0.12);
-  --toggle-thumb: #FFFFFF;
-  --line-color: rgba(0, 0, 0, 0.1);
+  --glass-panel: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(20, 50, 95, 0.12);
+  --glass-shadow: 0 4px 24px rgba(20, 50, 95, 0.06);
+  --blur-amt: blur(20px);
+
+  --toggle-bg: rgba(20, 50, 95, 0.08);
+  --primary-accent: var(--wvc-blue);
+  --secondary-accent: var(--viking-orange);
 }
 
-/* Dark Mode OLED Fixes */
+/* Dark Mode OLED & WVC Navy Theme */
 body.dark-mode {
-  --page-bg: #000000;
+  --page-bg: #091322;
   --text-main: #FFFFFF;
-  --text-sub: #98989D;
+  --text-sub: var(--wvc-blue-light);
 
-  --glass-panel: rgba(28, 28, 30, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-panel: rgba(20, 50, 95, 0.45);
+  --glass-border: rgba(86, 131, 186, 0.3);
   --glass-shadow: none;
 
-  --toggle-bg: rgba(118, 118, 128, 0.35);
-  --toggle-thumb: #B0B0B5;
-  --line-color: rgba(255, 255, 255, 0.2);
+  --toggle-bg: rgba(183, 204, 234, 0.18);
+  --primary-accent: var(--wvc-blue-mid);
+  --secondary-accent: var(--viking-orange);
 }
 
 /* Global Resets */
@@ -47,7 +52,7 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -69,7 +74,7 @@ body {
   border-radius: 24px;
 }
 
-/* Hero Section - Fixed Overlap Bug */
+/* Hero Section */
 .hero {
   text-align: center;
   margin-bottom: 36px;
@@ -81,18 +86,19 @@ body {
 }
 
 .hero h1 {
-  font-size: clamp(28px, 7vw, 52px);
-  font-weight: 700;
+  font-size: clamp(28px, 7vw, 48px);
+  font-weight: 800;
+  color: var(--text-main);
   margin: 0 0 10px;
-  padding: 0 52px; /* Buffer prevents title from touching dark mode button on mobile */
+  padding: 0 52px; /* Buffer for dark mode button on mobile */
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
   word-break: break-word;
 }
 
 .hero p {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-sub);
   max-width: 600px;
   margin: 0 auto;
@@ -103,7 +109,7 @@ body {
   top: 0;
   right: 0;
   background: var(--toggle-bg);
-  border: none;
+  border: 1px solid var(--glass-border);
   color: var(--text-main);
   width: 44px;
   height: 44px;
@@ -112,7 +118,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease, background 0.2s ease;
   z-index: 10;
 }
 
@@ -128,6 +134,7 @@ body {
   display: flex;
   align-items: center;
   background: var(--toggle-bg);
+  border: 1px solid var(--glass-border);
   padding: 12px 20px;
   border-radius: 16px;
   margin-bottom: 20px;
@@ -162,7 +169,7 @@ body {
 }
 
 .pill {
-  border: none;
+  border: 1px solid var(--glass-border);
   background: var(--toggle-bg);
   padding: 8px 18px;
   font-size: 14px;
@@ -170,13 +177,14 @@ body {
   color: var(--text-sub);
   border-radius: 99px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .pill.active {
-  background: var(--a-blue);
+  background: var(--viking-orange);
   color: #FFFFFF;
+  border-color: var(--viking-orange);
 }
 
 /* Card Grid & Club Cards */
@@ -192,7 +200,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-small:hover { transform: translateY(-4px); }
@@ -205,10 +213,10 @@ body {
 }
 
 .card-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--a-blue);
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--wvc-blue);
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -218,13 +226,14 @@ body {
   text-align: center;
   overflow: hidden;
   flex-shrink: 0;
+  border: 1px solid var(--glass-border);
 }
 
 .card-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .badge {
@@ -237,13 +246,18 @@ body {
 }
 
 .badge-category {
-  color: var(--a-blue);
-  background: rgba(0, 122, 255, 0.15);
+  color: var(--wvc-blue);
+  background: var(--wvc-blue-light);
+}
+
+body.dark-mode .badge-category {
+  color: #FFFFFF;
+  background: var(--wvc-blue-mid);
 }
 
 .card-small h3 {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 8px 0;
   line-height: 1.3;
 }
@@ -256,7 +270,8 @@ body {
 }
 
 .card-contact a {
-  color: var(--a-blue);
+  color: var(--viking-orange);
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -284,20 +299,26 @@ body {
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: transform 0.1s, opacity 0.2s;
+  transition: transform 0.1s ease, opacity 0.2s ease;
 }
 
 .btn:active { transform: scale(0.98); }
 
 .btn-primary {
-  background: var(--a-blue);
+  background: var(--wvc-blue);
   color: #FFFFFF;
   flex: 1;
+}
+
+body.dark-mode .btn-primary {
+  background: var(--viking-orange);
+  color: #FFFFFF;
 }
 
 .btn-secondary {
   background: var(--toggle-bg);
   color: var(--text-main);
+  border: 1px solid var(--glass-border);
 }
 
 /* Callout Section */
@@ -310,6 +331,7 @@ body {
 .callout-box h2 {
   margin-top: 0;
   font-size: 28px;
+  font-weight: 700;
 }
 
 .callout-box p {
@@ -325,7 +347,7 @@ body {
 }
 
 .sig-info h3 { margin: 0 0 4px; font-size: 20px; }
-.sig-role { color: var(--a-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.sig-role { color: var(--viking-orange); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
 /* Skeleton Loading State */
