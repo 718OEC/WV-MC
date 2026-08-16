@@ -1,15 +1,21 @@
-/* --- OFFICIAL WEST VALLEY COLLEGE BRAND PALETTE --- */
+/* --- OFFICIAL BRAND PALETTES --- */
 :root {
-  /* Core WVC Brand Colors */
+  /* West Valley Colors */
   --wvc-blue: #14325F;
-  --wvc-blue-mid: #5683BA;
   --wvc-blue-light: #B7CCEA;
-  
   --viking-orange: #F86516;
-  --viking-orange-mid: #F7956B;
-  --viking-orange-light: #FFCAB3;
-
   --wvc-charcoal: #404040;
+
+  /* Mission College Colors */
+  --mc-teal: #0C7799;
+  --mc-teal-light: rgba(12, 119, 153, 0.2);
+  --mc-orange: #EA730B;
+  --mc-navy: #003762;
+
+  /* Default Theme Variables (WVC Active) */
+  --primary-accent: var(--wvc-blue);
+  --primary-light: var(--wvc-blue-light);
+  --secondary-accent: var(--viking-orange);
 
   /* Light Mode UI Mapping */
   --page-bg: #F5F7FA;
@@ -20,28 +26,37 @@
   --glass-border: rgba(20, 50, 95, 0.12);
   --glass-shadow: 0 4px 24px rgba(20, 50, 95, 0.06);
   --blur-amt: blur(20px);
-
   --toggle-bg: rgba(20, 50, 95, 0.08);
-  --primary-accent: var(--wvc-blue);
-  --secondary-accent: var(--viking-orange);
 }
 
-/* Dark Mode OLED & WVC Navy Theme */
+/* --- MISSION COLLEGE THEME OVERRIDE --- */
+body.theme-mc {
+  --primary-accent: var(--mc-teal);
+  --primary-light: var(--mc-teal-light);
+  --secondary-accent: var(--mc-orange);
+  --glass-border: rgba(12, 119, 153, 0.15);
+}
+
+/* --- DARK MODE OVERRIDES --- */
 body.dark-mode {
   --page-bg: #091322;
   --text-main: #FFFFFF;
-  --text-sub: var(--wvc-blue-light);
-
+  --text-sub: #B7CCEA;
   --glass-panel: rgba(20, 50, 95, 0.45);
   --glass-border: rgba(86, 131, 186, 0.3);
   --glass-shadow: none;
-
   --toggle-bg: rgba(183, 204, 234, 0.18);
-  --primary-accent: var(--wvc-blue-mid);
-  --secondary-accent: var(--viking-orange);
 }
 
-/* Global Resets & Typography */
+body.theme-mc.dark-mode {
+  --page-bg: #031520; /* Deep Navy for MC Dark Mode */
+  --text-sub: #A8D8EA;
+  --glass-panel: rgba(0, 55, 98, 0.45);
+  --glass-border: rgba(12, 119, 153, 0.4);
+  --toggle-bg: rgba(12, 119, 153, 0.2);
+}
+
+/* Global Resets */
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
 
@@ -57,7 +72,6 @@ body {
   overflow-x: hidden;
 }
 
-/* App Container Layout */
 .app-wrapper {
   width: 100%;
   max-width: 1120px;
@@ -65,7 +79,6 @@ body {
   padding: 40px 20px 96px;
 }
 
-/* Glass Engine */
 .glass {
   background: var(--glass-panel);
   backdrop-filter: var(--blur-amt);
@@ -73,12 +86,13 @@ body {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 24px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Hero Section - Flexbox Layout */
+/* Hero Section */
 .hero {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   padding: 12px 0;
   position: relative;
   display: flex;
@@ -86,23 +100,24 @@ body {
   align-items: center;
 }
 
+.subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--secondary-accent);
+  margin: 0 0 8px;
+  transition: color 0.3s ease;
+}
+
 .hero h1 {
   font-size: clamp(28px, 6vw, 48px);
   font-weight: 800;
   color: var(--text-main);
-  margin: 0 0 8px;
-  padding: 0 52px; /* Safety buffer for dark mode toggle */
+  margin: 0 0 24px;
+  padding: 0 52px;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  word-break: break-word;
-}
-
-.hero p {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text-sub);
-  max-width: 600px;
-  margin: 0 auto;
 }
 
 .theme-toggle {
@@ -124,6 +139,39 @@ body {
 }
 
 .theme-toggle:hover { transform: scale(1.08); }
+
+/* Campus Segmented Control */
+.campus-toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.campus-toggle {
+  display: inline-flex;
+  padding: 6px;
+  border-radius: 99px;
+  gap: 4px;
+}
+
+.campus-btn {
+  padding: 10px 24px;
+  border-radius: 99px;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.campus-btn.active {
+  background: var(--primary-accent);
+  color: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
 
 /* Control Panel & Search Box */
 .control-panel {
@@ -183,32 +231,24 @@ body {
 }
 
 .pill.active {
-  background: var(--viking-orange);
+  background: var(--secondary-accent);
   color: #FFFFFF;
-  border-color: var(--viking-orange);
+  border-color: var(--secondary-accent);
 }
 
-/* Multi-Breakpoint CSS Grid Layout */
+/* Card Grid Layout */
 .grid-cards {
   display: grid;
-  grid-template-columns: 1fr; /* Default Mobile: Single Column */
+  grid-template-columns: 1fr;
   gap: 20px;
   margin-bottom: 40px;
 }
 
-/* Tablet Layout (600px - 1024px): 2 Columns */
 @media (min-width: 600px) {
-  .grid-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .grid-cards { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* Desktop Layout (>1024px): 3 Columns */
 @media (min-width: 1024px) {
-  .grid-cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
+  .grid-cards { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 }
 
 /* Card Component Styling */
@@ -220,40 +260,38 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card-small:hover { 
-  transform: translateY(-4px); 
-}
+.card-small:hover { transform: translateY(-4px); }
 
 .card-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
-  gap: 12px;
+  margin-bottom: 16px; /* Increased slightly for the larger logo */
+  gap: 16px;
 }
 
 .card-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--wvc-blue);
+  width: 104px; /* Doubled from 52px */
+  height: 104px; /* Doubled from 52px */
+  border-radius: 24px; /* Scaled up app-icon curve */
+  background: var(--primary-accent);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 14px;
-  text-align: center;
+  font-size: 28px; /* Doubled font size for fallback initials */
   overflow: hidden;
   flex-shrink: 0;
   border: 1px solid var(--glass-border);
+  transition: background-color 0.3s ease;
 }
 
 .card-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 24px;
 }
 
 .badge-group {
@@ -270,21 +308,22 @@ body {
   letter-spacing: 0.5px;
   padding: 3px 8px;
   border-radius: 99px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .badge-school {
   color: #FFFFFF;
-  background: var(--wvc-blue);
+  background: var(--primary-accent);
 }
 
 .badge-category {
-  color: var(--wvc-blue);
-  background: var(--wvc-blue-light);
+  color: var(--primary-accent);
+  background: var(--primary-light);
 }
 
 body.dark-mode .badge-category {
   color: #FFFFFF;
-  background: var(--wvc-blue-mid);
+  background: var(--primary-accent);
 }
 
 .card-small h3 {
@@ -302,9 +341,10 @@ body.dark-mode .badge-category {
 }
 
 .card-contact a {
-  color: var(--viking-orange);
+  color: var(--secondary-accent);
   font-weight: 600;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .card-desc {
@@ -318,7 +358,7 @@ body.dark-mode .badge-category {
   gap: 10px;
 }
 
-/* Button UI Components */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -331,19 +371,19 @@ body.dark-mode .badge-category {
   text-decoration: none;
   cursor: pointer;
   border: none;
-  transition: transform 0.1s ease, opacity 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .btn:active { transform: scale(0.98); }
 
 .btn-primary {
-  background: var(--wvc-blue);
+  background: var(--primary-accent);
   color: #FFFFFF;
   flex: 1;
 }
 
 body.dark-mode .btn-primary {
-  background: var(--viking-orange);
+  background: var(--secondary-accent);
   color: #FFFFFF;
 }
 
@@ -353,7 +393,7 @@ body.dark-mode .btn-primary {
   border: 1px solid var(--glass-border);
 }
 
-/* Callout Section */
+/* Callout Section & Footer */
 .callout-box {
   padding: 36px 24px;
   text-align: center;
@@ -372,25 +412,18 @@ body.dark-mode .btn-primary {
   margin: 0 auto 24px;
 }
 
-/* Footer Signature Block */
 .sig-block {
   padding: 28px 32px;
   margin-top: 40px;
 }
 
 .sig-info h3 { margin: 0 0 4px; font-size: 20px; }
-.sig-role { color: var(--viking-orange); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.sig-role { 
+  color: var(--secondary-accent); 
+  font-size: 12px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; 
+  transition: color 0.3s ease;
+}
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
-
-/* Skeleton Loading Animation */
-.skeleton {
-  min-height: 220px;
-  background: linear-gradient(90deg, var(--toggle-bg) 25%, var(--glass-border) 50%, var(--toggle-bg) 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
