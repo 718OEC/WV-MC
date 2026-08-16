@@ -230,17 +230,45 @@ body.dark-mode .theme-toggle.fab {
 
 .search-box input::placeholder { color: var(--text-sub); }
 
+/* Ensure the container has standard padding and spacing */
+.control-panel {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* Update your existing .filter-row */
 .filter-row {
   display: flex;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 8px;
+  
+  /* 1. Pull the scroll track out to the very edges of the glass card */
+  margin-left: -24px;
+  margin-right: -24px;
+  
+  /* 2. Push the pills back in so they perfectly align with the search bar */
+  padding-left: 24px;
+  padding-right: 24px;
+  
+  /* Optional: Hide the scrollbar for a cleaner mobile app look */
+  scrollbar-width: none; /* Firefox */
 }
 
-.filter-pills {
-  display: flex;
-  gap: 8px;
+/* Hide scrollbar for Chrome/Safari/Edge */
+.filter-row::-webkit-scrollbar {
+  display: none; 
 }
+
+/* 3. Fix the Safari Scroll Bug */
+/* Safari often ignores right-padding on scrollable containers. 
+   This invisible pseudo-element forces the gap at the end so the last pill doesn't touch the edge. */
+.filter-pills::after {
+  content: "";
+  width: 24px;
+  flex-shrink: 0;
+}
+
 
 .pill {
   border: 1px solid var(--glass-border);
@@ -483,3 +511,4 @@ body.dark-mode .btn-primary {
   transition: color 0.3s ease;
 }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
+
