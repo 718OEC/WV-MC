@@ -1,342 +1,151 @@
-/* --- BRAND PALETTE & APPLE GLASS SYSTEM --- */
-:root {
-  --a-blue: #007AFF;
-  --a-purple: #AF52DE;
-  --a-teal: #30B0C7;
-  --a-green: #34C759;
-  --a-red: #FF3B30;
+let allClubsData = [];
+let activeCategory = 'All';
 
-  /* Light Mode Defaults */
-  --page-bg: #F5F5F7;
-  --text-main: #1D1D1F;
-  --text-sub: #86868B;
+document.addEventListener("DOMContentLoaded", () => {
+  // Config Initializers
+  document.getElementById("college-title").innerText = `${CONFIG.collegeName} Clubs`;
+  document.getElementById("start-club-btn").href = CONFIG.startClubUrl;
 
-  --glass-panel: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-  --blur-amt: blur(24px);
+  // Initialize Dark Mode Toggle Button & LocalStorage State
+  initTheme();
 
-  --toggle-bg: rgba(118, 118, 128, 0.12);
-  --toggle-thumb: #FFFFFF;
-  --line-color: rgba(0, 0, 0, 0.1);
+  // Real-Time Search Input Event Listener
+  document.getElementById("search-input").addEventListener("input", (e) => {
+    filterClubs(e.target.value);
+  });
+
+  // Load Real Club Data
+  loadClubsData();
+});
+
+// Theme Logic with LocalStorage persistence
+function initTheme() {
+  const themeBtn = document.getElementById("theme-toggle-btn");
+  const themeIcon = document.getElementById("themeIcon");
+
+  const savedTheme = localStorage.getItem("theme");
+  const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (savedTheme === "dark" || (!savedTheme && systemDark)) {
+    document.body.classList.add("dark-mode");
+    if (themeIcon) themeIcon.textContent = "light_mode";
+  } else {
+    document.body.classList.remove("dark-mode");
+    if (themeIcon) themeIcon.textContent = "dark_mode";
+  }
+
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      if (themeIcon) themeIcon.textContent = isDark ? "light_mode" : "dark_mode";
+    });
+  }
 }
 
-/* Dark Mode OLED Fixes */
-body.dark-mode {
-  --page-bg: #000000;
-  --text-main: #FFFFFF;
-  --text-sub: #98989D;
-
-  --glass-panel: rgba(28, 28, 30, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.25);
-  --glass-shadow: none;
-
-  --toggle-bg: rgba(118, 118, 128, 0.35);
-  --toggle-thumb: #B0B0B5;
-  --line-color: rgba(255, 255, 255, 0.2);
+// Category Filter Switcher
+function filterCategory(category, button) {
+  document.querySelectorAll('.pill').forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+  activeCategory = category;
+  
+  const searchVal = document.getElementById("search-input").value;
+  filterClubs(searchVal);
 }
 
-/* Global Resets */
-html { scroll-behavior: smooth; }
-* { box-sizing: border-box; }
+// Search & Filter Engine
+function filterClubs(searchTerm) {
+  const term = searchTerm.trim().toLowerCase();
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-  background-color: var(--page-bg);
-  color: var(--text-main);
-  line-height: 1.5;
-  font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  const filtered = allClubsData.filter(club => {
+    const matchesCategory = (activeCategory === 'All' || club.category === activeCategory);
+    
+    const matchesSearch = !term || 
+      club.name.toLowerCase().includes(term) ||
+      club.president.toLowerCase().includes(term) ||
+      club.email.toLowerCase().includes(term) ||
+      club.category.toLowerCase().includes(term) ||
+      club.desc.toLowerCase().includes(term);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  renderClubCards(filtered);
 }
 
-.report-container {
-  width: 100%;
-  max-width: 840px;
-  margin: 0 auto;
-  padding: 48px 20px 128px;
+// Populate Static Data with Official West Valley Logo URLs
+function loadClubsData() {
+  allClubsData = [
+    { name: "Asian American Pacific Islander Student Union (AAPISU)", president: "Hana Kim", email: "hkim720@mywvm.wvm.edu", category: "Ethnic", initials: "AAPISU", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/aapi-student-union-club-logo.jpg", desc: "Description coming Soon" },,
+    { name: "Alpha Gamma Sigma Honor Society - Gamma Iota Chapter", president: "Karen Phan", email: "kphan71@mywvm.wvm.edu", category: "Academics", initials: "AGSHSGI", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/alpha-gamma-sigma-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Architecture Club", president: "Andre Mangune", email: "amangun1@mywvm.wvm.edu", category: "STEM", initials: "ARC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/architecture-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Automotive Club", president: "Sophia Cuevas", email: "scuevas9@mywvm.wvm.edu", category: "STEM", initials: "AUTOC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/automotive-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Basic Needs Club", president: "Jeshua Loza", email: "jloza7@mywvm.wvm.edu", category: "Community", initials: "BNC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/basic-needs-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Black Student Union Club", president: "Aliya Bhrane", email: "Abrhane@mywvm.wvm.edu", category: "Ethnic", initials: "BSU", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/black-student-union-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Conscious Intelligence Lab", president: "Miwa Okumura", email: "mokumur1@mywvm.wvm.edu", category: "STEM", initials: "CIC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Entrepreneurship Club", president: "Rory West", email: "rwest24@mywvm.wvm.edu", category: "Business", initials: "EC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/entrepreneurship-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Film Production Club", president: "Carlos Garcia Galindo", email: "cgarc221@mywvm.wvm.edu", category: "Arts", initials: "FPC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Financial Literacy Club", president: "Setayesh Pourmand", email: "spourma1@mywvm.wvm.edu", category: "Community", initials: "FLC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "InterVarsity Christian Fellowship at West Valley", president: "Priscilla Chang", email: "pchang49@mywvm.wvm.edu", category: "Faith", initials: "IVCF", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Lab Rats", president: "Amalya Juhi Cherukur & Joshua Tsui-Teng", email: "acheruk1@mywvm.wvm.edu and jtsuiten@mywvm.wvm.edu", category: "STEM", initials: "LRC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/lab-rats-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Latinx Business Student Association", president: "Francisco Alfaro", email: "falfaro5@mywvm.wvm.edu", category: "Ethnic", initials: "LBSA", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Latinx Club", president: "Nicolas Chechik", email: "nchechik@mywvm.wvm.edu", category: "Ethnic", initials: "LC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Persian Club", president: "Parsa Forouzandeh", email: "pforouzq@mywvm.wvm.edu", category: "Ethnic", initials: "PC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Pickleball Club", president: "Andre Mangune", email: "amangun1@mywvm.wvm.edu", category: "Athletics", initials: "PC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/pickleball-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "Psi Beta Honor Society", president: "Anne Buchko", email: "abuchko@mywvm.wvm.edu", category: "Major", initials: "PBHS", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Psychology Club", president: "Nikki Samanian", email: "nsamania@mywvm.wvm.edu", category: "Major", initials: "PC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Science Olympiad", president: "Priscilla Chang", email: "pchang49@mywvm.wvm.edu", category: "STEM", initials: "SO", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "The Helm", president: "Lauren Yelluas", email: "lyelluas@mywvm.wvm.edu", category: "Journalism", initials: "TH", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description coming Soon" },
+    { name: "Undocumented Student Club", president: "Luna Pulido", email: "lpulido3@mywvm.wvm.edu", category: "Political", initials: "USC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/undocu-club-logo.jpg", desc: "Description coming Soon" },
+    { name: "West Valley Archery", president: "Minjee Kim", email: "mkim183@mywvm.wvm.edu", category: "Athletics", initials: "WVA", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description Coming Soon" },
+    { name: "West Valley Cheer", president: "Taryn Quam", email: "tquam@mywvm.wvm.edu", category: "Athletics", initials: "WVCHEER", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/cheer-club-logo.jpg", desc: "Description Coming Soon" },
+    { name: "West Valley Law Students Association", president: "Diego Segovia", email: "Dsegovi4@mywvm.wvm.edu", category: "Major", initials: "WVLSA", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/law-associations-club-logo.png", desc: "Description Coming Soon" },
+    { name: "West Valley Muslim Student Association", president: "Khadija Masri", email: "wvmsa123@gmail.com", category: "Faith", initials: "WVMSA", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/wvc-muslim-student-association.png", desc: "Description Coming soon" },
+    { name: "Women's Film Production Club", president: "Gabrielle Ye & Allison Crick", email: "gye2@mywvm.wvm.edu", category: "Arts", initials: "WFPC", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", desc: "Description Coming Soon" }
+  ];
+
+  renderClubCards(allClubsData);
 }
 
-/* Glass Engine */
-.glass {
-  background: var(--glass-panel);
-  backdrop-filter: var(--blur-amt);
-  -webkit-backdrop-filter: var(--blur-amt);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: 24px;
-}
+// Render Engine with Image Fallbacks
+function renderClubCards(clubs) {
+  const grid = document.getElementById("club-grid");
 
-/* Hero Section - Fixed Overlap Bug */
-.hero {
-  text-align: center;
-  margin-bottom: 36px;
-  padding: 12px 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  if (clubs.length === 0) {
+    grid.innerHTML = `
+      <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+        <h3>No clubs found</h3>
+        <p class="card-contact">Try adjusting your search query or switching categories.</p>
+      </div>
+    `;
+    return;
+  }
 
-.hero h1 {
-  font-size: clamp(28px, 7vw, 52px);
-  font-weight: 700;
-  margin: 0 0 10px;
-  padding: 0 52px; /* Buffer prevents title from touching dark mode button on mobile */
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  word-break: break-word;
-}
+  grid.innerHTML = clubs.map(club => {
+    const avatarHtml = club.logo 
+      ? `<img src="${club.logo}" alt="${club.name}" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials}';">`
+      : club.initials;
 
-.hero p {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--text-sub);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--toggle-bg);
-  border: none;
-  color: var(--text-main);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s;
-  z-index: 10;
-}
-
-.theme-toggle:hover { transform: scale(1.08); }
-
-/* Control Panel & Search Box */
-.control-panel {
-  padding: 24px;
-  margin-bottom: 32px;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  background: var(--toggle-bg);
-  padding: 12px 20px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-}
-
-.search-icon {
-  color: var(--text-sub);
-  margin-right: 12px;
-}
-
-.search-box input {
-  border: none;
-  background: transparent;
-  width: 100%;
-  font-size: 16px;
-  color: var(--text-main);
-  outline: none;
-}
-
-.search-box input::placeholder {
-  color: var(--text-sub);
-}
-
-.filter-row {
-  display: flex;
-  overflow-x: auto;
-}
-
-.filter-pills {
-  display: flex;
-  gap: 10px;
-}
-
-.pill {
-  border: none;
-  background: var(--toggle-bg);
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-sub);
-  border-radius: 99px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.pill.active {
-  background: var(--a-blue);
-  color: #FFFFFF;
-}
-
-/* Card Grid & Club Cards */
-.grid-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
-}
-
-.card-small {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card-small:hover { transform: translateY(-4px); }
-
-.card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.card-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--a-blue);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 16px;
-  text-align: center;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.card-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-.badge {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 4px 10px;
-  border-radius: 99px;
-}
-
-.badge-category {
-  color: var(--a-blue);
-  background: rgba(0, 122, 255, 0.15);
-}
-
-.card-small h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 8px 0;
-  line-height: 1.3;
-}
-
-.card-contact {
-  font-size: 13px;
-  color: var(--text-sub);
-  margin-bottom: 12px;
-  word-break: break-word;
-}
-
-.card-contact a {
-  color: var(--a-blue);
-  text-decoration: none;
-}
-
-.card-desc {
-  font-size: 14px;
-  color: var(--text-main);
-  margin-bottom: 20px;
-}
-
-.card-actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 18px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 12px;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.1s, opacity 0.2s;
-}
-
-.btn:active { transform: scale(0.98); }
-
-.btn-primary {
-  background: var(--a-blue);
-  color: #FFFFFF;
-  flex: 1;
-}
-
-.btn-secondary {
-  background: var(--toggle-bg);
-  color: var(--text-main);
-}
-
-/* Callout Section */
-.callout-box {
-  padding: 40px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.callout-box h2 {
-  margin-top: 0;
-  font-size: 28px;
-}
-
-.callout-box p {
-  color: var(--text-sub);
-  max-width: 500px;
-  margin: 0 auto 24px;
-}
-
-/* Signature & Footer Block */
-.sig-block {
-  padding: 32px 40px;
-  margin-top: 48px;
-}
-
-.sig-info h3 { margin: 0 0 4px; font-size: 20px; }
-.sig-role { color: var(--a-blue); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-.sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
-
-/* Skeleton Loading State */
-.skeleton {
-  min-height: 220px;
-  background: linear-gradient(90deg, var(--toggle-bg) 25%, var(--glass-border) 50%, var(--toggle-bg) 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+    return `
+      <div class="glass card-small">
+        <div>
+          <div class="card-header-row">
+            <div class="card-avatar">${avatarHtml}</div>
+            <span class="badge badge-category">${club.category}</span>
+          </div>
+          <h3>${club.name}</h3>
+          <div class="card-contact">
+            👤 <strong>${club.president}</strong><br>
+            ✉️ <a href="mailto:${club.email.split(' ')[0]}">${club.email}</a>
+          </div>
+          <div class="card-desc">${club.desc}</div>
+        </div>
+        <div class="card-actions">
+          <a href="mailto:${club.email.split(' ')[0]}" class="btn btn-primary">Contact Club</a>
+          <a href="${CONFIG.defaultFormUrl}" target="_blank" class="btn btn-secondary">Sign Up</a>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
