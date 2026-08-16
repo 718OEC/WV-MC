@@ -458,6 +458,33 @@ body.dark-mode .badge-category {
   text-decoration: none;
   transition: color 0.3s ease;
 }
+/* Container for each individual line */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and the text */
+  margin-bottom: 6px; /* Spacing between rows */
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+/* Make sure the last item doesn't have extra bottom margin */
+.contact-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Style the Material Icon specifically */
+.contact-icon {
+  font-size: 18px; /* Slightly larger than the 14px text, adjust as needed */
+  color: var(--text-sub); /* Or use var(--primary-accent) if you want them colored */
+  flex-shrink: 0; /* Prevents the icon from squishing if the text wraps */
+}
+
+/* Ensure strong tags inherit color properly */
+.contact-item strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
 
 .card-desc {
   font-size: 14px;
