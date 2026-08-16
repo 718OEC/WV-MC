@@ -1,11 +1,9 @@
 # West Valley College (WVCC) Club Hub
 (updated 2026 AUG 15)
 
-> **Developer Note:** This was built by Oscar Espinosa (aka Deion) as a QOL improvement of the CCC system and I welcome any and all students or educational faculty to use this code to improve their educational community.
+This was built by Oscar Espinosa (aka Deion) as a QOL improvement of the CCC system. I welcome any and all students or educational faculty to use this code to improve their educational community, regardless of educational institution.
 
-An open-source, mobile-first digital hub designed to centralize campus club discovery, simplify event sign-ups, and automate student engagement across West Valley College and Mission College ecosystems.
-
-Visually inspired by Liquid Glass and Material Design, this platform runs on a $0-budget static web infrastructure hosted through GitHub Pages, with external links to sign up for clubs.
+An open-source, mobile-first digital hub designed to centralize campus club discovery, simplify event sign-ups, and automate student engagement across West Valley College and Mission College ecosystems. Visually inspired by Liquid Glass and Material Design, this platform runs on a $0-budget static web infrastructure hosted through GitHub Pages, with external links to sign up for clubs.
 
 ---
 
