@@ -157,30 +157,47 @@ body.dark-mode .toggle-opt.active {
   line-height: 1.15;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
+/* --- FAB Dark Mode Toggle --- */
+.theme-toggle.fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
   background: var(--toggle-bg);
+  backdrop-filter: var(--blur-amt);
+  -webkit-backdrop-filter: var(--blur-amt);
   border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   color: var(--text-main);
-  width: 44px;
-  height: 44px;
+  width: 56px; /* Slightly larger for easier mobile tapping */
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-  z-index: 10;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 999;
 }
 
-.theme-toggle:hover { transform: scale(1.08); }
+body.dark-mode .theme-toggle.fab {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
 
-/* Control Panel & Search Box */
-.control-panel {
-  padding: 20px 24px;
-  margin-bottom: 32px;
+.theme-toggle.fab:hover { 
+  transform: scale(1.08) translateY(-4px); 
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle.fab:active {
+  transform: scale(0.95);
+}
+
+/* Adjust mobile FAB positioning */
+@media (max-width: 600px) {
+  .theme-toggle.fab {
+    bottom: 24px;
+    right: 24px;
+  }
 }
 
 .search-box {
