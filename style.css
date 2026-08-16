@@ -109,7 +109,35 @@ body {
   position: relative;
   margin-bottom: 24px;
   border: 1px solid var(--glass-border);
-  transition: background 0.3s ease;
+  /* Create a stacking context so the slider stays behind the text */
+  z-index: 1; 
+}
+
+/* 1. The Sliding Pill Background */
+.ios-toggle::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  /* Mathematically exactly half the inner container width */
+  width: calc(50% - 4px); 
+  background: var(--primary-accent);
+  border-radius: 99px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  /* The cubic-bezier creates that distinct, bouncy iOS motion */
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
+  z-index: -1; /* Keep it behind the button text */
+}
+
+/* 2. Slide to the right when the second button is active */
+.ios-toggle:has(button:nth-child(2).active)::before {
+  transform: translateX(100%);
+}
+
+/* 3. Dark Mode Slider Override */
+body.dark-mode .ios-toggle::before {
+  background: var(--secondary-accent);
 }
 
 .toggle-opt {
@@ -121,23 +149,24 @@ body {
   color: var(--text-sub);
   border-radius: 99px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  /* Changed from 140px to 100px and added flex to fill space equally */
+  transition: color 0.2s ease; /* Only transition text color now */
   min-width: 100px;
   flex: 1; 
   text-align: center;
 }
 
+/* 4. Strip the static background from the active button so the slider shows through */
 .toggle-opt.active {
-  background: var(--primary-accent);
   color: #FFFFFF;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  background: transparent; /* Removed solid background */
+  box-shadow: none;        /* Removed static shadow */
 }
 
 body.dark-mode .toggle-opt.active {
-  background: var(--secondary-accent);
   color: #FFFFFF;
+  background: transparent;
 }
+
 
 /* Titles */
 .subtitle {
