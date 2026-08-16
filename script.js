@@ -83,34 +83,113 @@ function filterCategory(category, button) {
   filterClubs();
 }
 
-// Multi-Field Search Engine
+// Bulletproof Multi-Field Search Engine
 function filterClubs() {
   const searchInput = document.getElementById("search-input").value;
   const term = searchInput.trim().toLowerCase();
 
   const filtered = allClubsData.filter(club => {
-    // Check Campus match
-    if (club.school.toUpperCase() !== activeCampus) return false;
+    // 1. Safe Fallbacks (Prevents crashes if you forget to add a field)
+    const school = club.school || "";
+    const name = club.name || "";
+    const initials = club.initials || "";
+    const president = club.president || "";
+    const email = club.email || "";
+    const professor = club.professor || "";
+    const desc = club.desc || "";
+    const cats = club.categories || []; // Defaults to empty array if missing
 
-    // Check Category match (Supports Arrays now)
-    const matchesCategory = (activeCategory === 'All' || (club.categories && club.categories.includes(activeCategory)));
+    // 2. Check Campus match
+    if (school.toUpperCase() !== activeCampus) return false;
+
+    // 3. Check Category match
+    const matchesCategory = (activeCategory === 'All' || cats.includes(activeCategory));
     if (!matchesCategory) return false;
 
-    // Convert Categories array to string for search keyword matching
-    const catSearchString = club.categories ? club.categories.join(' ').toLowerCase() : "";
-
-    // Check Keyword match across new fields
+    // 4. Check Keyword match
+    const catSearchString = cats.join(' ').toLowerCase();
     const matchesSearch = !term || 
-      club.name.toLowerCase().includes(term) ||
-      club.initials.toLowerCase().includes(term) ||
-      club.president.toLowerCase().includes(term) ||
-      club.email.toLowerCase().includes(term) ||
+      name.toLowerCase().includes(term) ||
+      initials.toLowerCase().includes(term) ||
+      president.toLowerCase().includes(term) ||
+      email.toLowerCase().includes(term) ||
       catSearchString.includes(term) ||
-      (club.professor && club.professor.toLowerCase().includes(term)) ||
-      club.desc.toLowerCase().includes(term);
+      professor.toLowerCase().includes(term) ||
+      desc.toLowerCase().includes(term);
 
     return matchesSearch;
   });
+
+  renderClubCards(filtered);
+}
+
+// Bulletproof Render Engine
+function renderClubCards(clubs) {
+  const grid = document.getElementById("club-grid");
+
+  if (clubs.length === 0) {
+    grid.innerHTML = `
+      <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+        <h3>No clubs found</h3>
+        <p class="card-contact">Try adjusting your search query or switching categories.</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = clubs.map(club => {
+    // Safe Property Extractions
+    const initials = club.initials || "CLUB";
+    const emailStr = club.email || "";
+    const primaryEmail = emailStr.split(' ')[0] || "";
+    
+    // Fallback Logo Logic
+    const avatarHtml = club.logo 
+      ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${initials.slice(0,3)}';">`
+      : initials.slice(0,3);
+
+    // Map up to 3 Categories into Badges safely
+    const cats = club.categories || [];
+    const categoriesHtml = cats.slice(0, 3).map(cat => `<span class="badge badge-category">${cat}</span>`).join('');
+
+    // Generate Social Links HTML safely
+    let socialsHtml = '';
+    if (club.socials) {
+      if (club.socials.ig) socialsHtml += `<a href="${club.socials.ig}" target="_blank" class="social-link">Instagram</a>`;
+      if (club.socials.web) socialsHtml += `<a href="${club.socials.web}" target="_blank" class="social-link">Website</a>`;
+    }
+    const socialsBlock = socialsHtml ? `<div class="card-socials">${socialsHtml}</div>` : '';
+
+    return `
+      <div class="glass card-small">
+        <div>
+          <div class="card-header-row">
+            <div class="card-avatar">${avatarHtml}</div>
+            <div class="badge-group">
+              <span class="badge badge-school">${club.school || 'WVM'}</span>
+              ${categoriesHtml}
+            </div>
+          </div>
+          <h3>${club.name || 'Unnamed Club'}</h3>
+          
+          <div class="card-contact">
+            👤 <strong>President:</strong> ${club.president || 'TBA'}<br>
+            ✉️ <a href="mailto:${primaryEmail}">${emailStr || 'No email provided'}</a><br>
+            🎓 <strong>Advisor:</strong> ${club.professor || 'TBA'}<br>
+            👥 <strong>Members:</strong> ${club.memberCount || 'TBD'}
+          </div>
+          
+          <div class="card-desc">${club.desc || ''}</div>
+          ${socialsBlock}
+        </div>
+        
+        <div class="card-actions">
+          <a href="${club.signUpForm || CONFIG.defaultFormUrl}" target="_blank" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 
   renderClubCards(filtered);
 }
@@ -653,7 +732,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "MC InterConnect",
-    initials": "MCIC",
+    initials: "MCIC",
     categories: [
       "Networking"
     ],
@@ -670,7 +749,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Missionanigans",
-    initials": "MSG",
+    initials: "MSG",
     categories: [
       "Networking"
     ],
@@ -687,7 +766,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Mission College Health Occupations Association ",
-    initials": "MCHOA",
+    initials: "MCHOA",
     categories: [
       "Medical",
       "Pre-Pro"
@@ -703,7 +782,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Muslim Student Association",
-    initials": "MSA",
+    initials: "MSA",
     categories: [
       "Faith"
     ],
@@ -718,7 +797,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Puente Club",
-    initials": "PUENTE",
+    initials: "PUENTE",
     categories: [
       "Minority"
     ],
@@ -733,7 +812,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Society of Latino Engineers and Scientists",
-    initials": "SOLES",
+    initials: "SOLES",
     categories: [
       "Minority",
       "STEM"
@@ -751,7 +830,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Society of Women Engineers",
-    initials": "MCSWE",
+    initials: "MCSWE",
     categories: [
       "Minority",
       "STEM"
@@ -767,7 +846,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Sustainable Garden Club",
-    initials": "SGC",
+    initials: "SGC",
     categories: [
       "Hobby",
       "Environment"
@@ -783,7 +862,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Umoja Community Club",
-    initials": "UMOJA",
+    initials: "UMOJA",
     categories: [
       "Minority"
     ],
@@ -800,7 +879,7 @@ function loadClubsData() {
     school: "MC",
     logo: null,
     name: "Vietnamese Student Association (VSA)",
-    initials": "VSA",
+    initials: "VSA",
     categories: [
       "Minority"
     ],
