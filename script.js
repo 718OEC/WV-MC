@@ -1,6 +1,6 @@
 let allClubsData = [];
 let activeCategory = 'All';
-let activeCampus = 'ALL'; // Now defaults to 'ALL'
+let activeCampus = 'ALL'; // Defaults to ALL campuses on load
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-club-btn").href = CONFIG.startClubUrl;
@@ -39,9 +39,10 @@ function initTheme() {
   }
 }
 
-// Campus Switcher Logic using iOS Toggle
+// Campus Switcher Logic (Now Case-Insensitive)
 function switchCampus(campusCode, btnElement) {
-  activeCampus = campusCode;
+  // Force uppercase to prevent string mismatch glitches
+  activeCampus = campusCode.toUpperCase();
   
   // 1. Update iOS Toggle UI
   document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
@@ -55,10 +56,10 @@ function switchCampus(campusCode, btnElement) {
   const calloutBtnText = document.getElementById("callout-btn-text");
 
   // 3. Apply Campus Specific Branding & Text
-  if (campusCode === 'WV' || campusCode === 'ALL') {
-    // West Valley Theme & Text (Also used for 'ALL')
+  if (activeCampus === 'WV' || activeCampus === 'ALL') {
+    // West Valley Theme & Text (Also used for 'ALL' view)
     document.body.classList.remove('theme-mc');
-    titleEl.innerText = campusCode === 'ALL' ? "All District Clubs" : "West Valley Clubs";
+    titleEl.innerText = activeCampus === 'ALL' ? "All District Clubs" : "West Valley Clubs";
     
     calloutDesc.innerHTML = "Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.";
     calloutBtn.href = CONFIG.startClubUrl;
@@ -90,14 +91,15 @@ function filterCategory(category, button) {
   filterClubs();
 }
 
-// Multi-Field Search & Filter Engine (Including 'ALL' Campus logic)
+// Multi-Field Search & Filter Engine (Bulletproofed)
 function filterClubs() {
   const searchInput = document.getElementById("search-input").value;
   const term = searchInput.trim().toLowerCase();
 
   const filtered = allClubsData.filter(club => {
-    // 1. Check Campus match (Bypass if 'ALL' is selected)
-    if (activeCampus !== 'ALL' && club.school !== activeCampus) return false;
+    // 1. Check Campus match (Safely bypasses if 'ALL' is selected)
+    const matchesCampus = (activeCampus === 'ALL' || club.school.toUpperCase() === activeCampus);
+    if (!matchesCampus) return false;
 
     // 2. Check Category match
     const matchesCategory = (activeCategory === 'All' || club.category === activeCategory);
@@ -121,7 +123,7 @@ function filterClubs() {
 // Data Array
 function loadClubsData() {
   allClubsData = [
-    /* --- Club list --- */
+    /* --- WEST VALLEY CLUBS (WV) --- */
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/aapi-student-union-club-logo.jpg", name: "Asian American Pacific Islander Student Union", initials: "AAPISU", category: "Minority", president: "Hana Kim", email: "hkim720@mywvm.wvm.edu", desc: "Building community, solidarity, and cultural representation for AAPI students." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/alpha-gamma-sigma-club-logo.jpg", name: "Alpha Gamma Sigma Honor Society - Gamma Iota Chapter", initials: "AGSHSGIC", category: "Academics", president: "Karen Phan", email: "kphan71@mywvm.wvm.edu", desc: "Academic excellence, community service, and scholarship opportunities." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/architecture-club-logo.jpg", name: "Architecture Club", initials: "ARCCLUB", category: "STEM", president: "Andre Mangune", email: "amangun1@mywvm.wvm.edu", desc: "Design workshops, architectural modeling, and studio field trips." },
@@ -166,10 +168,11 @@ function loadClubsData() {
   { school: "MC", logo: "", name: "Sustainable Garden Club", initials: "SGC", category: "Hobby", president: "Unnamed ", email: "Email: carla.breidenbach@missioncollege.edu", desc: "Promoting sustainability through gardening and environmental initiatives." },
   { school: "MC", logo: "", name: "Umoja Community Club", initials: "UMOJA", category: "Minority", president: "Unnamed ", email: "Email: avery.taylor@wvm.edu", desc: "Empowering students of African/African American ancestry." },
   { school: "MC", logo: "", name: "Vietnamese Student Association (VSA)", initials: "VSA", category: "Minority", president: "Unnamed ", email: "Email: mission.vsa@gmail.com", desc: "Connecting students through Vietnamese culture and heritage." },
-  ];
+];
 
   filterClubs();
 }
+
 // Render Engine
 function renderClubCards(clubs) {
   const grid = document.getElementById("club-grid");
@@ -185,7 +188,7 @@ function renderClubCards(clubs) {
   }
 
   grid.innerHTML = clubs.map(club => {
-    // If no logo, use the first 3 letters of initials as the visual fallback
+    // Lazy-load enabled; initals only used if logo is broken/missing
     const avatarHtml = club.logo 
       ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,3)}';">`
       : club.initials.slice(0,3);
