@@ -60,7 +60,7 @@ function switchCampus(campusCode, btnElement) {
     titleEl.innerText = "West Valley Clubs";
     document.body.classList.remove('theme-mc');
     
-    calloutDesc.innerHTML = "Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.";
+    calloutDesc.innerHTML = "Launch your own club";
     calloutBtn.href = CONFIG.startClubUrl;
     calloutBtn.target = "_blank";
     calloutIcon.innerText = "rocket_launch";
@@ -121,7 +121,7 @@ function filterClubs() {
 // Data Array including Mission College (MC) Sample Data
 function loadClubsData() {
   allClubsData = [
-    /* --- WEST VALLEY CLUBS (WV) --- */
+    /* --- Club list --- */
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/aapi-student-union-club-logo.jpg", name: "Asian American Pacific Islander Student Union", initials: "AAPISU", category: "Minority", president: "Hana Kim", email: "hkim720@mywvm.wvm.edu", desc: "Building community, solidarity, and cultural representation for AAPI students." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/alpha-gamma-sigma-club-logo.jpg", name: "Alpha Gamma Sigma Honor Society - Gamma Iota Chapter", initials: "AGSHSGIC", category: "Academics", president: "Karen Phan", email: "kphan71@mywvm.wvm.edu", desc: "Academic excellence, community service, and scholarship opportunities." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/architecture-club-logo.jpg", name: "Architecture Club", initials: "ARCCLUB", category: "STEM", president: "Andre Mangune", email: "amangun1@mywvm.wvm.edu", desc: "Design workshops, architectural modeling, and studio field trips." },
@@ -141,7 +141,7 @@ function loadClubsData() {
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "Psi Beta Honor Society", initials: "PBHS", category: "Psych", president: "Anne Buchko", email: "abuchko@mywvm.wvm.edu", desc: "National Honor Society in Psychology for community college students." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "Psychology Club", initials: "PSYC", category: "Psych", president: "Nikki Samanian", email: "nsamania@mywvm.wvm.edu", desc: "Exploring human behavior, mental health awareness, and research methods." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "Science Olympiad", initials: "SCIOLY", category: "STEM", president: "Priscilla Chang", email: "pchang49@mywvm.wvm.edu", desc: "Competitive STEM tournament preparation across physics, biology, and engineering." },
-    { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "The Helm", initials: "HELM", category: "Journalism", president: "Lauren Yelluas", email: "lyelluas@mywvm.wvm.edu", desc: "Student journalism, campus magazine publishing, creative writing, and media." },
+    { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "The Helm", initials: "HELM", category: "Journalism", president: "Lauren Yelluas", email: "lyelluas@mywvm.wvm.edu", desc: "The student-run newspaper of West Valley College" },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/undocu-club-logo.jpg", name: "Undocumented Student Club", initials: "UNDOCU", category: "Minority", president: "Luna Pulido", email: "lpulido3@mywvm.wvm.edu", desc: "Safe space and legal/financial advocacy for undocumented students and DREAMers." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "West Valley Archery", initials: "WVARCH", category: "Athletics", president: "Minjee Kim", email: "mkim183@mywvm.wvm.edu", desc: "Target archery training, equipment safety, and intercollegiate competitions." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/cheer-club-logo.jpg", name: "West Valley Cheer", initials: "WVCHEER", category: "Athletics", president: "Taryn Quam", email: "tquam@mywvm.wvm.edu", desc: "Stunting, choreography, spirit leadership, and athletic event performances." },
@@ -186,7 +186,7 @@ function renderClubCards(clubs) {
   }
 
 grid.innerHTML = clubs.map(club => {
-    // If no logo, use the first 3 letters of initials as the visual fallback
+    // If no logo, use the first 5 letters of initials as the visual fallback
     const avatarHtml = club.logo 
       ? `<img src="${club.logo}" alt="${club.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,5)}';">`
       : club.initials.slice(0,5);
