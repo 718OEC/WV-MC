@@ -16,16 +16,13 @@
       
       <!-- iOS Style Campus Switcher -->
       <div class="ios-toggle">
-        <button class="toggle-opt active" id="btn-wv" onclick="switchCampus('WV', this)">West Valley</button>
+        <button class="toggle-opt active" id="btn-all" onclick="switchCampus('ALL', this)">All</button>
+        <button class="toggle-opt" id="btn-wv" onclick="switchCampus('WV', this)">West Valley</button>
         <button class="toggle-opt" id="btn-mc" onclick="switchCampus('MC', this)">Mission College</button>
       </div>
-
-      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Dark Mode">
-        <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
-      </button>
       
       <p class="subtitle">Student Organizations</p>
-      <h1 id="college-title">West Valley Clubs</h1>
+      <h1 id="college-title">All District Clubs</h1>
     </header>
 
     <!-- Search & Filter Control Panel -->
@@ -75,13 +72,18 @@
     <!-- Footer Signature Block -->
     <footer class="sig-block glass">
       <div class="sig-info">
-        <h3>West Valley & Misson College District</h3>
+        <h3>West Valley & Mission College District</h3>
         <div class="sig-role">Open-Source Campus Initiative</div>
         <p class="sig-text">Designed & maintained by Oscar "Deion" Espinosa | Biz & Econ Major</p>
       </div>
     </footer>
 
   </div>
+
+  <!-- Floating Action Button for Dark Mode -->
+  <button class="theme-toggle fab" id="theme-toggle-btn" aria-label="Toggle Dark Mode">
+    <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
+  </button>
 
   <script src="config.js"></script>
   <script src="script.js"></script>
