@@ -737,31 +737,43 @@ function renderClubCards(clubs) {
 
     return `
       <div class="glass card-small">
-        <div>
-          <div class="card-header-row">
-            <div class="card-avatar">${avatarHtml}</div>
-            <div class="badge-group">
-              <span class="badge badge-school">${club.school || 'WVM'}</span>
-              ${categoriesHtml}
-            </div>
-          </div>
-          <h3>${club.name || 'Unnamed Club'}</h3>
-          
-          <div class="card-contact">
-            👤 <strong>President:</strong> ${club.president || 'TBA'}<br>
-            ✉️ <a href="mailto:${primaryEmail}">${emailStr || 'No email provided'}</a><br>
-            🎓 <strong>Advisor:</strong> ${club.professor || 'TBA'}<br>
-            👥 <strong>Members:</strong> ${club.memberCount || 'TBD'}
-          </div>
-          
-          <div class="card-desc">${club.desc || ''}</div>
-          ${socialsBlock}
-        </div>
-        
-        <div class="card-actions">
-          <a href="${formUrl}" target="_blank" class="btn btn-primary">Sign Up</a>
-        </div>
+  <div>
+    <div class="card-header-row">
+      <div class="card-avatar">${avatarHtml}</div>
+      <div class="badge-group">
+        <span class="badge badge-school">${club.school || 'WVM'}</span>
+        ${categoriesHtml}
       </div>
+    </div>
+    <h3>${club.name || 'Unnamed Club'}</h3>
+    
+    <div class="card-contact">
+      <div class="contact-item">
+        <span class="material-symbols-rounded contact-icon">person</span>
+        <span><strong>President:</strong> ${club.president || 'TBA'}</span>
+      </div>
+      <div class="contact-item">
+        <span class="material-symbols-rounded contact-icon">mail</span>
+        <a href="mailto:${primaryEmail}">${emailStr || 'No email provided'}</a>
+      </div>
+      <div class="contact-item">
+        <span class="material-symbols-rounded contact-icon">school</span>
+        <span><strong>Advisor:</strong> ${club.professor || 'TBA'}</span>
+      </div>
+      <div class="contact-item">
+        <span class="material-symbols-rounded contact-icon">group</span>
+        <span><strong>Members:</strong> ${club.memberCount || 'TBD'}</span>
+      </div>
+    </div>
+    
+    <div class="card-desc">${club.desc || ''}</div>
+    ${socialsBlock}
+  </div>
+  
+  <div class="card-actions">
+    <a href="${formUrl}" target="_blank" class="btn btn-primary">Sign Up</a>
+  </div>
+</div>
     `;
   }).join('');
 }
