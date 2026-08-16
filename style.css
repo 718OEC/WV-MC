@@ -238,11 +238,9 @@ body.dark-mode .theme-toggle.fab {
 
 /* Update your existing .filter-row */
 .filter-row {
-  display: flex;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 8px;
-  
+  display: block; 
+  width: 100%;
+
   /* 1. Pull the scroll track out to the very edges of the glass card */
   margin-left: -24px;
   margin-right: -24px;
@@ -263,10 +261,11 @@ body.dark-mode .theme-toggle.fab {
 /* 3. Fix the Safari Scroll Bug */
 /* Safari often ignores right-padding on scrollable containers. 
    This invisible pseudo-element forces the gap at the end so the last pill doesn't touch the edge. */
-.filter-pills::after {
-  content: "";
-  width: 24px;
-  flex-shrink: 0;
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap; /* Tells the pills to drop to a new line when out of space */
+  gap: 12px 8px; /* 12px vertical gap (row), 8px horizontal gap (column) */
 }
 
 
