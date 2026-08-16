@@ -1,24 +1,19 @@
 let allClubsData = [];
 let activeCategory = 'All';
+let activeCampus = 'WV'; // Default to West Valley
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Config Initializers
-  document.getElementById("college-title").innerText = `${CONFIG.collegeName} Clubs`;
   document.getElementById("start-club-btn").href = CONFIG.startClubUrl;
-
-  // Initialize Theme State
   initTheme();
-
-  // Search Input Handler
+  
   document.getElementById("search-input").addEventListener("input", (e) => {
-    filterClubs(e.target.value);
+    filterClubs();
   });
 
-  // Load Complete Dataset
   loadClubsData();
 });
 
-// Theme Logic with LocalStorage persistence
+// Theme Logic
 function initTheme() {
   const themeBtn = document.getElementById("theme-toggle-btn");
   const themeIcon = document.getElementById("themeIcon");
@@ -44,41 +39,68 @@ function initTheme() {
   }
 }
 
+// Campus Switcher Logic using iOS Toggle
+function switchCampus(campusCode, btnElement) {
+  activeCampus = campusCode;
+  
+  // Update iOS Toggle UI
+  document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
+  btnElement.classList.add('active');
+
+  // Update Page Title & Theme Class
+  const titleEl = document.getElementById("college-title");
+  if (campusCode === 'WV') {
+    titleEl.innerText = "West Valley Clubs";
+    document.body.classList.remove('theme-mc');
+  } else {
+    titleEl.innerText = "Mission College Clubs";
+    document.body.classList.add('theme-mc');
+  }
+
+  // Re-filter and render
+  filterClubs();
+}
+
 // Category Filter Switcher
 function filterCategory(category, button) {
   document.querySelectorAll('.pill').forEach(btn => btn.classList.remove('active'));
   button.classList.add('active');
   activeCategory = category;
-  
-  const searchVal = document.getElementById("search-input").value;
-  filterClubs(searchVal);
+  filterClubs();
 }
 
-// Multi-Field Search & Filter Engine
-function filterClubs(searchTerm) {
-  const term = searchTerm.trim().toLowerCase();
+// Multi-Field Search & Filter Engine (Including Campus)
+function filterClubs() {
+  const searchInput = document.getElementById("search-input").value;
+  const term = searchInput.trim().toLowerCase();
 
   const filtered = allClubsData.filter(club => {
+    // 1. Check Campus match
+    if (club.school !== activeCampus) return false;
+
+    // 2. Check Category match
     const matchesCategory = (activeCategory === 'All' || club.category === activeCategory);
-    
+    if (!matchesCategory) return false;
+
+    // 3. Check Keyword match
     const matchesSearch = !term || 
       club.name.toLowerCase().includes(term) ||
       club.initials.toLowerCase().includes(term) ||
       club.president.toLowerCase().includes(term) ||
       club.email.toLowerCase().includes(term) ||
       club.category.toLowerCase().includes(term) ||
-      club.school.toLowerCase().includes(term) ||
       club.desc.toLowerCase().includes(term);
 
-    return matchesCategory && matchesSearch;
+    return matchesSearch;
   });
 
   renderClubCards(filtered);
 }
 
-// Dataset mapped directly from updated e3e03bf9.csv schema
+// Data Array including Mission College (MC) Sample Data
 function loadClubsData() {
   allClubsData = [
+    /* --- WEST VALLEY CLUBS (WV) --- */
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/aapi-student-union-club-logo.jpg", name: "Asian American Pacific Islander Student Union", initials: "AAPISU", category: "Minority", president: "Hana Kim", email: "hkim720@mywvm.wvm.edu", desc: "Building community, solidarity, and cultural representation for AAPI students." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/alpha-gamma-sigma-club-logo.jpg", name: "Alpha Gamma Sigma Honor Society - Gamma Iota Chapter", initials: "AGSHSGIC", category: "Academics", president: "Karen Phan", email: "kphan71@mywvm.wvm.edu", desc: "Academic excellence, community service, and scholarship opportunities." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/architecture-club-logo.jpg", name: "Architecture Club", initials: "ARCCLUB", category: "STEM", president: "Andre Mangune", email: "amangun1@mywvm.wvm.edu", desc: "Design workshops, architectural modeling, and studio field trips." },
@@ -104,13 +126,31 @@ function loadClubsData() {
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/cheer-club-logo.jpg", name: "West Valley Cheer", initials: "WVCHEER", category: "Athletics", president: "Taryn Quam", email: "tquam@mywvm.wvm.edu", desc: "Stunting, choreography, spirit leadership, and athletic event performances." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/law-associations-club-logo.png", name: "West Valley Law Students Association", initials: "WVLSA", category: "Law", president: "Diego Segovia", email: "Dsegovi4@mywvm.wvm.edu", desc: "Pre-law guidance, mock trial practice, legal field trips, and LSAT prep resources." },
     { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/wvc-muslim-student-association.png", name: "West Valley Muslim Student Association", initials: "WVMSA", category: "Faith", president: "Khadija Masri", email: "wvmsa123@gmail.com", desc: "Islamic fellowship, interfaith dialogue, community service, and educational events." },
-    { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "Women's Film Production Club", initials: "WFPC", category: "Minority", president: "Gabrielle Ye & Allison Crick", email: "gye2@mywvm.wvm.edu and acrick@mywvm.wvm.edu", desc: "Supporting female and non-binary filmmakers through film production and workshops." }
+    { school: "WV", logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg", name: "Women's Film Production Club", initials: "WFPC", category: "Minority", president: "Gabrielle Ye & Allison Crick", email: "gye2@mywvm.wvm.edu and acrick@mywvm.wvm.edu", desc: "Supporting female and non-binary filmmakers through film production and workshops." },
+    /* --- MISSION COLLEGE CLUBS--- */
+    { school: "MC", logo: "", name: "A²MEND", initials: "A2", category: "Minority", president: "Avery Taylor", email: "avery.taylor@wvm.edu", desc: "A²MEND advocates for the academic, psychological, and spiritual development of Black male students, faculty, staff, and administrators, fostering growth, support, and empowerment within the community." },
+  { school: "MC", logo: "", name: "Associated Student Government", initials: "ASG", category: "Community", president: "Unnamed ", email: "mc.studentlife@missioncollege.edu", desc: "Representing the student voice and supporting campus activities" },
+  { school: "MC", logo: "", name: "Dawah Club", initials: "DAWAH", category: "Faith", president: "Unnamed ", email: "Mdi.missionc@gmail.com", desc: "Dedicated to sharing Islamic knowledge, fostering spiritual growth, and promoting meaningful dialogue." },
+  { school: "MC", logo: "", name: "H-Club", initials: "HCLUB", category: "Community", president: "Unnamed ", email: "MCHospitalityClub@gmail.com", desc: "Encouraging the pursuit of higher education for Hospitality students and fostering community involvement." },
+  { school: "MC", logo: "", name: "Honors Research Club", initials: "HRC", category: "STEM", president: "Unnamed ", email: "honorresearchclub.mission@gmail.com", desc: "Empowers students to engage in advanced research, develop critical thinking skills, and contribute to scholarly inquiry." },
+  { school: "MC", logo: "", name: "LGBTQIA+ Club", initials: "LGBTQIA+", category: "Minority", president: "Unnamed ", email: "alondra.alamo@missioncollege.edu, elizabeth.ramirez@missioncollege.edu, or brian.shively@missioncollege.edu", desc: "A supportive and inclusive club that celebrates LGBTQIA+ identities, promotes awareness, and fosters community and advocacy." },
+  { school: "MC", logo: "", name: "MC Gaming Club", initials: "MCGC", category: "Hobby", president: "Unnamed ", email: "missioncollege.gaming@gmail.com", desc: "Bringing together students who love gaming and organizing friendly competitions." },
+  { school: "MC", logo: "", name: "MC InterConnect", initials: "MCIC", category: "Networking", president: "Unnamed ", email: "gaozong.park@missioncollege.edu or jouney.chong@missioncollege.edu", desc: "Promoting diversity and inclusivity through dialogue and collaboration." },
+  { school: "MC", logo: "", name: "Missionanigans", initials: "MSG", category: "Networking", president: "Unnamed ", email: "missionaniganstm@missioncollege.edu", desc: "Creating opportunities for communication, networking, and social events." },
+  { school: "MC", logo: "", name: "Mission College Health Occupations Association", initials: "MCHOA", category: "Medical", president: "Unnamed ", email: "Tess.Johnsen@missioncollege.edu or Ngoc-Hanh.Hua@missioncollege.edu", desc: "Dedicated to supporting and empowering future healthcare professionals through education, networking, and community service." },
+  { school: "MC", logo: "", name: "Muslim Student Association", initials: "MSA", category: "Faith", president: "Unnamed ", email: "Email: wvm.msa@gmail.com", desc: "A welcoming space for Muslims and Non-Muslims to learn about Islam." },
+  { school: "MC", logo: "", name: "Puente Club", initials: "PUENTE", category: "Minority", president: "Unnamed ", email: "Email: javier.huerta@missioncollege.edu or veronica.hand@missioncollege.edu", desc: "Supporting students in their journey to transfer to four-year universities." },
+  { school: "MC", logo: "", name: "Society of Latino Engineers and Scientists", initials: "SOLES", category: "Minority", president: "Unnamed ", email: "Email: soles.missioncollege@gmail.com", desc: "Providing leadership and professional development for Latinx engineers and scientists." },
+  { school: "MC", logo: "", name: "Society of Women Engineers", initials: "MCSWE", category: "Minority", president: "Unnamed ", email: "Email: missioncollegeswe@gmail.com", desc: "Empowering future engineers and promoting careers in technology." },
+  { school: "MC", logo: "", name: "Sustainable Garden Club", initials: "SGC", category: "Hobby", president: "Unnamed ", email: "Email: carla.breidenbach@missioncollege.edu", desc: "Promoting sustainability through gardening and environmental initiatives." },
+  { school: "MC", logo: "", name: "Umoja Community Club", initials: "UMOJA", category: "Minority", president: "Unnamed ", email: "Email: avery.taylor@wvm.edu", desc: "Empowering students of African/African American ancestry." },
+  { school: "MC", logo: "", name: "Vietnamese Student Association (VSA)", initials: "VSA", category: "Minority", president: "Unnamed ", email: "Email: mission.vsa@gmail.com", desc: "Connecting students through Vietnamese culture and heritage." },
   ];
 
-  renderClubCards(allClubsData);
+  filterClubs();
 }
 
-// Render Engine with Image Fallbacks & School Badges
+// Render Engine: Initials only used as fallback in avatar
 function renderClubCards(clubs) {
   const grid = document.getElementById("club-grid");
 
@@ -125,6 +165,7 @@ function renderClubCards(clubs) {
   }
 
   grid.innerHTML = clubs.map(club => {
+    // If no logo, use the first 3 letters of initials as the visual fallback
     const avatarHtml = club.logo 
       ? `<img src="${club.logo}" alt="${club.name}" onerror="this.style.display='none'; this.parentElement.innerText='${club.initials.slice(0,3)}';">`
       : club.initials.slice(0,3);
@@ -141,7 +182,7 @@ function renderClubCards(clubs) {
               <span class="badge badge-category">${club.category}</span>
             </div>
           </div>
-          <h3>${club.name} (${club.initials})</h3>
+          <h3>${club.name}</h3>
           <div class="card-contact">
             👤 <strong>${club.president}</strong><br>
             ✉️ <a href="mailto:${primaryEmail}">${club.email}</a>
