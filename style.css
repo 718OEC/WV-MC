@@ -76,7 +76,7 @@ body {
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
-  padding: 40px 20px 96px;
+  padding: 40px 20px 120px;
 }
 
 .glass {
@@ -122,7 +122,10 @@ body {
   border-radius: 99px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px;
+  /* Changed from 140px to 100px and added flex to fill space equally */
+  min-width: 100px;
+  flex: 1; 
+  text-align: center;
 }
 
 .toggle-opt.active {
@@ -152,7 +155,8 @@ body.dark-mode .toggle-opt.active {
   font-weight: 800;
   color: var(--text-main);
   margin: 0 0 24px;
-  padding: 0 52px;
+  /* Changed from 0 52px to 0 16px to prevent text crushing on mobile */
+  padding: 0 16px; 
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
@@ -321,7 +325,9 @@ body.dark-mode .theme-toggle.fab {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 4px;
-  max-width: 65%; /* Prevents badges from pushing the logo off-screen */
+  /* Removed max-width: 65% */
+  flex: 1; 
+  min-width: 0; /* Allows badges to wrap instead of pushing out of the container */
 }
 
 /* Add these new classes for social links */
