@@ -600,6 +600,26 @@ function initTheme() {
     if (themeIcon) themeIcon.textContent = "dark_mode";
   }
 
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      // 1. Trigger spin-out animation safely
+      if (themeIcon) themeIcon.classList.add("spin-out");
+
+      // 2. Wait halfway through the rotation to swap icon & theme
+      setTimeout(() => {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        
+        if (themeIcon) {
+          themeIcon.textContent = isDark ? "light_mode" : "dark_mode";
+          // 3. Reset rotation class so it spins back into view smoothly
+          themeIcon.classList.remove("spin-out");
+        }
+      }, 200); // 200ms matches halfway through the 0.4s CSS transition
+    });
+  }
+}
   // FAB rotate:
 if (themeBtn) {
   themeBtn.addEventListener("click", () => {
