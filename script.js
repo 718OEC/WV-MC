@@ -1,4 +1,3 @@
-// 1. Move the data array to the very top so it loads instantly
 const allClubsData = [
   {
     school: "WV",
@@ -561,13 +560,10 @@ const allClubsData = [
   }
 ];
 
-// 2. Set State Variables
 let activeCategory = 'All';
 let activeCampus = 'WV';
 
-// 3. Initialize Everything When the Page Loads
 document.addEventListener("DOMContentLoaded", () => {
-  // Try mapping the default config URL, fail gracefully if config.js is missing
   try {
       document.getElementById("start-club-btn").href = CONFIG.startClubUrl;
   } catch (e) {
@@ -579,12 +575,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("search-input").addEventListener("input", (e) => {
     filterClubs();
   });
-
-  // Call the filter directly instead of loadClubsData()
   filterClubs();
 });
 
-// Theme Logic
+// Theme functionality 
 function initTheme() {
   const themeBtn = document.getElementById("theme-toggle-btn");
   const themeIcon = document.getElementById("themeIcon");
@@ -600,12 +594,11 @@ function initTheme() {
     if (themeIcon) themeIcon.textContent = "dark_mode";
   }
 
+  // This handles both theme & fab rotation!
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
-      // 1. Trigger spin-out animation safely
       if (themeIcon) themeIcon.classList.add("spin-out");
 
-      // 2. Wait halfway through the rotation to swap icon & theme
       setTimeout(() => {
         document.body.classList.toggle("dark-mode");
         const isDark = document.body.classList.contains("dark-mode");
@@ -613,33 +606,13 @@ function initTheme() {
         
         if (themeIcon) {
           themeIcon.textContent = isDark ? "light_mode" : "dark_mode";
-          // 3. Reset rotation class so it spins back into view smoothly
+          // Reset rotation class so it spins back into view smoothly
           themeIcon.classList.remove("spin-out");
         }
-      }, 200); // 200ms matches halfway through the 0.4s CSS transition
+      }, 200);
     });
   }
 }
-  // FAB rotate:
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    // 1. Trigger spin-out animation
-    themeIcon.classList.add("spin-out");
-
-    // 2. Wait halfway through the rotation to swap icon & theme
-    setTimeout(() => {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-      
-      themeIcon.textContent = isDark ? "light_mode" : "dark_mode";
-      
-      // 3. Reset rotation class so it spins back into view smoothly
-      themeIcon.classList.remove("spin-out");
-    }, 200); // 200ms matches halfway through the 0.4s CSS transition
-  });
-}
-
 // Campus Switcher Logic (2 Tabs)
 function switchCampus(campusCode, btnElement) {
   activeCampus = campusCode.toUpperCase();
