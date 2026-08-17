@@ -224,6 +224,17 @@ body.dark-mode .theme-toggle.fab {
 .theme-toggle.fab:active {
   transform: scale(0.95);
 }
+/* Smooth transition setup on the icon itself */
+.theme-toggle.fab .material-symbols-rounded {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  display: inline-block;
+}
+
+/* State during rotation/swap */
+.theme-toggle.fab .material-symbols-rounded.spin-out {
+  transform: rotate(180deg) scale(0.5);
+  opacity: 0;
+}
 
 /* Adjust mobile FAB positioning */
 @media (max-width: 600px) {
@@ -566,4 +577,5 @@ body.dark-mode .btn-primary {
   transition: color 0.3s ease;
 }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
+
 
