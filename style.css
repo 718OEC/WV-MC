@@ -197,20 +197,26 @@ body.dark-mode .toggle-opt.active {
     width: 56px; 
     height: 56px;
     border-radius: 50%;
-    background: var(--primary-accent);
-    color: #FFFFFF;
+    /* Frosted Liquid Glass Styling */
+    background: var(--glass-panel);
+    backdrop-filter: var(--blur-amt);
+    -webkit-backdrop-filter: var(--blur-amt);
+    color: var(--primary-accent);
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--glass-shadow);
+    
     display: flex; 
     align-items: center; 
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, color 0.2s;
 }
 
 .fab-main:hover { 
     transform: scale(1.08) translateY(-4px); 
-    background-color: var(--secondary-accent); 
+    /* Solidifies on hover for clear visibility */
+    background: var(--primary-accent); 
+    color: #FFFFFF;
 }
 
 .fab-main span { 
