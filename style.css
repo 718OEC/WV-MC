@@ -226,19 +226,35 @@ body.dark-mode .toggle-opt.active {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
+/* Rotates the compass icon to an 'X' when open */
 .fab-container.active .fab-main span { 
     transform: rotate(180deg); 
 }
 
+/* --- THE ACTIVE FAB BUTTON --- */
+/* Locks the glass effect and orange highlight when the menu is open */
+.fab-container.active .fab-main {
+    background: var(--glass-panel);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-color: var(--secondary-accent);
+    color: var(--secondary-accent);
+}
+
+/* --- THE POP-UP LIQUID GLASS MENU --- */
 .fab-menu {
     list-style: none;
     padding: 0; 
     margin: 0;
+    
+    /* Enhanced Liquid Glass Legibility */
     background: var(--glass-panel);
-    backdrop-filter: var(--blur-amt);
-    -webkit-backdrop-filter: var(--blur-amt);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    
     border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    /* Softer, wider drop shadow to lift it off the page */
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12); 
     border-radius: 16px;
     overflow: hidden;
     
@@ -246,8 +262,13 @@ body.dark-mode .toggle-opt.active {
     transform: translateY(20px) scale(0.95);
     transform-origin: bottom right;
     pointer-events: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 200px;
+}
+
+/* Dark mode needs a stronger shadow so the glass doesn't blend into the dark page */
+body.dark-mode .fab-menu {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 .fab-container.active .fab-menu {
