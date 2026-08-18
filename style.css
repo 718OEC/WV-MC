@@ -197,11 +197,13 @@ body.dark-mode .toggle-opt.active {
     width: 56px; 
     height: 56px;
     border-radius: 50%;
-    /* Frosted Liquid Glass Styling */
+    /* Frosted Liquid Glass */
     background: var(--glass-panel);
     backdrop-filter: var(--blur-amt);
     -webkit-backdrop-filter: var(--blur-amt);
-    color: var(--primary-accent);
+    
+    /* Dynamically Charcoal in Light Mode, WHITE in Dark Mode */
+    color: var(--text-main); 
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     
@@ -209,14 +211,14 @@ body.dark-mode .toggle-opt.active {
     align-items: center; 
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, color 0.2s;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s, color 0.2s;
 }
 
 .fab-main:hover { 
     transform: scale(1.08) translateY(-4px); 
-    /* Solidifies on hover for clear visibility */
-    background: var(--primary-accent); 
-    color: #FFFFFF;
+    /* Changes icon and border to Viking Orange on hover */
+    color: var(--secondary-accent); 
+    border-color: var(--secondary-accent);
 }
 
 .fab-main span { 
