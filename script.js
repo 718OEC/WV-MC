@@ -64,6 +64,19 @@ const allClubsData = [
     signUpForm: "Redacted",
     socials: {}
   },
+    {
+    school: "WV",
+    logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg",
+    name: "Biology Club",
+    initials: "BioC",
+    categories: ["STEM"],
+    president: "TBA",
+    email: "TBA",
+    memberCount: 30,
+    desc: "Full description coming soon",
+    signUpForm: "Redacted",
+    socials: { ig: "https://www.instagram.com/wvcbiologyclub" }
+  },
   {
     school: "WV",
     logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/black-student-union-club-logo.jpg",
@@ -336,6 +349,19 @@ const allClubsData = [
     desc: "Full description coming soon",
     signUpForm: "Redacted",
     socials: {}
+  },
+   {
+    school: "WV",
+    logo: "https://www.westvalley.edu/student-government/_files/images/club-logos/club-logos4.jpg",
+    name: "Women in STEM CLUB",
+    initials: "WSTEM",
+    categories: ["STEM", "MINORITY"],
+    president: "TBA",
+    email: "TBA",
+    memberCount: 30,
+    desc: "Full description coming soon",
+    signUpForm: "Redacted",
+    socials: { ig: "https://www.instagram.com/wvcbiologyclub" }
   },
   {
     school: "MC",
