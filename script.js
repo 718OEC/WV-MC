@@ -585,6 +585,32 @@ const allClubsData = [
     socials: {}
   }
 ];
+// --- GLOBAL FAB NAVIGATION LOGIC ---
+function toggleFab() {
+    const container = document.getElementById('fabContainer');
+    const icon = document.getElementById('fabIcon');
+    
+    // Safety check in case a page doesn't have the FAB yet
+    if (!container || !icon) return; 
+
+    container.classList.toggle('active');
+    
+    // Swap the compass icon to an 'X' when open
+    if (container.classList.contains('active')) {
+        icon.textContent = 'close';
+    } else {
+        icon.textContent = 'explore'; 
+    }
+}
+
+// Automatically close the menu if the user clicks anywhere else on the screen
+document.addEventListener('click', function(event) {
+    const container = document.getElementById('fabContainer');
+    if (container && !container.contains(event.target) && container.classList.contains('active')) {
+        toggleFab();
+    }
+});
+
 
 let activeCategory = 'All';
 let activeCampus = 'WV';
