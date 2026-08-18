@@ -80,10 +80,54 @@
 
   </div>
 
-  <!-- Floating Action Button for Dark Mode -->
-  <button class="theme-toggle fab" id="theme-toggle-btn" aria-label="Toggle Dark Mode">
-    <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
-  </button>
+ <!-- THE GLOBAL NAV FAB -->
+  <div class="fab-container" id="fabContainer">
+      <ul class="fab-menu">
+          <li>
+              <a href="index.html">
+                  <span class="material-symbols-rounded menu-icon">home</span> Student Hub
+              </a>
+          </li>
+          <li>
+              <a href="clubhub.html">
+                  <span class="material-symbols-rounded menu-icon">groups</span> Club Hub
+              </a>
+          </li>
+          <li>
+              <a href="calendar.html">
+                  <span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar
+              </a>
+          </li>
+          <li>
+              <a href="exchange.html">
+                  <span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazar
+              </a>
+          </li>
+          <li>
+              <a href="carpool.html">
+                  <span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool
+              </a>
+          </li>
+          <li>
+              <a href="resources.html">
+                  <span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools
+              </a>
+          </li>
+          <li>
+              <a href="anon.html">
+                  <span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks
+              </a>
+          </li>
+          <li>
+              <button onclick="toggleTheme()">
+                  <span class="material-symbols-rounded menu-icon" id="themeIcon">dark_mode</span> Theme
+              </button>
+          </li>
+      </ul>
+      <button class="fab-main" onclick="toggleFab()" aria-label="Open Navigation">
+          <span class="material-symbols-rounded" id="fabIcon">explore</span>
+      </button>
+  </div>
 
   <script src="config.js"></script>
   <script src="script.js"></script>
