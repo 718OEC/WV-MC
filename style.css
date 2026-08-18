@@ -109,33 +109,27 @@ body {
   position: relative;
   margin-bottom: 24px;
   border: 1px solid var(--glass-border);
-  /* Create a stacking context so the slider stays behind the text */
   z-index: 1; 
 }
 
-/* 1. The Sliding Pill Background */
 .ios-toggle::before {
   content: "";
   position: absolute;
   top: 4px;
   bottom: 4px;
   left: 4px;
-  /* Mathematically exactly half the inner container width */
   width: calc(50% - 4px); 
   background: var(--primary-accent);
   border-radius: 99px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-  /* The cubic-bezier creates that distinct, bouncy iOS motion */
   transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
-  z-index: -1; /* Keep it behind the button text */
+  z-index: -1; 
 }
 
-/* 2. Slide to the right when the second button is active */
 .ios-toggle:has(button:nth-child(2).active)::before {
   transform: translateX(100%);
 }
 
-/* 3. Dark Mode Slider Override */
 body.dark-mode .ios-toggle::before {
   background: var(--secondary-accent);
 }
@@ -149,24 +143,22 @@ body.dark-mode .ios-toggle::before {
   color: var(--text-sub);
   border-radius: 99px;
   cursor: pointer;
-  transition: color 0.2s ease; /* Only transition text color now */
+  transition: color 0.2s ease;
   min-width: 100px;
   flex: 1; 
   text-align: center;
 }
 
-/* 4. Strip the static background from the active button so the slider shows through */
 .toggle-opt.active {
   color: #FFFFFF;
-  background: transparent; /* Removed solid background */
-  box-shadow: none;        /* Removed static shadow */
+  background: transparent; 
+  box-shadow: none;        
 }
 
 body.dark-mode .toggle-opt.active {
   color: #FFFFFF;
   background: transparent;
 }
-
 
 /* Titles */
 .subtitle {
@@ -184,11 +176,11 @@ body.dark-mode .toggle-opt.active {
   font-weight: 800;
   color: var(--text-main);
   margin: 0 0 24px;
-  /* Changed from 0 52px to 0 16px to prevent text crushing on mobile */
   padding: 0 16px; 
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
+
 /* --- MAIN NAVIGATION FAB (Bottom Right) --- */
 .fab-container {
     position: fixed;
@@ -226,12 +218,10 @@ body.dark-mode .toggle-opt.active {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Rotates the compass icon to an 'X' when open */
 .fab-container.active .fab-main span { 
     transform: rotate(180deg); 
 }
 
-/* The Pop-Up Glass Menu */
 .fab-menu {
     list-style: none;
     padding: 0; 
@@ -244,7 +234,6 @@ body.dark-mode .toggle-opt.active {
     border-radius: 16px;
     overflow: hidden;
     
-    /* Hidden State */
     opacity: 0;
     transform: translateY(20px) scale(0.95);
     transform-origin: bottom right;
@@ -253,7 +242,6 @@ body.dark-mode .toggle-opt.active {
     min-width: 200px;
 }
 
-/* Active/Open State */
 .fab-container.active .fab-menu {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -297,34 +285,25 @@ body.dark-mode .toggle-opt.active {
 }
 
 /* --- DIRECTORY CARD FIX --- */
-/* Strips the ugly blue underlines from the clickable cards */
 .clickable-card-link {
   text-decoration: none;
   color: inherit;
   display: flex;
   height: 100%;
 }
-}
-/* Smooth transition setup on the icon itself */
-.theme-toggle.fab .material-symbols-rounded {
+
+/* --- THEME TOGGLE ANIMATION (Nested in Menu) --- */
+#themeIcon {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
   display: inline-block;
 }
 
-/* State during rotation/swap */
-.theme-toggle.fab .material-symbols-rounded.spin-out {
+#themeIcon.spin-out {
   transform: rotate(180deg) scale(0.5);
   opacity: 0;
 }
 
-/* Adjust mobile FAB positioning */
-@media (max-width: 600px) {
-  .theme-toggle.fab {
-    bottom: 24px;
-    right: 24px;
-  }
-}
-
+/* Search & Filters */
 .search-box {
   display: flex;
   align-items: center;
@@ -351,44 +330,30 @@ body.dark-mode .toggle-opt.active {
 
 .search-box input::placeholder { color: var(--text-sub); }
 
-/* Ensure the container has standard padding and spacing */
 .control-panel {
   padding: 24px;
   margin-bottom: 24px;
 }
 
-/* Update your existing .filter-row */
 .filter-row {
   display: block; 
   width: 100%;
-
-  /* 1. Pull the scroll track out to the very edges of the glass card */
   margin-left: -24px;
   margin-right: -24px;
-  
-  /* 2. Push the pills back in so they perfectly align with the search bar */
   padding-left: 24px;
   padding-right: 24px;
-  
-  /* Optional: Hide the scrollbar for a cleaner mobile app look */
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none; 
 }
 
-/* Hide scrollbar for Chrome/Safari/Edge */
 .filter-row::-webkit-scrollbar {
   display: none; 
 }
 
-/* 3. Fix the Safari Scroll Bug */
-/* Safari often ignores right-padding on scrollable containers. 
-   This invisible pseudo-element forces the gap at the end so the last pill doesn't touch the edge. */
-
 .filter-pills {
   display: flex;
-  flex-wrap: wrap; /* Tells the pills to drop to a new line when out of space */
-  gap: 12px 8px; /* 12px vertical gap (row), 8px horizontal gap (column) */
+  flex-wrap: wrap; 
+  gap: 12px 8px; 
 }
-
 
 .pill {
   border: 1px solid var(--glass-border);
@@ -467,18 +432,15 @@ body.dark-mode .toggle-opt.active {
   border-radius: 24px;
 }
 
-/* Updates the existing badge-group class */
 .badge-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 4px;
-  /* Removed max-width: 65% */
   flex: 1; 
-  min-width: 0; /* Allows badges to wrap instead of pushing out of the container */
+  min-width: 0; 
 }
 
-/* Add these new classes for social links */
 .card-socials {
   display: flex;
   gap: 16px;
@@ -500,9 +462,8 @@ body.dark-mode .toggle-opt.active {
   opacity: 0.7;
 }
 
-/* Hide the old secondary button since Sign Up is the primary action now */
 .card-actions .btn-primary {
-  width: 100%; /* Makes the Sign Up button span the full width */
+  width: 100%; 
 }
 
 .badge {
@@ -550,29 +511,26 @@ body.dark-mode .badge-category {
   text-decoration: none;
   transition: color 0.3s ease;
 }
-/* Container for each individual line */
+
 .contact-item {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between the icon and the text */
-  margin-bottom: 6px; /* Spacing between rows */
+  gap: 8px; 
+  margin-bottom: 6px; 
   font-size: 14px;
   color: var(--text-sub);
 }
 
-/* Make sure the last item doesn't have extra bottom margin */
 .contact-item:last-child {
   margin-bottom: 0;
 }
 
-/* Style the Material Icon specifically */
 .contact-icon {
-  font-size: 18px; /* Slightly larger than the 14px text, adjust as needed */
-  color: var(--text-sub); /* Or use var(--primary-accent) if you want them colored */
-  flex-shrink: 0; /* Prevents the icon from squishing if the text wraps */
+  font-size: 18px; 
+  color: var(--text-sub); 
+  flex-shrink: 0; 
 }
 
-/* Ensure strong tags inherit color properly */
 .contact-item strong {
   color: var(--text-main);
   font-weight: 600;
@@ -589,7 +547,6 @@ body.dark-mode .badge-category {
   gap: 10px;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -624,7 +581,6 @@ body.dark-mode .btn-primary {
   border: 1px solid var(--glass-border);
 }
 
-/* Callout Section & Footer */
 .callout-box {
   padding: 36px 24px;
   text-align: center;
@@ -658,5 +614,3 @@ body.dark-mode .btn-primary {
   transition: color 0.3s ease;
 }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
-
-
