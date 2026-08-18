@@ -189,40 +189,121 @@ body.dark-mode .toggle-opt.active {
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
+/* --- MAIN NAVIGATION FAB (Bottom Right) --- */
+.fab-container {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
 
-/* --- FAB Dark Mode Toggle --- */
-.theme-toggle.fab {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  background: var(--toggle-bg);
-  backdrop-filter: var(--blur-amt);
-  -webkit-backdrop-filter: var(--blur-amt);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  color: var(--text-main);
-  width: 56px; /* Slightly larger for easier mobile tapping */
-  height: 56px;
-  border-radius: 50%;
+.fab-main {
+    width: 56px; 
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary-accent);
+    color: #FFFFFF;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
+}
+
+.fab-main:hover { 
+    transform: scale(1.08) translateY(-4px); 
+    background-color: var(--secondary-accent); 
+}
+
+.fab-main span { 
+    font-size: 28px; 
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* Rotates the compass icon to an 'X' when open */
+.fab-container.active .fab-main span { 
+    transform: rotate(180deg); 
+}
+
+/* The Pop-Up Glass Menu */
+.fab-menu {
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    background: var(--glass-panel);
+    backdrop-filter: var(--blur-amt);
+    -webkit-backdrop-filter: var(--blur-amt);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    overflow: hidden;
+    
+    /* Hidden State */
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transform-origin: bottom right;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 200px;
+}
+
+/* Active/Open State */
+.fab-container.active .fab-menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.fab-menu li { 
+    border-bottom: 1px solid var(--glass-border); 
+}
+
+.fab-menu li:last-child { 
+    border-bottom: none; 
+}
+
+.fab-menu a, .fab-menu button {
+    display: flex; 
+    align-items: center; 
+    gap: 12px;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 14px;
+    background: transparent;
+    border: none; 
+    width: 100%; 
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+}
+
+.fab-menu a:hover, .fab-menu button:hover { 
+    background: var(--toggle-bg); 
+    color: var(--primary-accent); 
+}
+
+.fab-menu .menu-icon { 
+    color: var(--secondary-accent); 
+    font-size: 20px; 
+}
+
+/* --- DIRECTORY CARD FIX --- */
+/* Strips the ugly blue underlines from the clickable cards */
+.clickable-card-link {
+  text-decoration: none;
+  color: inherit;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, box-shadow 0.2s ease;
-  z-index: 999;
+  height: 100%;
 }
-
-body.dark-mode .theme-toggle.fab {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.theme-toggle.fab:hover { 
-  transform: scale(1.08) translateY(-4px); 
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-}
-
-.theme-toggle.fab:active {
-  transform: scale(0.95);
 }
 /* Smooth transition setup on the icon itself */
 .theme-toggle.fab .material-symbols-rounded {
