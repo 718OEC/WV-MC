@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Hub</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body id="top">
+
+  <!-- THE NEW GLOBAL NAV FAB -->
+  <div class="fab-container" id="fabContainer">
+      <ul class="fab-menu">
+          <li>
+              <a href="index.html">
+                  <span class="material-symbols-rounded menu-icon">home</span> Student Hub
+              </a>
+          </li>
+          <li>
+              <a href="clubhub.html">
+                  <span class="material-symbols-rounded menu-icon">groups</span> Club Hub
+              </a>
+          </li>
+          <li>
+              <a href="calendar.html">
+                  <span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar
+              </a>
+          </li>
+          <li>
+              <a href="exchange.html">
+                  <span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazar
+              </a>
+          </li>
+          <li>
+              <a href="carpool.html">
+                  <span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool
+              </a>
+          </li>
+          <li>
+              <a href="resources.html">
+                  <span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools
+              </a>
+          </li>
+          <li>
+              <a href="anon.html">
+                  <span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks
+              </a>
+          </li>
+          <!-- Dark Mode Toggle nested cleanly inside the menu -->
+          <li>
+              <button onclick="toggleTheme()">
+                  <span class="material-symbols-rounded menu-icon" id="themeIcon">dark_mode</span> Theme
+              </button>
+          </li>
+      </ul>
+      <button class="fab-main" onclick="toggleFab()" aria-label="Open Navigation">
+          <span class="material-symbols-rounded" id="fabIcon">explore</span>
+      </button>
+  </div>
+
+  <div class="app-wrapper">
+    
+    <!-- Directory Hero -->
+    <header class="hero glass" style="padding: 40px 20px; border-radius: 24px; margin-bottom: 32px;">
+      <div class="brand-chip" style="margin-bottom: 16px;">Welcome to the</div>
+      <h1 style="margin: 0; font-size: 32px;">Student Hub</h1>
+      <p style="margin: 12px 0 0; color: var(--text-sub);">Your centralized directory for clubs, events, peer exchange, and transfer resources.</p>
+    </header>
+
+    <!-- Master Directory Grid -->
+    <main class="grid-cards">
+      
+      <!-- Club Hub Card -->
+      <a href="clubhub.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">groups</span>
+          <h2 style="margin: 0 0 8px;">Club Hub</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Browse and join active student organizations across campus.</p>
+        </article>
+      </a>
+
+      <!-- Calendar Card -->
+      <a href="calendar.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--secondary-accent); margin-bottom: 16px;">calendar_month</span>
+          <h2 style="margin: 0 0 8px;">Calendar</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">The master schedule for campus events, rush weeks, and finals.</p>
+        </article>
+      </a>
+
+      <!-- Barter Bazar Card -->
+      <a href="exchange.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--mc-teal, #0C7799); margin-bottom: 16px;">swap_horiz</span>
+          <h2 style="margin: 0 0 8px;">Barter Bazar</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Trade, sell, or lend textbooks, lab gear, and dorm supplies.</p>
+        </article>
+      </a>
+
+      <!-- Carpool Tool Card -->
+      <a href="carpool.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--secondary-accent); margin-bottom: 16px;">directions_car</span>
+          <h2 style="margin: 0 0 8px;">Carpool Tool</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Find ride-shares, split parking passes, and coordinate transit.</p>
+        </article>
+      </a>
+
+      <!-- Transfer Tools Card -->
+      <a href="resources.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">account_balance</span>
+          <h2 style="margin: 0 0 8px;">Transfer Tools</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Access Stanford CCOP, Berkeley CCTS, and articulation guides.</p>
+        </article>
+      </a>
+
+      <!-- Anon Asks Card -->
+      <a href="anon.html" class="clickable-card-link">
+        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
+          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--text-sub); margin-bottom: 16px;">campaign</span>
+          <h2 style="margin: 0 0 8px;">Anon Asks</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Submit anonymous feedback, requests, and ideas to the ASB/ASG.</p>
+        </article>
+      </a>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
