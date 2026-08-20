@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon | Student Hub</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+
+  <div class="app-wrapper" style="display: flex; flex-direction: column; min-height: 80vh; justify-content: center;">
+    
+    <main style="max-width: 30rem; margin: 0 auto; width: 100%;">
+      <article class="glass card-large" style="text-align: center; padding: 3rem 2rem;">
+        <span class="material-symbols-rounded" style="font-size: 4rem; color: var(--secondary-accent); margin-bottom: 1.5rem;">engineering</span>
+        <h1 style="margin: 0 0 0.5rem; font-size: 2rem;">Coming Soon</h1>
+        <p style="margin: 0 0 2rem; color: var(--text-sub); font-size: 1rem; line-height: 1.5;">
+          We're currently building this feature for the campus community. Check back soon for updates!
+        </p>
+        <a href="index.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+          <span class="material-symbols-rounded">arrow_back</span> Return to Hub
+        </a>
+      </article>
+    </main>
+
+  </div>
+
+  <!-- THE GLOBAL NAV FAB -->
+  <div class="fab-container" id="fabContainer">
+      <ul class="fab-menu">
+          <li><a href="index.html"><span class="material-symbols-rounded menu-icon">home</span> Student Hub</a></li>
+          <li><a href="clubhub.html"><span class="material-symbols-rounded menu-icon">groups</span> Club Hub</a></li>
+          <li><a href="calendar.html"><span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar</a></li>
+          <li><a href="exchange.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazar</a></li>
+          <li><a href="carpool.html"><span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool</a></li>
+          <li><a href="resources.html"><span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools</a></li>
+          <li><a href="anon.html"><span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks</a></li>
+      </ul>
+      <button class="fab-main" onclick="toggleFab()" aria-label="Open Navigation">
+          <span class="material-symbols-rounded" id="fabIcon">explore</span>
+      </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
