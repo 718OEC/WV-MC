@@ -12,84 +12,85 @@
   <div class="app-wrapper">
     
     <!-- Hero Header -->
-    <header class="hero">
-      <p class="subtitle">West Valley & Mission College</p>
-      <h1 id="college-title">Student Hub</h1>
-      <p style="color: var(--text-sub); max-width: 500px; margin: 0 auto 24px;">Your centralized directory for campus resources, clubs, and peer-to-peer exchange.</p>
+    <header class="hero" style="margin-bottom: 2rem;">
+      <p class="subtitle" style="margin: 0 0 0.5rem;">West Valley & Mission College</p>
+      <h1 id="college-title" style="margin: 0 0 0.75rem; font-size: 2rem;">Student Hub</h1>
+      <p style="color: var(--text-sub); max-width: 30rem; margin: 0 auto; font-size: 1rem; line-height: 1.5;">Your centralized directory for campus resources, clubs, and peer-to-peer exchange.</p>
     </header>
 
     <!-- Master Directory Grid (Uniform Theme Colors) -->
-    <main class="grid-cards">
+    <!-- Note: CSS handles the columns, but inline styles force the 1.5rem (24px) 4-point gap -->
+    <main class="grid-cards" style="gap: 1.5rem; margin-bottom: 3rem;">
       
       <!-- Club Hub Card -->
       <a href="clubhub.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">groups</span>
-          <h2 style="margin: 0 0 8px;">Club Hub</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Browse and join active student organizations across campus.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">groups</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Club Hub</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Browse and join active student organizations across campus.</p>
         </article>
       </a>
 
       <!-- Calendar Card -->
       <a href="calendar.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">calendar_month</span>
-          <h2 style="margin: 0 0 8px;">Calendar</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">The master schedule for campus events, rush weeks, and finals.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">calendar_month</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Calendar</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">The master schedule for campus events, rush weeks, and finals.</p>
         </article>
       </a>
 
       <!-- Barter Bazar Card -->
       <a href="exchange.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">swap_horiz</span>
-          <h2 style="margin: 0 0 8px;">Barter Bazar</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Trade, sell, or lend textbooks, lab gear, and dorm supplies.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">swap_horiz</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Barter Bazar</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Trade, sell, or lend textbooks, lab gear, and dorm supplies.</p>
         </article>
       </a>
 
       <!-- Carpool Tool Card -->
       <a href="carpool.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">directions_car</span>
-          <h2 style="margin: 0 0 8px;">Carpool Tool</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Find ride-shares, split parking passes, and coordinate transit.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">directions_car</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Carpool Tool</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Find ride-shares, split parking passes, and coordinate transit.</p>
         </article>
       </a>
 
       <!-- Transfer Tools Card -->
       <a href="resources.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">account_balance</span>
-          <h2 style="margin: 0 0 8px;">Transfer Tools</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Access Stanford CCOP, Berkeley CCTS, and articulation guides.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">account_balance</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Transfer Tools</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Access Stanford CCOP, Berkeley CCTS, and articulation guides.</p>
         </article>
       </a>
 
       <!-- Anon Asks Card -->
       <a href="anon.html" class="clickable-card-link">
-        <article class="glass card-small" style="text-align: center; padding: 40px 24px; align-items: center;">
-          <span class="material-symbols-rounded" style="font-size: 48px; color: var(--primary-accent); margin-bottom: 16px;">campaign</span>
-          <h2 style="margin: 0 0 8px;">Anon Asks</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 14px;">Submit anonymous feedback, requests, and ideas to the ASB/ASG.</p>
+        <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">campaign</span>
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Anon Asks</h2>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Submit anonymous feedback, requests, and ideas to the ASB/ASG.</p>
         </article>
       </a>
 
     </main>
 
     <!-- Footer Signature Block -->
-    <footer class="sig-block glass">
+    <footer class="sig-block glass" style="margin-top: 2.5rem; padding: 1.75rem 2rem;">
       <div class="sig-info">
-        <h3>About</h3>
-        <div class="sig-role">For students, by students: an open-source campus initiative</div>
-        <p class="sig-text">Designed & maintained by Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)
+        <h3 style="margin: 0 0 0.25rem; font-size: 1.25rem;">About</h3>
+        <div class="sig-role" style="font-size: 0.75rem;">For students, by students: an open-source campus initiative</div>
+        <p class="sig-text" style="font-size: 0.875rem; margin: 0.5rem 0 0;">Designed & maintained by Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)
         <br>Special thanks to Rory West (WVC c/o 2027)</p>
       </div>
     </footer>
 
   </div>
 
-  <!-- THE GLOBAL NAV FAB -->
+  <!-- THE GLOBAL NAV FAB (Theme Button Removed) -->
   <div class="fab-container" id="fabContainer">
       <ul class="fab-menu">
           <li>
@@ -133,7 +134,6 @@
       </button>
   </div>
 
-  <!-- Link to javascript -->
   <script src="script.js"></script>
 </body>
 </html>
