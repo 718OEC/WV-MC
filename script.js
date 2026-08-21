@@ -219,3 +219,151 @@ function renderClubCards(clubs) {
                 </div>`;
     }).join('');
 }
+// ==========================================
+// --- BARTER BAZAAR FETCH & RENDER ENGINE ---
+// ==========================================
+
+const BARTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_p9Fsc15uSzA9NwUAO4Hzs2toy9FVeBohp8LQOgejqb0t_mJNKvfpKjm0YohEHaoguIpIMK2788Ii/pub?gid=651317423&single=true&output=csv";
+const BARTER_FORM_URL = "YOUR_GOOGLE_FORM_LINK_HERE"; // Update this!
+
+let barterData = [];
+
+window.initBarterBazaar = async function() {
+    const barterGrid = document.getElementById("barter-grid");
+    const barterSearch = document.getElementById("barter-search-input");
+    if (!barterGrid) return; // Abort if not on the Barter Bazaar page
+
+    try {
+        const response = await fetch(BARTER_CSV_URL);
+        const csvText = await response.text();
+        parseAndLoadBarterData(csvText);
+        
+        if (barterSearch) {
+            barterSearch.addEventListener("input", window.filterBarter);
+        }
+    } catch (error) {
+        console.error("Error fetching Barter Bazaar data:", error);
+        barterGrid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load trades. Please check your connection.</p>`;
+    }
+};
+
+function parseAndLoadBarterData(csvText) {
+    // Custom CSV parser to safely handle internal commas and line-breaks inside paragraph answers
+    const rows = [];
+    let row = [];
+    let inQuote = false;
+    let val = "";
+    
+    for (let i = 0; i < csvText.length; i++) {
+        let c = csvText[i];
+        let nc = csvText[i+1];
+        if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } // Escaped quote
+        else if (c === '"') { inQuote = !inQuote; }
+        else if (c === ',' && !inQuote) { row.push(val); val = ""; }
+        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
+        else if (c === '\r' && !inQuote) { /* Ignore \r */ }
+        else { val += c; }
+    }
+    if (val || row.length > 0) { row.push(val); rows.push(row); }
+
+    const now = new Date();
+    barterData = [];
+
+    // Skip the Google Sheet header row (i = 1)
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i];
+        if (cols.length < 5) continue; // Skip empty/broken rows
+        
+        const timestamp = new Date(cols[0]);
+        const campus = cols[1];
+        const lookingFor = cols[2];
+        const offering = cols[3];
+        const email = cols[4];
+
+        // 120-Day Auto-Expiration Check
+        const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
+        if (ageDays > 120) continue;
+
+        barterData.push({ timestamp, campus, lookingFor, offering, email });
+    }
+
+    // Sort newest to oldest
+    barterData.sort((a, b) => b.timestamp - a.timestamp);
+    window.filterBarter();
+}
+
+window.filterBarter = function() {
+    const searchInput = document.getElementById("barter-search-input");
+    const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    const filtered = barterData.filter(item => {
+        if (!term) return true;
+        return (item.campus.toLowerCase().includes(term) ||
+                item.lookingFor.toLowerCase().includes(term) ||
+                item.offering.toLowerCase().includes(term));
+    });
+
+    renderBarterCards(filtered);
+};
+
+function renderBarterCards(items) {
+    const grid = document.getElementById("barter-grid");
+    if (!grid) return;
+
+    // 1. The Permanent "Post a Trade (+)" CTA Card
+    const ctaCard = `
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 3rem 1.5rem;">
+        <div>
+            <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
+            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Post a Trade</h3>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Need a textbook or lab gear? Offer a trade to the campus community.</p>
+            <a href="${BARTER_FORM_URL}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%;">Create Listing</a>
+        </div>
+    </div>
+    `;
+
+    // 2. Build the live data cards
+    const cardsHtml = items.map(item => {
+        // Format date to e.g., "Aug 21"
+        const timeString = item.timestamp.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        
+        // Clean up the string slightly for the email body so it doesn't break the mailto link
+        const safeLookingFor = item.lookingFor.replace(/[\n\r"]/g, ' ').substring(0, 60) + '...';
+        
+        // URL Encode the email content securely
+        const mailtoSubject = encodeURIComponent("Barter Bazaar Inquiry");
+        const mailtoBody = encodeURIComponent(`Hi! I saw your post on the Student Hub Barter Bazaar regarding:\n\n"Looking For: ${safeLookingFor}"\n\nI'm interested in working out a trade!`);
+        
+        return `
+        <div class="glass card-small">
+            <div>
+                <div class="card-header-row" style="margin-bottom: 1rem; align-items: center;">
+                    <span class="badge badge-school">${item.campus || 'WVM'}</span>
+                    <span style="font-size: 0.75rem; color: var(--text-sub); font-weight: 600;">${timeString}</span>
+                </div>
+                
+                <div style="margin-bottom: 1.25rem;">
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary-accent); margin-bottom: 0.375rem;">Looking For</div>
+                    <div style="font-size: 1.125rem; font-weight: 600; color: var(--text-main); white-space: pre-wrap; word-wrap: break-word; line-height: 1.3;">${item.lookingFor}</div>
+                </div>
+                
+                <hr style="border: 0; height: 1px; background: var(--glass-border); width: 100%; margin: 0 0 1.25rem 0;">
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--primary-accent); margin-bottom: 0.375rem;">Willing to Trade</div>
+                    <div style="font-size: 0.9375rem; color: var(--text-sub); white-space: pre-wrap; word-wrap: break-word;">${item.offering}</div>
+                </div>
+            </div>
+            
+            <div class="card-actions">
+                <a href="mailto:${item.email}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn btn-secondary" style="width: 100%;">
+                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Make Offer
+                </a>
+            </div>
+        </div>
+        `;
+    }).join('');
+
+    // Render CTA first, followed by active trades
+    grid.innerHTML = ctaCard + cardsHtml;
+}
