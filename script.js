@@ -38,17 +38,17 @@ function initializeApp() {
         if (mediaQuery.addEventListener) mediaQuery.addEventListener('change', applyTheme);
         else if (mediaQuery.addListener) mediaQuery.addListener(applyTheme); 
     } catch(e) { console.warn("Theme engine fallback:", e); }
-
     // 2. Wire up Start Club Button
     const startClubBtn = document.getElementById("start-club-btn");
     if (startClubBtn) startClubBtn.href = wvClubFormUrl;
-    
     // 3. Wire up Search & Grid
     const searchInput = document.getElementById("search-input");
     const clubGrid = document.getElementById("club-grid");
     if (searchInput && clubGrid) {
         searchInput.addEventListener("input", window.filterClubs);
         window.filterClubs(); // Initial render
+    // 4. Initialize Barter Bazaar (if on the page)
+    if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
     }
 }
 
