@@ -365,13 +365,13 @@ function renderBarterCards(items) {
                 <hr style="border: 0; height: 1px; background: var(--glass-border); width: 100%; margin: 0 0 1.25rem 0;">
                 
                 <div style="margin-bottom: 1.5rem;">
-                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--primary-accent); margin-bottom: 0.375rem;">Willing to Trade</div>
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sub); margin-bottom: 0.375rem;">Willing to Trade</div>
                     <div style="font-size: 0.9375rem; color: var(--text-sub); white-space: pre-wrap; word-wrap: break-word;">${item.offering}</div>
                 </div>
             </div>
             
             <div class="card-actions">
-                <a href="mailto:${item.email}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn btn-secondary" style="width: 100%;">
+                <a href="mailto:${item.email}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn btn-primary" style="width: 100%;">
                     <span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Make Offer
                 </a>
             </div>
