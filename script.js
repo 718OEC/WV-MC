@@ -224,7 +224,7 @@ function renderClubCards(clubs) {
 // ==========================================
 
 const BARTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_p9Fsc15uSzA9NwUAO4Hzs2toy9FVeBohp8LQOgejqb0t_mJNKvfpKjm0YohEHaoguIpIMK2788Ii/pub?gid=651317423&single=true&output=csv";
-const BARTER_FORM_URL = "https://forms.gle/YhmgPJutQ7C4SBU38";
+const BARTER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdTLw7H3wsQYcHC-W8r0urW-0SQ571timjCm2G9PE80-NfFOA/viewform?usp=dialog";
 
 let barterData = [];
 
