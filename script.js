@@ -224,7 +224,7 @@ function renderClubCards(clubs) {
 // ==========================================
 
 const BARTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_p9Fsc15uSzA9NwUAO4Hzs2toy9FVeBohp8LQOgejqb0t_mJNKvfpKjm0YohEHaoguIpIMK2788Ii/pub?gid=651317423&single=true&output=csv";
-const BARTER_FORM_URL = "YOUR_GOOGLE_FORM_LINK_HERE"; // Update this!
+const BARTER_FORM_URL = "https://forms.gle/YhmgPJutQ7C4SBU38";
 
 let barterData = [];
 
