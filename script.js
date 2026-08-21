@@ -231,8 +231,6 @@ function renderClubCards(clubs) {
 // --- BARTER BAZAAR ENGINE ---
 // ==========================================
 const BARTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_p9Fsc15uSzA9NwUAO4Hzs2toy9FVeBohp8LQOgejqb0t_mJNKvfpKjm0YohEHaoguIpIMK2788Ii/pub?gid=651317423&single=true&output=csv";
-
-// IMPORTANT: Replace this with your actual live Google Form link!
 const BARTER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdTLw7H3wsQYcHC-W8r0urW-0SQ571timjCm2G9PE80-NfFOA/viewform?usp=dialog"; 
 
 let barterData = [];
@@ -283,10 +281,13 @@ function parseAndLoadBarterData(csvText) {
         if (cols.length < 5) continue; 
         
         const timestamp = new Date(cols[0]);
-        const campus = cols[1];
-        const lookingFor = cols[2];
-        const offering = cols[3];
-        const email = cols[4];
+        // cols[1] is the auto-collected regular email, so we skip it!
+        const campus = cols[2] || "WV";
+        const lookingFor = cols[3] || "";
+        const offering = cols[4] || "";
+        
+        // Dynamically grabs the very last column for the CONFIRM school email
+        const email = cols[cols.length - 1] || cols[5] || ""; 
 
         // 120-Day Expire Check
         const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
@@ -333,11 +334,26 @@ function renderBarterCards(items) {
         const mailtoSubject = encodeURIComponent("Barter Bazaar Inquiry");
         const mailtoBody = encodeURIComponent(`Hi! I saw your post on the Student Hub Barter Bazaar regarding:\n\n"Looking For: ${safeLookingFor}"\n\nI'm interested in working out a trade!`);
         
+        // --- Dynamic Campus Pill Logic ---
+        let campusBadgesHtml = '';
+        const cStr = item.campus.toLowerCase();
+        
+        if (cStr.includes('both')) {
+            campusBadgesHtml = `
+                <span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>
+                <span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>
+            `;
+        } else if (cStr.includes('mission') || cStr.includes('mc')) {
+            campusBadgesHtml = `<span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>`;
+        } else {
+            campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>`;
+        }
+        
         return `
         <div class="glass card-small">
             <div>
                 <div class="card-header-row" style="margin-bottom: 1rem; align-items: center;">
-                    <span class="badge badge-school">${item.campus || 'WVM'}</span>
+                    <div style="display: flex; gap: 4px;">${campusBadgesHtml}</div>
                     <span style="font-size: 0.75rem; color: var(--text-sub); font-weight: 600;">${timeString}</span>
                 </div>
                 
