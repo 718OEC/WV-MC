@@ -1,10 +1,10 @@
-/* --- OFFICIAL BRAND PALETTES --- */
+/* --- OFFICIAL BRAND PALETTES & LIQUID GLASS VARIABLES --- */
 :root {
   /* West Valley Colors */
   --wvc-blue: #14325F;
   --wvc-blue-light: #B7CCEA;
   --viking-orange: #F86516;
-  --wvc-charcoal: #404040;
+  --wvc-charcoal: #333D4F; /* Softened from #404040 for better contrast on blue glass */
 
   /* Mission College Colors */
   --mc-teal: #0C7799;
@@ -17,16 +17,18 @@
   --primary-light: var(--wvc-blue-light);
   --secondary-accent: var(--viking-orange);
 
-  /* Light Mode UI Mapping */
-  --page-bg: #F5F7FA;
+  /* Light Mode UI Mapping (Surface Tinting) */
+  --page-bg: #EBF1F8; /* Soft blue-tinted background so the glass pops */
   --text-main: var(--wvc-charcoal);
-  --text-sub: #667085;
+  --text-sub: #546682;
 
-  --glass-panel: rgba(255, 255, 255, 0.85);
+  /* Colored Liquid Glass (Replaces stark white) */
+  --glass-panel: rgba(183, 204, 234, 0.45); /* Frosty blue tinted glass for cards */
+  --glass-fab: rgba(183, 204, 234, 0.25);   /* Extra transparent for the FAB */
   --glass-border: rgba(20, 50, 95, 0.12);
-  --glass-shadow: 0 4px 24px rgba(20, 50, 95, 0.06);
-  --blur-amt: blur(20px);
-  --toggle-bg: rgba(20, 50, 95, 0.08);
+  --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.08); /* Softer, wider HIG shadow */
+  --blur-amt: blur(24px); /* Boosted blur for true Liquid Glass */
+  --toggle-bg: rgba(20, 50, 95, 0.06);
 }
 
 /* --- MISSION COLLEGE THEME OVERRIDE --- */
@@ -34,7 +36,12 @@ body.theme-mc {
   --primary-accent: var(--mc-teal);
   --primary-light: var(--mc-teal-light);
   --secondary-accent: var(--mc-orange);
+  
+  --page-bg: #EFF7FA; /* Soft teal-tinted background */
+  --glass-panel: rgba(12, 119, 153, 0.12); /* Frosty teal tinted glass */
+  --glass-fab: rgba(12, 119, 153, 0.08);
   --glass-border: rgba(12, 119, 153, 0.15);
+  --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
 
 /* --- DARK MODE OVERRIDES --- */
@@ -42,21 +49,26 @@ body.dark-mode {
   --page-bg: #091322;
   --text-main: #FFFFFF;
   --text-sub: #B7CCEA;
-  --glass-panel: rgba(20, 50, 95, 0.45);
-  --glass-border: rgba(86, 131, 186, 0.3);
-  --glass-shadow: none;
-  --toggle-bg: rgba(183, 204, 234, 0.18);
+  
+  --glass-panel: rgba(20, 50, 95, 0.35); /* Deep translucent blue */
+  --glass-fab: rgba(20, 50, 95, 0.20);   /* Highly transparent dark FAB */
+  --glass-border: rgba(86, 131, 186, 0.25);
+  --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.35); /* Deeper shadow for dark depth */
+  --toggle-bg: rgba(183, 204, 234, 0.15);
 }
 
 body.theme-mc.dark-mode {
-  --page-bg: #031520; /* Deep Navy for MC Dark Mode */
+  --page-bg: #031520; 
   --text-sub: #A8D8EA;
-  --glass-panel: rgba(0, 55, 98, 0.45);
-  --glass-border: rgba(12, 119, 153, 0.4);
+  
+  --glass-panel: rgba(0, 55, 98, 0.35);
+  --glass-fab: rgba(0, 55, 98, 0.20);
+  --glass-border: rgba(12, 119, 153, 0.35);
   --toggle-bg: rgba(12, 119, 153, 0.2);
+  --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
-/* Global Resets */
+/* --- GLOBAL RESETS & TYPOGRAPHY --- */
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
 
@@ -79,6 +91,7 @@ body {
   padding: 40px 20px 120px;
 }
 
+/* Universal Card Glass Engine */
 .glass {
   background: var(--glass-panel);
   backdrop-filter: var(--blur-amt);
@@ -86,10 +99,10 @@ body {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 24px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hero Section */
+/* --- HERO & TITLES --- */
 .hero {
   text-align: center;
   margin-bottom: 24px;
@@ -100,7 +113,27 @@ body {
   align-items: center;
 }
 
-/* --- iOS Toggle (Campus Switcher) --- */
+.subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--secondary-accent);
+  margin: 0 0 8px;
+  transition: color 0.3s ease;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 24px;
+  padding: 0 16px; 
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+/* --- IOS TOGGLE (CAMPUS SWITCHER) --- */
 .ios-toggle {
   display: inline-flex;
   background: var(--toggle-bg);
@@ -149,36 +182,10 @@ body.dark-mode .ios-toggle::before {
   text-align: center;
 }
 
-.toggle-opt.active {
+.toggle-opt.active, body.dark-mode .toggle-opt.active {
   color: #FFFFFF;
   background: transparent; 
   box-shadow: none;        
-}
-
-body.dark-mode .toggle-opt.active {
-  color: #FFFFFF;
-  background: transparent;
-}
-
-/* Titles */
-.subtitle {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--secondary-accent);
-  margin: 0 0 8px;
-  transition: color 0.3s ease;
-}
-
-.hero h1 {
-  font-size: clamp(28px, 6vw, 48px);
-  font-weight: 800;
-  color: var(--text-main);
-  margin: 0 0 24px;
-  padding: 0 16px; 
-  letter-spacing: -0.02em;
-  line-height: 1.15;
 }
 
 /* --- MAIN NAVIGATION FAB (Bottom Right) --- */
@@ -197,12 +204,11 @@ body.dark-mode .toggle-opt.active {
     width: 56px; 
     height: 56px;
     border-radius: 50%;
-    /* Frosted Liquid Glass */
-    background: var(--glass-panel);
-    backdrop-filter: var(--blur-amt);
-    -webkit-backdrop-filter: var(--blur-amt);
+    /* Extra Transparent FAB Glass */
+    background: var(--glass-fab);
+    backdrop-filter: var(--blur-amt) saturate(180%);
+    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
-    /* Dynamically Charcoal in Light Mode, WHITE in Dark Mode */
     color: var(--text-main); 
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
@@ -216,7 +222,6 @@ body.dark-mode .toggle-opt.active {
 
 .fab-main:hover { 
     transform: scale(1.08) translateY(-4px); 
-    /* Changes icon and border to Viking Orange on hover */
     color: var(--secondary-accent); 
     border-color: var(--secondary-accent);
 }
@@ -226,35 +231,25 @@ body.dark-mode .toggle-opt.active {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Rotates the compass icon to an 'X' when open */
-.fab-container.active .fab-main span { 
-    transform: rotate(180deg); 
-}
-
-/* --- THE ACTIVE FAB BUTTON --- */
-/* Locks the glass effect and orange highlight when the menu is open */
+/* Spin to X and lock color when active */
+.fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main {
-    background: var(--glass-panel);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-color: var(--secondary-accent);
     color: var(--secondary-accent);
 }
 
-/* --- THE POP-UP LIQUID GLASS MENU --- */
+/* THE POP-UP LIQUID GLASS MENU */
 .fab-menu {
     list-style: none;
     padding: 0; 
     margin: 0;
     
-    /* Enhanced Liquid Glass Legibility */
-    background: var(--glass-panel);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: var(--glass-fab);
+    backdrop-filter: var(--blur-amt) saturate(180%);
+    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
     border: 1px solid var(--glass-border);
-    /* Softer, wider drop shadow to lift it off the page */
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12); 
+    box-shadow: var(--glass-shadow); 
     border-radius: 16px;
     overflow: hidden;
     
@@ -266,24 +261,14 @@ body.dark-mode .toggle-opt.active {
     min-width: 200px;
 }
 
-/* Dark mode needs a stronger shadow so the glass doesn't blend into the dark page */
-body.dark-mode .fab-menu {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-}
-
 .fab-container.active .fab-menu {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: all;
 }
 
-.fab-menu li { 
-    border-bottom: 1px solid var(--glass-border); 
-}
-
-.fab-menu li:last-child { 
-    border-bottom: none; 
-}
+.fab-menu li { border-bottom: 1px solid var(--glass-border); }
+.fab-menu li:last-child { border-bottom: none; }
 
 .fab-menu a, .fab-menu button {
     display: flex; 
@@ -313,26 +298,7 @@ body.dark-mode .fab-menu {
     font-size: 20px; 
 }
 
-/* --- DIRECTORY CARD FIX --- */
-.clickable-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  height: 100%;
-}
-
-/* --- THEME TOGGLE ANIMATION (Nested in Menu) --- */
-#themeIcon {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
-  display: inline-block;
-}
-
-#themeIcon.spin-out {
-  transform: rotate(180deg) scale(0.5);
-  opacity: 0;
-}
-
-/* Search & Filters */
+/* --- SEARCH & FILTERS --- */
 .search-box {
   display: flex;
   align-items: center;
@@ -374,9 +340,7 @@ body.dark-mode .fab-menu {
   scrollbar-width: none; 
 }
 
-.filter-row::-webkit-scrollbar {
-  display: none; 
-}
+.filter-row::-webkit-scrollbar { display: none; }
 
 .filter-pills {
   display: flex;
@@ -403,7 +367,7 @@ body.dark-mode .fab-menu {
   border-color: var(--secondary-accent);
 }
 
-/* Card Grid Layout */
+/* --- CARD GRID LAYOUT --- */
 .grid-cards {
   display: grid;
   grid-template-columns: 1fr;
@@ -418,13 +382,19 @@ body.dark-mode .fab-menu {
   .grid-cards { grid-template-columns: repeat(3, 1fr); gap: 24px; }
 }
 
-/* Card Component Styling */
+/* --- CARD COMPONENT STYLING --- */
+.clickable-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  height: 100%;
+}
+
 .card-small {
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-small:hover { transform: translateY(-4px); }
@@ -487,13 +457,7 @@ body.dark-mode .fab-menu {
   transition: opacity 0.2s ease;
 }
 
-.social-link:hover {
-  opacity: 0.7;
-}
-
-.card-actions .btn-primary {
-  width: 100%; 
-}
+.social-link:hover { opacity: 0.7; }
 
 .badge {
   font-size: 11px;
@@ -550,9 +514,7 @@ body.dark-mode .badge-category {
   color: var(--text-sub);
 }
 
-.contact-item:last-child {
-  margin-bottom: 0;
-}
+.contact-item:last-child { margin-bottom: 0; }
 
 .contact-icon {
   font-size: 18px; 
@@ -576,6 +538,11 @@ body.dark-mode .badge-category {
   gap: 10px;
 }
 
+.card-actions .btn-primary {
+  width: 100%; 
+}
+
+/* --- BUTTONS --- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -610,6 +577,7 @@ body.dark-mode .btn-primary {
   border: 1px solid var(--glass-border);
 }
 
+/* --- CALLOUTS & FOOTER --- */
 .callout-box {
   padding: 36px 24px;
   text-align: center;
