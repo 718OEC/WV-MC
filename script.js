@@ -71,36 +71,21 @@ if (document.readyState === 'loading') {
 // ==========================================
 window.switchCampus = function(campusCode, btnElement) {
     activeCampus = campusCode.toUpperCase();
+    
     document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
 
     const titleEl = document.getElementById("college-title");
-    const calloutDesc = document.getElementById("callout-desc");
-    const calloutBtn = document.getElementById("start-club-btn");
-    const calloutIcon = document.getElementById("callout-icon");
-    const calloutBtnText = document.getElementById("callout-btn-text");
 
+    // The old CTA logic has been removed here, as it's now handled entirely by the render engine!
     if (activeCampus === 'WV') {
         document.body.classList.remove('theme-mc');
         if (titleEl) titleEl.innerText = "West Valley Clubs";
-        if (calloutBtn) {
-            calloutDesc.innerHTML = "Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.";
-            calloutBtn.href = wvClubFormUrl;
-            calloutBtn.target = "_blank";
-            calloutIcon.innerText = "rocket_launch";
-            calloutBtnText.innerText = "Start a New Club";
-        }
     } else {
         document.body.classList.add('theme-mc');
         if (titleEl) titleEl.innerText = "Mission College Clubs";
-        if (calloutBtn) {
-            calloutDesc.innerHTML = "Contact Yesenia Melgoza (Student Life Program Analyst) to start a new club at Mission College.<br><br><strong>📞 (408) 855-5406</strong>";
-            calloutBtn.href = "mailto:yesenia.melgoza@missioncollege.edu";
-            calloutBtn.target = "_self";
-            calloutIcon.innerText = "mail";
-            calloutBtnText.innerText = "Email Yesenia";
-        }
     }
+    
     window.filterClubs();
 };
 
@@ -154,8 +139,31 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
+    // 1. Dynamic CTA Card Logic based on Campus
+    let ctaCardHtml = '';
+    if (activeCampus === 'WV') {
+        ctaCardHtml = `
+        <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 3rem 1.5rem;">
+            <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
+            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Start a New Club</h3>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.</p>
+            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%;">Apply Now</a>
+        </div>
+        `;
+    } else {
+        ctaCardHtml = `
+        <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 3rem 1.5rem;">
+            <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">mail</span>
+            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Start a New Club</h3>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Contact Yesenia Melgoza (Student Life Program Analyst) to start a new club at Mission College.</p>
+            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%;">Email Yesenia</a>
+        </div>
+        `;
+    }
+
+    // 2. Empty State Check (Still shows the CTA even if no clubs match the search)
     if (!clubs || clubs.length === 0) {
-        grid.innerHTML = `
+        grid.innerHTML = ctaCardHtml + `
         <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
             <h3>No clubs found</h3>
             <p class="card-contact">Try adjusting your search query or switching categories.</p>
@@ -163,7 +171,8 @@ function renderClubCards(clubs) {
         return;
     }
 
-    grid.innerHTML = clubs.map(club => {
+    // 3. Build the actual club cards
+    const cardsHtml = clubs.map(club => {
         const initials = club.initials || "CLUB";
         const emailStr = club.email || "";
         const primaryEmail = emailStr.split(' ')[0] || "";
@@ -225,6 +234,9 @@ function renderClubCards(clubs) {
             </div>
         </div>`;
     }).join('');
+
+    // 4. Inject CTA followed by Club Cards
+    grid.innerHTML = ctaCardHtml + cardsHtml;
 }
 
 // ==========================================
