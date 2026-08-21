@@ -146,7 +146,7 @@ function renderClubCards(clubs) {
         <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
             <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
             <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Launch your own organization. It takes less than 5 minutes to submit an official proposal to your ASG.</p>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Start your own club!.</p>
             <div style="width: 100%; display: flex; justify-content: center;">
                 <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1.5rem;">Apply Now</a>
             </div>
