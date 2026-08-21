@@ -203,8 +203,16 @@ function renderClubCards(clubs) {
     }
     const socialsBlock = socialsHtml ? `<div class="card-socials" style="display: flex; gap: 16px; margin-top: 12px; margin-bottom: 20px;">${socialsHtml}</div>` : '';
     
-    // Check config for fallback signup
-    let formUrl = club.signUpForm || "#";
+    // Intelligent Action Button Logic (Replaces the old default form link)
+    let actionBtnHtml = '';
+    if (club.signUpForm) {
+      // 1. If they have a specific form, use it
+      actionBtnHtml = `<a href="${club.signUpForm}" target="_blank" class="btn btn-primary">Sign Up</a>`;
+    } else if (primaryEmail) {
+      // 2. If no form but they have an email, turn it into a direct contact button
+      actionBtnHtml = `<a href="mailto:${primaryEmail}" class="btn btn-primary">Email to Join</a>`;
+    }
+    // 3. If neither exists, actionBtnHtml remains empty so no broken button is drawn
 
     return `
       <div class="glass card-small">
@@ -242,12 +250,12 @@ function renderClubCards(clubs) {
         </div>
         
         <div class="card-actions">
-          <a href="${formUrl}" target="_blank" class="btn btn-primary">Sign Up</a>
+          ${actionBtnHtml}
         </div>
       </div>
     `;
   }).join('');
-}  
+}
   initTheme();
   
   document.getElementById("search-input").addEventListener("input", (e) => {
