@@ -237,7 +237,6 @@ function renderClubCards(clubs) {
     // 4. Inject CTA followed by Club Cards
     grid.innerHTML = ctaCardHtml + cardsHtml;
 }
-
 // ==========================================
 // --- BARTER BAZAAR ENGINE ---
 // ==========================================
@@ -271,14 +270,13 @@ function parseAndLoadBarterData(csvText) {
     let inQuote = false;
     let val = "";
     
-    // Custom CSV parser handling escaped quotes, commas, and line breaks
     for (let i = 0; i < csvText.length; i++) {
         let c = csvText[i];
         let nc = csvText[i+1];
         if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } 
         else if (c === '"') { inQuote = !inQuote; }
         else if (c === ',' && !inQuote) { row.push(val); val = ""; }
-        else if (c === '\n' && !inQuote) { rows.push(row); row = []; val = ""; }
+        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
         else if (c === '\r' && !inQuote) { /* ignore */ }
         else { val += c; }
     }
@@ -293,12 +291,12 @@ function parseAndLoadBarterData(csvText) {
         if (cols.length < 5) continue; 
         
         const timestamp = new Date(cols[0]);
-        const email = cols[1] || "";        // Auto-captured SSO Email
-        const campus = cols[2] || "WV";      // Q1: Campus
-        const lookingFor = cols[3] || "";  // Q2: Procuring
-        const offering = cols[4] || "";    // Q3: Offering
-
-        // 120-Day Auto-Expiration Check
+        const email = cols[1] || "";        // Column B: SSO Email
+        const campus = cols[2] || "WV";     // Column C: Campus
+        const lookingFor = cols[3] || "";   // Column D: Procuring
+        const offering = cols[4] || "";     // Column E: Offering
+        
+        // 120-Day Expire Check
         const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
         if (ageDays > 120) continue;
 
