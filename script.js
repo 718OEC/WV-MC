@@ -60,7 +60,6 @@ if (document.readyState === 'loading') {
 
 // --- CLUB HUB ENGINE ---
 window.filterCampus = function(campus, button) {
-    // Only toggle active classes for the campus row
     document.querySelectorAll('#campus-pills .pill').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
     activeCampus = campus;
@@ -68,7 +67,6 @@ window.filterCampus = function(campus, button) {
 };
 
 window.filterCategory = function(category, button) {
-    // Only toggle active classes for the category row
     document.querySelectorAll('#category-pills .pill').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
     activeCategory = category;
@@ -101,7 +99,7 @@ window.filterClubs = function() {
         const matchesCategory = (activeCategory === 'All' || cats.includes(activeCategory));
         if (!matchesCategory) return false;
 
-        // 3. Check Text Search (Now checks school code as well)
+        // 3. Check Text Search
         const catSearchString = cats.join(' ').toLowerCase();
         const matchesSearch = !term || 
         name.toLowerCase().includes(term) ||
@@ -116,6 +114,13 @@ window.filterClubs = function() {
         return matchesSearch;
     });
 
+    // 4. ALPHABETICAL SORTING MAGIC
+    filtered.sort((a, b) => {
+        const nameA = a.name || "";
+        const nameB = b.name || "";
+        return nameA.localeCompare(nameB);
+    });
+
     renderClubCards(filtered);
 };
 
@@ -123,8 +128,7 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // Build the individual CTAs
-   // 1. Unified CTA Card
+    // 1. Unified CTA Card
     const unifiedCtaHtml = `
     <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
         
@@ -160,15 +164,6 @@ function renderClubCards(clubs) {
     // 2. Empty State Check
     if (!clubs || clubs.length === 0) {
         grid.innerHTML = unifiedCtaHtml + `
-        <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
-            <h3>No clubs found</h3>
-            <p class="card-contact">Try adjusting your search query or switching categories.</p>
-        </div>`;
-        return;
-    }
-
-    if (!clubs || clubs.length === 0) {
-        grid.innerHTML = activeCTAs + `
         <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
             <h3>No clubs found</h3>
             <p class="card-contact">Try adjusting your search query or switching categories.</p>
@@ -241,7 +236,7 @@ function renderClubCards(clubs) {
         </div>`;
     }).join('');
 
-    grid.innerHTML = activeCTAs + cardsHtml;
+    grid.innerHTML = unifiedCtaHtml + cardsHtml;
 }
 
 // ==========================================
