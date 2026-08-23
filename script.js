@@ -135,14 +135,27 @@ function renderClubCards(clubs) {
     </div>
     `;
     
-    const mcCtaHtml = `
-    <div class="glass card-small theme-mc" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(234, 115, 11, 0.05); padding: 2.5rem 1.5rem;">
-        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">mail</span>
-        <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start an MC Club</h3>
-        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Contact Student Life to start a new club.</p>
+   const mcCtaHtml = `
+    <div class="glass card-small theme-mc" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(234, 115, 11, 0.05); padding: 2.25rem 1.5rem;">
+        
+        <!-- Profile Picture Container -->
+        <div style="width: 72px; height: 72px; border-radius: 18px; background: var(--primary-light); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; overflow: hidden; border: 2px solid var(--secondary-accent);">
+            <!-- To use her actual photo, replace the span below with: <img src="yesenia.jpg" style="width:100%; height:100%; object-fit:cover;"> -->
+            <span class="material-symbols-rounded" style="font-size: 2.5rem;">support_agent</span>
+        </div>
+
+        <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent); font-size: 1.25rem;">Start an MC Club</h3>
+        
+        <!-- Contact Details -->
+        <div style="margin-bottom: 1.25rem; width: 100%;">
+            <div style="font-size: 0.9375rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.125rem;">Yesenia Melgoza</div>
+            <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-sub);">Student Life Program Analyst</div>
+        </div>
+
+        <!-- Action Buttons -->
         <div style="width: 100%; display: flex; gap: 0.5rem; justify-content: center;">
-            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1rem; font-size: 0.8125rem;">Email</a>
-            <a href="tel:4088555406" class="btn btn-secondary" style="padding: 0.625rem 1rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span></a>
+            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 0; font-size: 0.8125rem; flex: 1;">Email Yesenia</a>
+            <a href="tel:4088555406" class="btn btn-secondary" style="padding: 0.625rem 0; font-size: 0.8125rem; flex: 1;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span> Call</a>
         </div>
     </div>
     `;
