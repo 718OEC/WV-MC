@@ -21,11 +21,11 @@ document.addEventListener('click', function(event) {
 });
 
 let activeCategory = 'All';
+let activeCampus = 'All'; // Now defaults to showing everything
 const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
 
 // --- MASTER INITIALIZATION ENGINE ---
 function initializeApp() {
-    // 1. Initialize System Theme
     try {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const applyTheme = (e) => {
@@ -37,19 +37,16 @@ function initializeApp() {
         else if (mediaQuery.addListener) mediaQuery.addListener(applyTheme); 
     } catch(e) { console.warn("Theme engine fallback:", e); }
 
-    // 2. Wire up Start Club Button (Club Hub)
     const startClubBtn = document.getElementById("start-club-btn");
     if (startClubBtn) startClubBtn.href = wvClubFormUrl;
     
-    // 3. Wire up Search & Grid (Club Hub)
     const searchInput = document.getElementById("search-input");
     const clubGrid = document.getElementById("club-grid");
     if (searchInput && clubGrid) {
         searchInput.addEventListener("input", window.filterClubs);
-        window.filterClubs(); // Initial render
+        window.filterClubs(); 
     }
 
-    // 4. Initialize Barter Bazaar (if on the page)
     if (typeof window.initBarterBazaar === 'function') {
         window.initBarterBazaar();
     }
@@ -62,8 +59,17 @@ if (document.readyState === 'loading') {
 }
 
 // --- CLUB HUB ENGINE ---
+window.filterCampus = function(campus, button) {
+    // Only toggle active classes for the campus row
+    document.querySelectorAll('#campus-pills .pill').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    activeCampus = campus;
+    window.filterClubs();
+};
+
 window.filterCategory = function(category, button) {
-    document.querySelectorAll('.pill').forEach(btn => btn.classList.remove('active'));
+    // Only toggle active classes for the category row
+    document.querySelectorAll('#category-pills .pill').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
     activeCategory = category;
     window.filterClubs();
@@ -83,13 +89,19 @@ window.filterClubs = function() {
         const email = club.email || "";
         const professor = club.professor || "";
         const desc = club.desc || "";
+        const school = club.school || ""; 
         
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []); 
 
+        // 1. Check Campus Filter
+        if (activeCampus !== 'All' && school.toUpperCase() !== activeCampus) return false;
+
+        // 2. Check Category Filter
         const matchesCategory = (activeCategory === 'All' || cats.includes(activeCategory));
         if (!matchesCategory) return false;
 
+        // 3. Check Text Search (Now checks school code as well)
         const catSearchString = cats.join(' ').toLowerCase();
         const matchesSearch = !term || 
         name.toLowerCase().includes(term) ||
@@ -98,7 +110,8 @@ window.filterClubs = function() {
         email.toLowerCase().includes(term) ||
         catSearchString.includes(term) ||
         professor.toLowerCase().includes(term) ||
-        desc.toLowerCase().includes(term);
+        desc.toLowerCase().includes(term) ||
+        school.toLowerCase().includes(term);
 
         return matchesSearch;
     });
@@ -110,7 +123,7 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // 1. Dual CTA Cards for Unified Feed
+    // Build the individual CTAs
     const wvCtaHtml = `
     <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
         <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
@@ -134,9 +147,14 @@ function renderClubCards(clubs) {
     </div>
     `;
 
-    // 2. Empty State Check
+    // Dynamically show the correct CTAs based on the active campus filter
+    let activeCTAs = '';
+    if (activeCampus === 'WV') activeCTAs = wvCtaHtml;
+    else if (activeCampus === 'MC') activeCTAs = mcCtaHtml;
+    else activeCTAs = wvCtaHtml + mcCtaHtml;
+
     if (!clubs || clubs.length === 0) {
-        grid.innerHTML = wvCtaHtml + mcCtaHtml + `
+        grid.innerHTML = activeCTAs + `
         <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
             <h3>No clubs found</h3>
             <p class="card-contact">Try adjusting your search query or switching categories.</p>
@@ -144,7 +162,6 @@ function renderClubCards(clubs) {
         return;
     }
 
-    // 3. Build the actual club cards
     const cardsHtml = clubs.map(club => {
         const initials = club.initials || "CLUB";
         const emailStr = club.email || "";
@@ -179,7 +196,6 @@ function renderClubCards(clubs) {
             actionBtnHtml = `<a href="mailto:${primaryEmail}" class="btn btn-primary">Email to Join</a>`;
         }
 
-        // DYNAMIC THEME INJECTION 
         const isMC = club.school === 'MC' || club.school === 'Mission';
 
         return `
@@ -211,8 +227,7 @@ function renderClubCards(clubs) {
         </div>`;
     }).join('');
 
-    // 4. Inject Dual CTAs followed by Club Cards
-    grid.innerHTML = wvCtaHtml + mcCtaHtml + cardsHtml;
+    grid.innerHTML = activeCTAs + cardsHtml;
 }
 
 // ==========================================
