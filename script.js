@@ -21,7 +21,6 @@ document.addEventListener('click', function(event) {
 });
 
 let activeCategory = 'All';
-let activeCampus = 'WV';
 const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
 
 // --- MASTER INITIALIZATION ENGINE ---
@@ -63,26 +62,6 @@ if (document.readyState === 'loading') {
 }
 
 // --- CLUB HUB ENGINE ---
-window.switchCampus = function(campusCode, btnElement) {
-    activeCampus = campusCode.toUpperCase();
-    
-    document.querySelectorAll('.ios-toggle .toggle-opt').forEach(btn => btn.classList.remove('active'));
-    btnElement.classList.add('active');
-
-    const titleEl = document.getElementById("college-title");
-
-    // The old CTA logic has been removed here, as it's now handled entirely by the render engine!
-    if (activeCampus === 'WV') {
-        document.body.classList.remove('theme-mc');
-        if (titleEl) titleEl.innerText = "West Valley Clubs";
-    } else {
-        document.body.classList.add('theme-mc');
-        if (titleEl) titleEl.innerText = "Mission College Clubs";
-    }
-    
-    window.filterClubs();
-};
-
 window.filterCategory = function(category, button) {
     document.querySelectorAll('.pill').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
@@ -98,7 +77,6 @@ window.filterClubs = function() {
     const dataToFilter = typeof allClubsData !== 'undefined' ? allClubsData : [];
 
     const filtered = dataToFilter.filter(club => {
-        const school = club.school || "";
         const name = club.name || "";
         const initials = club.initials || "";
         const president = club.president || "";
@@ -109,7 +87,6 @@ window.filterClubs = function() {
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []); 
 
-        if (school.toUpperCase() !== activeCampus) return false;
         const matchesCategory = (activeCategory === 'All' || cats.includes(activeCategory));
         if (!matchesCategory) return false;
 
@@ -133,36 +110,33 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // 1. Dynamic CTA Card Logic based on Campus
-    let ctaCardHtml = '';
-    if (activeCampus === 'WV') {
-        ctaCardHtml = `
-        <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
-            <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
-            <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Can't find the right community? Start your own club!</p>
-            <div style="width: 100%; display: flex; justify-content: center;">
-                <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1.5rem;">Apply Now</a>
-            </div>
+    // 1. Dual CTA Cards for Unified Feed
+    const wvCtaHtml = `
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
+        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
+        <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start a WV Club</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Submit an official proposal to your ASG.</p>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1.5rem;">Apply Now</a>
         </div>
-        `;
-    } else {
-        ctaCardHtml = `
-        <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
-            <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">mail</span>
-            <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Contact Yesenia Melgoza (Student Life Program Analyst) to start a new club at Mission College.</p>
-            <div style="width: 100%; display: flex; gap: 0.5rem; justify-content: center;">
-                <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1rem; font-size: 0.8125rem;">Email Yesenia</a>
-                <a href="tel:4088555406" class="btn btn-secondary" style="padding: 0.625rem 1rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span> Call (408) 855-5406</a>
-            </div>
+    </div>
+    `;
+    
+    const mcCtaHtml = `
+    <div class="glass card-small theme-mc" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(234, 115, 11, 0.05); padding: 2.5rem 1.5rem;">
+        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">mail</span>
+        <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start an MC Club</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Contact Student Life to start a new club.</p>
+        <div style="width: 100%; display: flex; gap: 0.5rem; justify-content: center;">
+            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1rem; font-size: 0.8125rem;">Email</a>
+            <a href="tel:4088555406" class="btn btn-secondary" style="padding: 0.625rem 1rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span></a>
         </div>
-        `;
-    }
+    </div>
+    `;
 
-    // 2. Empty State Check (Still shows the CTA even if no clubs match the search)
+    // 2. Empty State Check
     if (!clubs || clubs.length === 0) {
-        grid.innerHTML = ctaCardHtml + `
+        grid.innerHTML = wvCtaHtml + mcCtaHtml + `
         <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
             <h3>No clubs found</h3>
             <p class="card-contact">Try adjusting your search query or switching categories.</p>
@@ -205,8 +179,11 @@ function renderClubCards(clubs) {
             actionBtnHtml = `<a href="mailto:${primaryEmail}" class="btn btn-primary">Email to Join</a>`;
         }
 
+        // DYNAMIC THEME INJECTION 
+        const isMC = club.school === 'MC' || club.school === 'Mission';
+
         return `
-        <div class="glass card-small">
+        <div class="glass card-small ${isMC ? 'theme-mc' : ''}">
             <div>
                 <div class="card-header-row">
                     <div class="card-avatar">${avatarHtml}</div>
@@ -234,9 +211,10 @@ function renderClubCards(clubs) {
         </div>`;
     }).join('');
 
-    // 4. Inject CTA followed by Club Cards
-    grid.innerHTML = ctaCardHtml + cardsHtml;
+    // 4. Inject Dual CTAs followed by Club Cards
+    grid.innerHTML = wvCtaHtml + mcCtaHtml + cardsHtml;
 }
+
 // ==========================================
 // --- BARTER BAZAAR ENGINE ---
 // ==========================================
@@ -355,9 +333,12 @@ function renderBarterCards(items) {
         } else {
             campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>`;
         }
+
+        // DYNAMIC THEME INJECTION (Stays default WV unless specifically only Mission College)
+        const isMC = !cStr.includes('both') && (cStr.includes('mission') || cStr.includes('mc'));
         
         return `
-        <div class="glass card-small">
+        <div class="glass card-small ${isMC ? 'theme-mc' : ''}">
             <div>
                 <div class="card-header-row" style="margin-bottom: 1rem; align-items: center;">
                     <div style="display: flex; gap: 4px;">${campusBadgesHtml}</div>
