@@ -238,7 +238,9 @@ function renderClubCards(clubs) {
     grid.innerHTML = ctaCardHtml + cardsHtml;
 }
 
+// ==========================================
 // --- BARTER BAZAAR ENGINE ---
+// ==========================================
 const BARTER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh3mYvd6WBAy6gsPyMpmM_DjbnVx0cyZ0QigUxgP6n_jOsJ9FWLc7alNvcLJrRVd06Imp11VAgJkox/pub?output=csv";
 const BARTER_FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=iuGPAuNTGkqSmD2pznHsk5knvlMprIFFhStOR1s7mZhUOUhIRUg0ODBXMEg4VVJLNUwyVTIyWjM0Qy4u"; 
 
@@ -269,13 +271,14 @@ function parseAndLoadBarterData(csvText) {
     let inQuote = false;
     let val = "";
     
+    // Custom CSV parser handling escaped quotes, commas, and line breaks
     for (let i = 0; i < csvText.length; i++) {
         let c = csvText[i];
         let nc = csvText[i+1];
         if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } 
         else if (c === '"') { inQuote = !inQuote; }
         else if (c === ',' && !inQuote) { row.push(val); val = ""; }
-        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
+        else if (c === '\n' && !inQuote) { rows.push(row); row = []; val = ""; }
         else if (c === '\r' && !inQuote) { /* ignore */ }
         else { val += c; }
     }
@@ -290,15 +293,12 @@ function parseAndLoadBarterData(csvText) {
         if (cols.length < 5) continue; 
         
         const timestamp = new Date(cols[0]);
-        // cols[1] is the auto-collected regular email, so we skip it!
-        const campus = cols[2] || "WV";
-        const lookingFor = cols[3] || "";
-        const offering = cols[4] || "";
-        
-        // Dynamically grabs the very last column for the CONFIRM school email
-        const email = cols[cols.length - 1] || cols[5] || ""; 
+        const email = cols[1] || "";        // Auto-captured SSO Email
+        const campus = cols[2] || "WV";      // Q1: Campus
+        const lookingFor = cols[3] || "";  // Q2: Procuring
+        const offering = cols[4] || "";    // Q3: Offering
 
-        // 120-Day Expire Check
+        // 120-Day Auto-Expiration Check
         const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
         if (ageDays > 120) continue;
 
