@@ -124,47 +124,48 @@ function renderClubCards(clubs) {
     if (!grid) return;
 
     // Build the individual CTAs
-    const wvCtaHtml = `
-    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 2.5rem 1.5rem;">
-        <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">rocket_launch</span>
-        <h3 style="margin: 0 0 0.375rem; color: var(--secondary-accent); font-size: 1.25rem;">Start a WV Club</h3>
-        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.25rem; line-height: 1.4;">Submit an official proposal to your ASG.</p>
-        <div style="width: 100%; display: flex; justify-content: center;">
-            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 1.5rem;">Apply Now</a>
-        </div>
-    </div>
-    `;
-    
-   const mcCtaHtml = `
-    <div class="glass card-small theme-mc" style="border: 2px dashed var(--secondary-accent); display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(234, 115, 11, 0.05); padding: 2.25rem 1.5rem;">
+   // 1. Unified CTA Card
+    const unifiedCtaHtml = `
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
         
-        <!-- Profile Picture Container -->
-        <div style="width: 72px; height: 72px; border-radius: 18px; background: var(--primary-light); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; overflow: hidden; border: 2px solid var(--secondary-accent);">
-            <!-- To use her actual photo, replace the span below with: <img src="yesenia.jpg" style="width:100%; height:100%; object-fit:cover;"> -->
-            <span class="material-symbols-rounded" style="font-size: 2.5rem;">support_agent</span>
+        <div style="text-align: center;">
+            <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
+            <h3 style="margin: 0; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin-top: 0.25rem; margin-bottom: 0;">Can't find your community? Launch your own organization.</p>
         </div>
 
-        <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent); font-size: 1.25rem;">Start an MC Club</h3>
-        
-        <!-- Contact Details -->
-        <div style="margin-bottom: 1.25rem; width: 100%;">
-            <div style="font-size: 0.9375rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.125rem;">Yesenia Melgoza</div>
-            <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-sub);">Student Life Program Analyst</div>
+        <!-- West Valley Action -->
+        <div style="background: var(--toggle-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text-main); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                West Valley College <span class="badge" style="background: var(--wvc-blue); color: #fff; padding: 2px 6px;">WV</span>
+            </div>
+            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border:none; width: 100%; padding: 0.625rem; font-size: 0.8125rem;">Submit ASG Proposal</a>
         </div>
 
-        <!-- Action Buttons -->
-        <div style="width: 100%; display: flex; gap: 0.5rem; justify-content: center;">
-            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-primary" style="background: var(--secondary-accent); border: none; padding: 0.625rem 0; font-size: 0.8125rem; flex: 1;">Email Yesenia</a>
-            <a href="tel:4088555406" class="btn btn-secondary" style="padding: 0.625rem 0; font-size: 0.8125rem; flex: 1;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span> Call</a>
+        <!-- Mission College Action -->
+        <div style="background: var(--toggle-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text-main); margin-bottom: 0.25rem; display: flex; justify-content: space-between; align-items: center;">
+                Mission College <span class="badge" style="background: var(--mc-teal); color: #fff; padding: 2px 6px;">MC</span>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem;">Contact Yesenia Melgoza (Student Life)</div>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">mail</span> Email</a>
+                <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span></a>
+            </div>
         </div>
+
     </div>
     `;
 
-    // Dynamically show the correct CTAs based on the active campus filter
-    let activeCTAs = '';
-    if (activeCampus === 'WV') activeCTAs = wvCtaHtml;
-    else if (activeCampus === 'MC') activeCTAs = mcCtaHtml;
-    else activeCTAs = wvCtaHtml + mcCtaHtml;
+    // 2. Empty State Check
+    if (!clubs || clubs.length === 0) {
+        grid.innerHTML = unifiedCtaHtml + `
+        <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
+            <h3>No clubs found</h3>
+            <p class="card-contact">Try adjusting your search query or switching categories.</p>
+        </div>`;
+        return;
+    }
 
     if (!clubs || clubs.length === 0) {
         grid.innerHTML = activeCTAs + `
