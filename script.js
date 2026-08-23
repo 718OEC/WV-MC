@@ -338,8 +338,8 @@ function renderBarterCards(items) {
         const timeString = item.timestamp.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
         const safeLookingFor = item.lookingFor.replace(/[\n\r"]/g, ' ').substring(0, 60) + '...';
         
-        const mailtoSubject = encodeURIComponent("Barter Bazaar Inquiry");
-        const mailtoBody = encodeURIComponent(`Hi! I saw your post on the Student Hub Barter Bazaar regarding:\n\n"Looking For: ${safeLookingFor}"\n\nI'm interested in working out a trade!`);
+        const mailtoSubject = encodeURIComponent("Barter Bazaar Trade");
+        const mailtoBody = encodeURIComponent(`Hi! I'm interested in trading with you:\n\n"Looking For: ${safeLookingFor}"\n\nI have ___`);
         
         // --- Dynamic Campus Pill Logic ---
         let campusBadgesHtml = '';
