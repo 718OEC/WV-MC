@@ -379,7 +379,7 @@ function renderBarterCards(items) {
             
             <div class="card-actions">
                 <a href="mailto:${item.email}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn btn-primary" style="width: 100%;">
-                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Make Offer
+                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Start Trade
                 </a>
             </div>
         </div>
