@@ -8,19 +8,38 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
-<a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
-    <span class="material-symbols-rounded">arrow_back</span>
-</a>
+  
+  <a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
+      <span class="material-symbols-rounded">arrow_back</span>
+  </a>
+
   <div class="app-wrapper">
+    
+    <!-- Hero Header -->
+    <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <p class="subtitle" style="margin-bottom: 0.5rem;">West Valley & Mission College</p>
+      <h1 id="college-title" style="margin-bottom: 0; font-size: 2.5rem; padding: 0;">Student Organizations</h1>
+    </header>
+
     <!-- Search & Filter Control Panel -->
     <section id="search-section" class="glass control-panel">
       <div class="search-box">
         <span class="material-symbols-rounded search-icon">search</span>
-        <input type="text" id="search-input" placeholder="Search by club name, category, or president...">
+        <input type="text" id="search-input" placeholder="Search by club name, campus, category, or president, etc.">
       </div>
 
+      <!-- Campus Filters -->
+      <div class="filter-row" style="margin-bottom: 12px;">
+        <div class="filter-pills" id="campus-pills">
+          <button class="pill active" onclick="filterCampus('All', this)">All Campuses</button>
+          <button class="pill" onclick="filterCampus('WV', this)">West Valley</button>
+          <button class="pill" onclick="filterCampus('MC', this)">Mission College</button>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
       <div class="filter-row">
-        <div class="filter-pills" id="filter-pills">
+        <div class="filter-pills" id="category-pills">
           <button class="pill active" onclick="filterCategory('All', this)">All Categories</button>
           <button class="pill" onclick="filterCategory('Academics', this)">Academics</button>
           <button class="pill" onclick="filterCategory('Arts', this)">Arts</button>
@@ -64,7 +83,7 @@
           <li><a href="index.html"><span class="material-symbols-rounded menu-icon">home</span> Student Hub</a></li>
           <li><a href="clubhub.html"><span class="material-symbols-rounded menu-icon">groups</span> Club Hub</a></li>
           <li><a href="calendar.html"><span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar</a></li>
-          <li><a href="barterbazaar.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazar</a></li>
+          <li><a href="barterbazaar.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazaar</a></li>
           <li><a href="carpooltool.html"><span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool</a></li>
           <li><a href="transfertools.html"><span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools</a></li>
           <li><a href="anonasks.html"><span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks</a></li>
