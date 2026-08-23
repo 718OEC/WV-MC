@@ -32,13 +32,16 @@
 }
 
 /* --- MISSION COLLEGE THEME OVERRIDE --- */
-body.theme-mc {
+body.theme-mc, .theme-mc {
   --primary-accent: var(--mc-teal);
   --primary-light: var(--mc-teal-light);
   --secondary-accent: var(--mc-orange);
-  
-  --page-bg: #EFF7FA; /* Soft teal-tinted background */
-  --glass-panel: rgba(12, 119, 153, 0.12); /* Frosty teal tinted glass */
+}
+body.theme-mc {
+  --page-bg: #EFF7FA; /* Only tints the background if the WHOLE page is MC */
+}
+.theme-mc.glass, .theme-mc .glass {
+  --glass-panel: rgba(12, 119, 153, 0.12);
   --glass-fab: rgba(12, 119, 153, 0.08);
   --glass-border: rgba(12, 119, 153, 0.15);
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
@@ -61,6 +64,19 @@ body.theme-mc.dark-mode {
   --page-bg: #031520; 
   --text-sub: #A8D8EA;
   
+  --glass-panel: rgba(0, 55, 98, 0.35);
+  --glass-fab: rgba(0, 55, 98, 0.20);
+  --glass-border: rgba(12, 119, 153, 0.35);
+  --toggle-bg: rgba(12, 119, 153, 0.2);
+  --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+body.theme-mc.dark-mode, body.dark-mode .theme-mc {
+  --text-sub: #A8D8EA;
+}
+body.theme-mc.dark-mode {
+  --page-bg: #031520; 
+}
+body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
   --glass-fab: rgba(0, 55, 98, 0.20);
   --glass-border: rgba(12, 119, 153, 0.35);
@@ -619,3 +635,31 @@ body.dark-mode .btn-primary {
   transition: color 0.3s ease;
 }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
+/* --- GLOBAL BACK NAVIGATION --- */
+.back-nav {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .back-nav:hover {
+    color: var(--secondary-accent);
+    border-color: var(--secondary-accent);
+    transform: scale(1.08);
+  }
+}
+
+@media (max-width: 768px) {
+  .back-nav { top: 16px; left: 16px; width: 40px; height: 40px; }
+}
