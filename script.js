@@ -128,9 +128,9 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // 1. Unified CTA Card
+// 1. Unified CTA Card
     const unifiedCtaHtml = `
-    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); background: rgba(248, 101, 22, 0.05); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
         
         <div style="text-align: center;">
             <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
@@ -138,23 +138,23 @@ function renderClubCards(clubs) {
             <p style="font-size: 0.875rem; color: var(--text-sub); margin-top: 0.25rem; margin-bottom: 0;">Can't find your community? Launch your own organization.</p>
         </div>
 
-        <!-- West Valley Action -->
-        <div style="background: var(--toggle-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border);">
-            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text-main); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
-                West Valley College <span class="badge" style="background: var(--wvc-blue); color: #fff; padding: 2px 6px;">WV</span>
+        <!-- West Valley Action (Themed Blue) -->
+        <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid var(--wvc-blue-light);">
+            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.75rem;">
+                West Valley College
             </div>
-            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border:none; width: 100%; padding: 0.625rem; font-size: 0.8125rem;">Submit ASG Proposal</a>
+            <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="background: var(--primary-accent); border:none; width: 100%; padding: 0.625rem; font-size: 0.8125rem;">Submit ASG Proposal</a>
         </div>
 
-        <!-- Mission College Action -->
-        <div style="background: var(--toggle-bg); padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border);">
-            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text-main); margin-bottom: 0.25rem; display: flex; justify-content: space-between; align-items: center;">
-                Mission College <span class="badge" style="background: var(--mc-teal); color: #fff; padding: 2px 6px;">MC</span>
+        <!-- Mission College Action (Themed Teal) -->
+        <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid rgba(12, 119, 153, 0.4);">
+            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.25rem;">
+                Mission College
             </div>
             <div style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem;">Contact Yesenia Melgoza (Student Life)</div>
             <div style="display: flex; gap: 0.5rem;">
-                <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">mail</span> Email</a>
-                <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span></a>
+                <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4);"><span class="material-symbols-rounded" style="font-size: 1rem;">mail</span> Email</a>
+                <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4);"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span></a>
             </div>
         </div>
 
