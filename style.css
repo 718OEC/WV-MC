@@ -598,13 +598,12 @@ body.dark-mode .btn-primary {
   align-items: center;
   justify-content: center;
   width: 48px;
-  height: 48px;
-  /* Hexagon Geometry */
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  height: 41.5px; /* Scaled for perfect equilateral geometry */
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   color: var(--text-main);
   background: var(--glass-fab);
   text-decoration: none;
-  border: none; /* Removed for clip-path compatibility */
+  border: none; 
   transition: transform 0.2s ease, color 0.2s ease;
   backdrop-filter: var(--blur-amt) saturate(180%);
   -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
@@ -618,5 +617,10 @@ body.dark-mode .btn-primary {
 }
 
 @media (max-width: 768px) {
-  .back-nav { top: 16px; left: 16px; width: 40px; height: 40px; }
+  .back-nav { 
+      top: 16px; 
+      left: 16px; 
+      width: 40px; 
+      height: 34.6px; /* Scaled for mobile */
+  }
 }
