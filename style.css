@@ -23,10 +23,11 @@
   --page-bg: #EBF1F8; 
   --text-main: var(--wvc-charcoal);
   --text-sub: #546682;
+  --fab-icon-color: var(--wvc-blue); /* Deep blue for legibility on light orange */
 
   /* Colored Liquid Glass */
   --glass-panel: rgba(183, 204, 234, 0.45); 
-  --glass-fab: rgba(183, 204, 234, 0.25);   
+  --glass-fab: rgba(248, 101, 22, 0.15); /* Orange tinted glass for navigation */
   --glass-border: rgba(20, 50, 95, 0.12);
   --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.08); 
   --blur-amt: blur(24px); 
@@ -44,7 +45,7 @@ body.theme-mc {
 }
 .theme-mc.glass, .theme-mc .glass {
   --glass-panel: rgba(12, 119, 153, 0.12);
-  --glass-fab: rgba(12, 119, 153, 0.08);
+  --glass-fab: rgba(234, 115, 11, 0.15); /* MC Orange tinted */
   --glass-border: rgba(12, 119, 153, 0.15);
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
@@ -54,9 +55,10 @@ body.dark-mode {
   --page-bg: #091322;
   --text-main: #FFFFFF;
   --text-sub: #B7CCEA;
+  --fab-icon-color: #FFFFFF; /* Crisp white for legibility on dark backgrounds */
   
   --glass-panel: rgba(20, 50, 95, 0.35); 
-  --glass-fab: rgba(20, 50, 95, 0.20);   
+  --glass-fab: rgba(248, 101, 22, 0.20); /* Slightly denser orange tint for dark mode */
   --glass-border: rgba(86, 131, 186, 0.25);
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.35); 
   --toggle-bg: rgba(183, 204, 234, 0.15);
@@ -70,7 +72,7 @@ body.theme-mc.dark-mode, body.dark-mode .theme-mc {
 }
 body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
-  --glass-fab: rgba(0, 55, 98, 0.20);
+  --glass-fab: rgba(234, 115, 11, 0.20);
   --glass-border: rgba(12, 119, 153, 0.35);
   --toggle-bg: rgba(12, 119, 153, 0.2);
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -83,7 +85,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Lexend', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-weight: 300; /* Lexend Light for default body copy */
+  font-weight: 300; 
   background-color: var(--page-bg);
   color: var(--text-main);
   line-height: 1.5;
@@ -95,16 +97,16 @@ body {
 
 h1, h2, h3 {
   font-family: 'DM Serif Display', serif;
-  font-weight: 400; /* DM Serif Display only operates correctly at 400 weight */
+  font-weight: 400; 
   margin-top: 0;
 }
 
 strong, b {
-  font-weight: 600; /* Lexend Bold */
+  font-weight: 600; 
 }
 
 .script-text {
-  font-family: 'Lumios', 'Caveat', cursive; /* Optional utility class for signatures/quotes */
+  font-family: 'Lumios', 'Caveat', cursive; 
   font-size: 1.5rem;
 }
 
@@ -171,34 +173,26 @@ strong, b {
 
 .fab-main {
     width: 64px; 
-    height: 55.5px; 
+    height: 55.5px;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    
-    /* Orange Tinted Glass */
-    background: rgba(248, 101, 22, 0.15); 
+    background: var(--glass-fab);
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
-    /* WV Blue Icon for Light Mode */
-    color: var(--wvc-blue); 
+    color: var(--fab-icon-color); 
     border: none; 
     
     display: flex; 
     align-items: center; 
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s, background-color 0.2s;
-}
-
-body.dark-mode .fab-main {
-    background: rgba(248, 101, 22, 0.20); /* Slightly stronger glass for dark mode depth */
-    color: #FFFFFF; /* White Icon for Dark Mode */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
 }
 
 @media (hover: hover) {
   .fab-main:hover { 
       transform: scale(1.08) translateY(-4px); 
-      background: rgba(248, 101, 22, 0.25);
+      color: var(--secondary-accent); 
   }
 }
 
@@ -207,11 +201,10 @@ body.dark-mode .fab-main {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Spin to X and turn solid orange when active */
+/* Spin to X and lock color when active */
 .fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main {
-    background: var(--secondary-accent); 
-    color: #FFFFFF; 
+    color: var(--secondary-accent);
 }
 
 /* THE POP-UP LIQUID GLASS MENU */
@@ -392,7 +385,7 @@ body.dark-mode .fab-main {
 
 .card-avatar {
   width: 120px;
-  height: 104px; /* Perfectly matches your original square height */
+  height: 104px;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   background: var(--primary-accent);
   color: #FFFFFF;
@@ -598,7 +591,6 @@ body.dark-mode .btn-primary {
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
 /* --- GLOBAL BACK NAVIGATION --- */
-/* --- GLOBAL BACK NAVIGATION --- */
 .back-nav {
   position: absolute;
   top: 24px;
@@ -608,28 +600,20 @@ body.dark-mode .btn-primary {
   align-items: center;
   justify-content: center;
   width: 56px;
-  height: 48.5px; 
+  height: 48.5px;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  
-  /* Orange Tinted Glass & WV Blue Icon */
-  background: rgba(248, 101, 22, 0.15); 
-  color: var(--wvc-blue); 
-  
+  color: var(--fab-icon-color);
+  background: var(--glass-fab);
   text-decoration: none;
   border: none; 
-  transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
   backdrop-filter: var(--blur-amt) saturate(180%);
   -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
 }
 
-body.dark-mode .back-nav {
-  background: rgba(248, 101, 22, 0.20);
-  color: #FFFFFF;
-}
-
 @media (hover: hover) {
   .back-nav:hover {
-    background: rgba(248, 101, 22, 0.25);
+    color: var(--secondary-accent);
     transform: scale(1.08);
   }
 }
