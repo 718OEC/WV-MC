@@ -166,28 +166,45 @@ strong, b {
     gap: 12px;
 }
 
-.fab-main {
-    width: 64px; 
-    height: 55.5px; 
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: var(--glass-fab);
-    backdrop-filter: var(--blur-amt) saturate(180%);
-    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
-    
-    color: #FFFFFF; /* Crisp white icon for max legibility on orange glass */
-    border: none; 
-    
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
+/* --- GLOBAL BACK NAVIGATION --- */
+.back-nav {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px; 
+  border-radius: 14px; /* Sharper corners */
+  color: var(--secondary-accent); /* Viking Orange icon */
+  background: rgba(255, 255, 255, 0.85); /* Frosted white button */
+  text-decoration: none;
+  border: 1px solid var(--glass-border); /* Border restored */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  backdrop-filter: var(--blur-amt) saturate(180%);
+  -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
 }
 
 @media (hover: hover) {
-  .fab-main:hover { 
-      transform: scale(1.08) translateY(-4px); 
-      color: #FFFFFF; 
+  .back-nav:hover {
+    background: #FFFFFF;
+    transform: scale(1.08);
+  }
+}
+
+body.dark-mode .back-nav {
+    background: rgba(20, 50, 95, 0.65);
+    color: var(--secondary-accent);
+}
+
+@media (max-width: 768px) {
+  .back-nav { 
+      top: 16px; 
+      left: 16px; 
+      width: 44px; 
+      height: 44px; 
   }
 }
 
@@ -581,6 +598,7 @@ body.dark-mode .badge-category {
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
 /* --- GLOBAL BACK NAVIGATION --- */
+./* --- GLOBAL BACK NAVIGATION --- */
 .back-nav {
   position: absolute;
   top: 24px;
@@ -589,30 +607,35 @@ body.dark-mode .badge-category {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 48.5px; 
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  color: #FFFFFF; /* Crisp white icon for max legibility */
-  background: var(--glass-fab);
+  width: 48px;
+  height: 48px; 
+  border-radius: 14px; /* Sharper corners */
+  color: var(--secondary-accent); /* Viking Orange icon */
+  background: rgba(255, 255, 255, 0.85); /* Frosted white button */
   text-decoration: none;
-  border: none; 
-  transition: transform 0.2s ease, color 0.2s ease;
+  border: 1px solid var(--glass-border); /* Border restored */
+  transition: transform 0.2s ease, background-color 0.2s ease;
   backdrop-filter: var(--blur-amt) saturate(180%);
   -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
 }
 
 @media (hover: hover) {
   .back-nav:hover {
-    color: #FFFFFF;
+    background: #FFFFFF;
     transform: scale(1.08);
   }
+}
+
+body.dark-mode .back-nav {
+    background: rgba(20, 50, 95, 0.65);
+    color: var(--secondary-accent);
 }
 
 @media (max-width: 768px) {
   .back-nav { 
       top: 16px; 
       left: 16px; 
-      width: 48px; 
-      height: 41.5px; 
+      width: 44px; 
+      height: 44px; 
   }
 }
