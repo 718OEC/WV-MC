@@ -2,19 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap');
 
 :root {
-  /* West Valley Colors */
   --wvc-blue: #14325F;
   --wvc-blue-light: #B7CCEA;
   --viking-orange: #F86516;
-  --wvc-charcoal: #333D4F;
-
-  /* Mission College Colors */
+  --viking-orange-light: #FFCAB3;
+  --wvc-charcoal: #404040;
   --mc-teal: #0C7799;
   --mc-teal-light: rgba(12, 119, 153, 0.2);
   --mc-orange: #EA730B;
   --mc-navy: #003762;
-
-  /* Default Theme Variables (WVC Active) */
   --primary-accent: var(--wvc-blue);
   --primary-light: var(--wvc-blue-light);
   --secondary-accent: var(--viking-orange);
@@ -25,12 +21,12 @@
   --text-sub: #546682;
 
   /* Colored Liquid Glass */
-  --glass-panel: rgba(183, 204, 234, 0.45); 
-  --glass-fab: rgba(248, 101, 22, 0.25);   /* Bold orange-tinted glass for FAB/Back */
+  --glass-panel: rgba(183, 204, 234, 0.48); 
+  --glass-fab: rgba(248, 101, 22, 0.48);   /* Bold orange-tinted glass for FAB/Back */
   --glass-border: rgba(20, 50, 95, 0.12);
-  --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.08); 
+  --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.12); 
   --blur-amt: blur(24px); 
-  --toggle-bg: rgba(20, 50, 95, 0.06);
+  --toggle-bg: rgba(20, 50, 95, 0.08);
 }
 
 /* --- MISSION COLLEGE THEME OVERRIDE --- */
