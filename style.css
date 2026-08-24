@@ -23,11 +23,10 @@
   --page-bg: #EBF1F8; 
   --text-main: var(--wvc-charcoal);
   --text-sub: #546682;
-  --fab-icon-color: var(--wvc-blue); /* Deep blue for legibility on light orange */
 
   /* Colored Liquid Glass */
   --glass-panel: rgba(183, 204, 234, 0.45); 
-  --glass-fab: rgba(248, 101, 22, 0.15); /* Orange tinted glass for navigation */
+  --glass-fab: rgba(248, 101, 22, 0.25);   /* Bold orange-tinted glass for FAB/Back */
   --glass-border: rgba(20, 50, 95, 0.12);
   --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.08); 
   --blur-amt: blur(24px); 
@@ -45,7 +44,7 @@ body.theme-mc {
 }
 .theme-mc.glass, .theme-mc .glass {
   --glass-panel: rgba(12, 119, 153, 0.12);
-  --glass-fab: rgba(234, 115, 11, 0.15); /* MC Orange tinted */
+  --glass-fab: rgba(234, 115, 11, 0.22); /* Orange-tinted glass matched to MC secondary */
   --glass-border: rgba(12, 119, 153, 0.15);
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
@@ -55,10 +54,9 @@ body.dark-mode {
   --page-bg: #091322;
   --text-main: #FFFFFF;
   --text-sub: #B7CCEA;
-  --fab-icon-color: #FFFFFF; /* Crisp white for legibility on dark backgrounds */
   
   --glass-panel: rgba(20, 50, 95, 0.35); 
-  --glass-fab: rgba(248, 101, 22, 0.20); /* Slightly denser orange tint for dark mode */
+  --glass-fab: rgba(248, 101, 22, 0.30);   /* Richer dark-mode orange tint */
   --glass-border: rgba(86, 131, 186, 0.25);
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.35); 
   --toggle-bg: rgba(183, 204, 234, 0.15);
@@ -69,10 +67,10 @@ body.theme-mc.dark-mode {
 }
 body.theme-mc.dark-mode, body.dark-mode .theme-mc {
   --text-sub: #A8D8EA;
+  --glass-fab: rgba(234, 115, 11, 0.28);
 }
 body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
-  --glass-fab: rgba(234, 115, 11, 0.20);
   --glass-border: rgba(12, 119, 153, 0.35);
   --toggle-bg: rgba(12, 119, 153, 0.2);
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -173,13 +171,13 @@ strong, b {
 
 .fab-main {
     width: 64px; 
-    height: 55.5px;
+    height: 55.5px; 
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     background: var(--glass-fab);
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
-    color: var(--fab-icon-color); 
+    color: #FFFFFF; /* Crisp white icon for max legibility on orange glass */
     border: none; 
     
     display: flex; 
@@ -192,7 +190,7 @@ strong, b {
 @media (hover: hover) {
   .fab-main:hover { 
       transform: scale(1.08) translateY(-4px); 
-      color: var(--secondary-accent); 
+      color: #FFFFFF; 
   }
 }
 
@@ -201,10 +199,10 @@ strong, b {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Spin to X and lock color when active */
+/* Spin to X when active */
 .fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main {
-    color: var(--secondary-accent);
+    color: #FFFFFF;
 }
 
 /* THE POP-UP LIQUID GLASS MENU */
@@ -385,7 +383,7 @@ strong, b {
 
 .card-avatar {
   width: 120px;
-  height: 104px;
+  height: 104px; 
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   background: var(--primary-accent);
   color: #FFFFFF;
@@ -540,14 +538,9 @@ body.dark-mode .badge-category {
 .btn:active { transform: scale(0.98); }
 
 .btn-primary {
-  background: var(--primary-accent);
+  background: var(--secondary-accent); /* Updated to vibrant orange so only primary buttons carry brand color */
   color: #FFFFFF;
   flex: 1;
-}
-
-body.dark-mode .btn-primary {
-  background: var(--secondary-accent);
-  color: #FFFFFF;
 }
 
 .btn-secondary {
@@ -600,9 +593,9 @@ body.dark-mode .btn-primary {
   align-items: center;
   justify-content: center;
   width: 56px;
-  height: 48.5px;
+  height: 48.5px; 
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  color: var(--fab-icon-color);
+  color: #FFFFFF; /* Crisp white icon for max legibility */
   background: var(--glass-fab);
   text-decoration: none;
   border: none; 
@@ -613,7 +606,7 @@ body.dark-mode .btn-primary {
 
 @media (hover: hover) {
   .back-nav:hover {
-    color: var(--secondary-accent);
+    color: #FFFFFF;
     transform: scale(1.08);
   }
 }
