@@ -171,15 +171,14 @@ strong, b {
 
 .fab-main {
     width: 56px; 
-    height: 56px;
-    /* Hexagon Geometry */
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    height: 48.5px; /* Scaled for perfect equilateral geometry */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     background: var(--glass-fab);
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
     color: var(--text-main); 
-    border: none; /* Removed for clip-path compatibility */
+    border: none; 
     
     display: flex; 
     align-items: center; 
@@ -384,9 +383,8 @@ strong, b {
 
 .card-avatar {
   width: 104px;
-  height: 104px;
-  /* Hexagon Geometry */
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  height: 90px; /* Scaled for perfect equilateral geometry */
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   background: var(--primary-accent);
   color: #FFFFFF;
   display: flex;
