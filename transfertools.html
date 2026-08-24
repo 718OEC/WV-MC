@@ -3,27 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coming Soon | WV//MC Transfer Tools</title>
+  <title>WV//MC Transfer Tools</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
-<a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
-    <span class="material-symbols-rounded">arrow_back</span>
-</a>
-  <div class="app-wrapper" style="display: flex; flex-direction: column; min-height: 80vh; justify-content: center;">    
-    <main style="max-width: 30rem; margin: 0 auto; width: 100%;">
-      <article class="glass card-large" style="text-align: center; padding: 3rem 2rem;">
-        <span class="material-symbols-rounded" style="font-size: 4rem; color: var(--secondary-accent); margin-bottom: 1.5rem;">engineering</span>
-        <h1 style="margin: 0 0 0.5rem; font-size: 2rem;">Coming Soon</h1>
-        <p style="margin: 0 0 2rem; color: var(--text-sub); font-size: 1rem; line-height: 1.5;">
-          We're currently building this feature for the campus community. Check back soon for updates!
-        </p>
-        <a href="index.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
-          <span class="material-symbols-rounded">arrow_back</span> Return to Hub
-        </a>
-      </article>
+  
+  <a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
+      <span class="material-symbols-rounded">arrow_back</span>
+  </a>
+
+  <div class="app-wrapper">
+    
+    <!-- Hero Header -->
+    <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <p class="subtitle" style="margin-bottom: 0.5rem;">Strategic Resources & Data</p>
+      <h1 style="margin-bottom: 0.25rem; font-size: 2.5rem; padding: 0;">Transfer Tools</h1>
+      <div style="font-family: 'Lexend', sans-serif; font-weight: 700; color: var(--secondary-accent); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px;">(In Beta)</div>
+      
+      <!-- Liability & Rules Panel -->
+      <div style="width: 100%; text-align: left; background: var(--toggle-bg); padding: 1.5rem 2rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
+        <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 1rem;">Important Disclaimer:</strong>
+        <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-sub); font-size: 0.9375rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li>The material provided here is purely informational and crowdsourced to assist your planning.</li>
+            <li><strong>This platform does not replace an official academic counselor.</strong> Do not base your entire academic plan solely on this data.</li>
+            <li>Using these resources does <strong>not</strong> guarantee transfer admission to any university.</li>
+            <li>Admissions requirements change frequently. Always verify articulation agreements and prerequisites via official university portals.</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Search & Filter Control Panel -->
+    <section id="search-section" class="glass control-panel">
+      <div class="search-box">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <input type="text" id="transfer-search-input" placeholder="Search for universities, programs, or tags...">
+      </div>
+
+      <!-- Category Filters -->
+      <div class="filter-row">
+        <div class="filter-pills" id="transfer-category-pills">
+          <button class="pill active" onclick="filterTransfer('All', this)">All Resources</button>
+          <button class="pill" onclick="filterTransfer('UC', this)">UC</button>
+          <button class="pill" onclick="filterTransfer('CSU', this)">CSU</button>
+          <button class="pill" onclick="filterTransfer('Ivy', this)">Ivy</button>
+          <button class="pill" onclick="filterTransfer('Top 25', this)">Top 25</button>
+          <button class="pill" onclick="filterTransfer('Transfer Program', this)">Transfer Programs</button>
+          <button class="pill" onclick="filterTransfer('Non-Trad', this)">Non-Trad & Veteran</button>
+          <button class="pill" onclick="filterTransfer('FinAid', this)">FinAid & Scholarships</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Responsive Transfer Cards Grid -->
+    <main id="transfer-tools">
+      <div id="transfer-grid" class="grid-cards">
+        <!-- JS injects cards here -->
+        <div class="glass card-small skeleton" style="height: 300px;"></div>
+        <div class="glass card-small skeleton" style="height: 300px;"></div>
+      </div>
     </main>
+
+    <!-- Footer Signature Block -->
+    <footer class="sig-block glass">
+      <div class="sig-info">
+        <h3>About</h3>
+        <div class="sig-role">For students, by students: an open-source campus initiative</div>
+        <p class="sig-text">Founder: Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)</p>
+      </div>
+    </footer>
 
   </div>
 
@@ -33,7 +81,7 @@
           <li><a href="index.html"><span class="material-symbols-rounded menu-icon">home</span> Student Hub</a></li>
           <li><a href="clubhub.html"><span class="material-symbols-rounded menu-icon">groups</span> Club Hub</a></li>
           <li><a href="calendar.html"><span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar</a></li>
-          <li><a href="barterbazaar.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazar</a></li>
+          <li><a href="barterbazaar.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazaar</a></li>
           <li><a href="carpooltool.html"><span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool</a></li>
           <li><a href="transfertools.html"><span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools</a></li>
           <li><a href="anonasks.html"><span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks</a></li>
