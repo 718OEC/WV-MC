@@ -128,9 +128,9 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // 1. Unified CTA Card (Now with frosted white background and exact color targeting)
+  // 1. Unified CTA Card (Now inherits true glass transparency)
     const unifiedCtaHtml = `
-    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); background: rgba(255, 255, 255, 0.65); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
         
         <div style="text-align: center;">
             <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
