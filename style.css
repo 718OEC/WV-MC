@@ -1,4 +1,3 @@
-/* --- OFFICIAL BRAND PALETTES & LIQUID GLASS VARIABLES --- */
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap');
 
 :root {
@@ -228,7 +227,7 @@ body.dark-mode .fab-main::after {
 /* Spin to X when active */
 .fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main {
-    color: #FFFFFF;
+    color: var(--secondary-accent); /* Keeps icon orange when open */
 }
 
 /* THE POP-UP LIQUID GLASS MENU */
@@ -237,7 +236,7 @@ body.dark-mode .fab-main::after {
     padding: 0; 
     margin: 0;
     
-    background: var(--glass-fab);
+    background: rgba(255, 255, 255, 0.85); /* Translucent white glass */
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
@@ -252,6 +251,10 @@ body.dark-mode .fab-main::after {
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 200px;
+}
+
+body.dark-mode .fab-menu {
+    background: rgba(20, 50, 95, 0.85); /* Deep frosted blue for dark mode menu */
 }
 
 .fab-container.active .fab-menu {
@@ -564,7 +567,7 @@ body.dark-mode .badge-category {
 .btn:active { transform: scale(0.98); }
 
 .btn-primary {
-  background: var(--secondary-accent); /* Updated to vibrant orange so only primary buttons carry brand color */
+  background: var(--secondary-accent); 
   color: #FFFFFF;
   flex: 1;
 }
