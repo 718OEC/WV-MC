@@ -399,128 +399,12 @@ function renderBarterCards(items) {
 // ==========================================
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
-// TODO: Replace with your actual Microsoft Forms published CSV link
-const CARPOOL_CSV_URL = "YOUR_CSV_LINK_HERE";
-// TODO: Replace with your actual Microsoft Form link
-const CARPOOL_FORM_URL = "YOUR_FORM_LINK_HERE"; 
-
-let carpoolData = [];
-let activeCarpoolCampus = 'All';
-let activeCarpoolRole = 'All';
-
-window.initCarpoolTool = async function() {
-    const grid = document.getElementById("carpool-grid");
-    const searchInput = document.getElementById("carpool-search-input");
-    if (!grid) return; 
-
-    try {
-        const response = await fetch(CARPOOL_CSV_URL);
-        const csvText = await response.text();
-        parseCarpoolData(csvText);
-        
-        if (searchInput) {
-            searchInput.addEventListener("input", window.filterCarpools);
-        }
-    } catch (error) {
-        console.error("Error fetching Carpool data:", error);
-        grid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load carpools. Ensure your CSV link is correct.</p>`;
-    }
-};
-
-function parseCarpoolData(csvText) {
-    const rows = [];
-    let row = [];
-    let inQuote = false;
-    let val = "";
-    
-    for (let i = 0; i < csvText.length; i++) {
-        let c = csvText[i];
-        let nc = csvText[i+1];
-        if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } 
-        else if (c === '"') { inQuote = !inQuote; }
-        else if (c === ',' && !inQuote) { row.push(val); val = ""; }
-        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
-        else if (c === '\r' && !inQuote) { /* ignore */ }
-        else { val += c; }
-    }
-    if (val || row.length > 0) { row.push(val); rows.push(row); }
-
-    const now = new Date();
-    carpoolData = [];
-
-    // Assuming standard MS Forms SSO Output:
-    // [0] Timestamp, [1] Email, [2] Name, [3] Campus, [4] City, [5] ZIP, [6] Role, [7] Days, [8] Arrive, [9] Leave
-    // *Adjust column indices below if your specific form outputs differently!*
-    for (let i = 1; i < rows.length; i++) {
-        const cols = rows[i];
-        if (cols.length < 9) continue; 
-        
-        const timestamp = new Date(cols[0]);
-        const email = cols[1] || "";        
-        const campus = cols[3] || "WV";     
-        const city = cols[4] || "";   
-        const zip = cols[5] || "";     
-        const role = cols[6] || "";     
-        const days = cols[7] || "";     
-        const arrive = cols[8] || "";     
-        const leave = cols[9] || "";     
-        
-        // 120-Day Expire Check (Stale rides auto-delete)
-        const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
-        if (ageDays > 120) continue;
-
-        carpoolData.push({ timestamp, email, campus, city, zip, role, days, arrive, leave });
-    }
-
-    carpoolData.sort((a, b) => b.timestamp - a.timestamp);
-    window.filterCarpools();
-}
-
-window.filterCarpoolCampus = function(campus, button) {
-    document.querySelectorAll('#carpool-campus-pills .pill').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    activeCarpoolCampus = campus;
-    window.filterCarpools();
-};
-
-window.filterCarpoolRole = function(role, button) {
-    document.querySelectorAll('#carpool-role-pills .pill').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-    activeCarpoolRole = role;
-    window.filterCarpools();
-};
-
-window.filterCarpools = function() {
-    const searchInput = document.getElementById("carpool-search-input");
-    const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-
-    const filtered = carpoolData.filter(item => {
-        const cStr = item.campus.toLowerCase();
-        
-        // 1. Campus Filter
-        let matchesCampus = false;
-        if (activeCarpoolCampus === 'All') matchesCampus = true;
-        else if (activeCarpoolCampus === 'WV' && (cStr.includes('west valley') || cStr.includes('both'))) matchesCampus = true;
-        else if (activeCarpoolCampus === 'MC' && (cStr.includes('mission') || cStr.includes('mc') || cStr.includes('both'))) matchesCampus = true;
-        if (!matchesCampus) return false;
-
-        // 2. Role Filter
-        if (activeCarpoolRole !== 'All' && !item.role.includes(activeCarpoolRole)) return false;
-
-        // 3. Search Term (City or Zip)
-        if (term && !item.city.toLowerCase().includes(term) && !item.zip.toLowerCase().includes(term)) return false;
-
-        return true;
-    });
-
-    renderCarpoolCards(filtered);
-};
-
+// +++++++++++++ IMPORTANT +++++++++++++++++ Replace with your actual Microsoft Forms published CSV link
 function renderCarpoolCards(items) {
     const grid = document.getElementById("carpool-grid");
     if (!grid) return;
 
-    // CTA Card (Shares the true liquid glass style from the Club Hub)
+    // 1. CTA Card (Shares the true liquid glass style from the Club Hub)
     const ctaCard = `
     <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent);">directions_car</span>
@@ -532,6 +416,75 @@ function renderCarpoolCards(items) {
     </div>
     `;
 
+    // 2. Ever-Present Static Demo Card
+    const demoCard = `
+    <div class="glass card-small" style="position: relative; border: 2px dashed rgba(248, 101, 22, 0.4);">
+        <!-- Floating Demo Badge -->
+        <div style="position: absolute; top: -12px; right: 24px; background: var(--secondary-accent); color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(248, 101, 22, 0.3);">
+            Example Post
+        </div>
+        <div>
+            <!-- Top Row: Location & Avatar -->
+            <div class="card-header-row" style="margin-bottom: 1.25rem;">
+                <div style="flex: 1;">
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary-accent); margin-bottom: 0.25rem;">Driver</div>
+                    <h3 style="margin: 0; font-size: 1.5rem;">San Jose</h3>
+                    <div style="font-size: 0.875rem; color: var(--text-sub); font-weight: 600;">ZIP: 95128</div>
+                </div>
+                
+                <div class="card-avatar" style="width: 64px; height: 55.5px; background: var(--secondary-accent);">
+                    <span class="material-symbols-rounded" style="font-size: 1.75rem; color: #FFF;">local_taxi</span>
+                </div>
+            </div>
+            
+            <hr style="border: 0; height: 1px; background: var(--glass-border); margin: 0 0 1rem 0;">
+            
+            <!-- Logistics Block -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+                <div>
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sub);">Campus</div>
+                    <div style="display: flex; gap: 4px; margin-top: 0.25rem;">
+                        <span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>
+                        <span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sub);">Active Days</div>
+                    <div style="display: flex; gap: 4px; margin-top: 0.5rem;">
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--toggle-bg); color: var(--text-sub); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">S</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--secondary-accent); color: #FFF; border: none; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">M</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--toggle-bg); color: var(--text-sub); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">T</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--secondary-accent); color: #FFF; border: none; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">W</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--toggle-bg); color: var(--text-sub); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">T</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--toggle-bg); color: var(--text-sub); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">F</div>
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--toggle-bg); color: var(--text-sub); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700;">S</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 0.25rem;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-sub);">Arrive</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; color: var(--text-main);">Mornings</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-sub);">Leave</div>
+                        <div style="font-size: 0.875rem; font-weight: 600; color: var(--text-main);">Afternoons</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-actions" style="align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.75rem; color: var(--text-sub); font-weight: 600;">Posted: Just now</span>
+            <button class="btn" style="background: var(--toggle-bg); color: var(--text-sub); padding: 0.5rem 1rem; cursor: not-allowed; border: 1px solid var(--glass-border);">
+                <span class="material-symbols-rounded" style="font-size: 1.125rem;">block</span> Demo Only
+            </button>
+        </div>
+    </div>
+    `;
+
+    // 3. Render Real Cards (Mapped from Google Sheets)
     const cardsHtml = items.map(item => {
         const timeString = item.timestamp.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
         const isDriver = item.role.toLowerCase().includes('driving');
@@ -628,5 +581,6 @@ function renderCarpoolCards(items) {
         `;
     }).join('');
 
-    grid.innerHTML = ctaCard + cardsHtml;
+    // 4. Inject CTA, Demo Card, and Live Data into the Grid!
+    grid.innerHTML = ctaCard + demoCard + cardsHtml;
 }
