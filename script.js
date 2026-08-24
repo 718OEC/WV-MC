@@ -50,6 +50,9 @@ function initializeApp() {
     if (typeof window.initBarterBazaar === 'function') {
         window.initBarterBazaar();
     }
+    if (typeof window.initCarpoolTool === 'function') {
+        window.initCarpoolTool();
+    }
 }
 
 if (document.readyState === 'loading') {
