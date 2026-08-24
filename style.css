@@ -166,51 +166,63 @@ strong, b {
     gap: 12px;
 }
 
-/* --- GLOBAL BACK NAVIGATION --- */
-.back-nav {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  z-index: 1000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px; 
-  border-radius: 14px; /* Sharper corners */
-  color: var(--secondary-accent); /* Viking Orange icon */
-  background: rgba(255, 255, 255, 0.85); /* Frosted white button */
-  text-decoration: none;
-  border: 1px solid var(--glass-border); /* Border restored */
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  backdrop-filter: var(--blur-amt) saturate(180%);
-  -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
+.fab-main {
+    width: 64px; 
+    height: 55.5px; 
+    position: relative;
+    color: var(--secondary-accent); /* Viking Orange symbol */
+    background: transparent;
+    border: none;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+/* Outer Hexagon (The Border) */
+.fab-main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: var(--glass-border); 
+    z-index: -2;
+    transition: background 0.2s;
+}
+
+/* Inner Hexagon (The Frosted White Glass) */
+.fab-main::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px; /* Creates the border thickness */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: var(--blur-amt) saturate(180%);
+    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
+    z-index: -1;
+    transition: background 0.2s;
 }
 
 @media (hover: hover) {
-  .back-nav:hover {
-    background: #FFFFFF;
-    transform: scale(1.08);
+  .fab-main:hover { 
+      transform: scale(1.08) translateY(-4px); 
+  }
+  .fab-main:hover::after {
+      background: #FFFFFF;
   }
 }
 
-body.dark-mode .back-nav {
-    background: rgba(20, 50, 95, 0.65);
-    color: var(--secondary-accent);
-}
-
-@media (max-width: 768px) {
-  .back-nav { 
-      top: 16px; 
-      left: 16px; 
-      width: 44px; 
-      height: 44px; 
-  }
+body.dark-mode .fab-main::after {
+    background: rgba(20, 50, 95, 0.65); /* Keeps it legible in dark mode */
 }
 
 .fab-main span { 
     font-size: 28px; 
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    position: relative;
+    z-index: 2; /* Ensures the icon sits on top of the glass */
 }
 
 /* Spin to X when active */
@@ -598,7 +610,6 @@ body.dark-mode .badge-category {
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
 /* --- GLOBAL BACK NAVIGATION --- */
-./* --- GLOBAL BACK NAVIGATION --- */
 .back-nav {
   position: absolute;
   top: 24px;
@@ -607,35 +618,62 @@ body.dark-mode .badge-category {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px; 
-  border-radius: 14px; /* Sharper corners */
-  color: var(--secondary-accent); /* Viking Orange icon */
-  background: rgba(255, 255, 255, 0.85); /* Frosted white button */
+  width: 56px;
+  height: 48.5px; 
+  color: var(--secondary-accent); /* Viking Orange symbol */
+  background: transparent;
   text-decoration: none;
-  border: 1px solid var(--glass-border); /* Border restored */
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  backdrop-filter: var(--blur-amt) saturate(180%);
-  -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
+  border: none; 
+  transition: transform 0.2s ease;
+}
+
+/* Outer Hexagon (The Border) */
+.back-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: var(--glass-border); 
+    z-index: -2;
+    transition: background 0.2s;
+}
+
+/* Inner Hexagon (The Frosted White Glass) */
+.back-nav::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px; /* Creates the border thickness */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: var(--blur-amt) saturate(180%);
+    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
+    z-index: -1;
+    transition: background 0.2s;
+}
+
+.back-nav span, .back-nav svg, .back-nav i, .back-nav img {
+    position: relative;
+    z-index: 2; /* Ensures the arrow sits on top of the glass */
 }
 
 @media (hover: hover) {
   .back-nav:hover {
-    background: #FFFFFF;
     transform: scale(1.08);
+  }
+  .back-nav:hover::after {
+    background: #FFFFFF;
   }
 }
 
-body.dark-mode .back-nav {
+body.dark-mode .back-nav::after {
     background: rgba(20, 50, 95, 0.65);
-    color: var(--secondary-accent);
 }
 
 @media (max-width: 768px) {
   .back-nav { 
       top: 16px; 
       left: 16px; 
-      width: 44px; 
-      height: 44px; 
+      width: 48px; 
+      height: 41.5px; 
   }
 }
