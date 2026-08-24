@@ -171,26 +171,34 @@ strong, b {
 
 .fab-main {
     width: 64px; 
-    height: 55.5px; /* Restores the old visual mass */
+    height: 55.5px; 
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: var(--glass-fab);
+    
+    /* Orange Tinted Glass */
+    background: rgba(248, 101, 22, 0.15); 
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     
-    color: var(--text-main); 
+    /* WV Blue Icon for Light Mode */
+    color: var(--wvc-blue); 
     border: none; 
     
     display: flex; 
     align-items: center; 
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s, background-color 0.2s;
+}
+
+body.dark-mode .fab-main {
+    background: rgba(248, 101, 22, 0.20); /* Slightly stronger glass for dark mode depth */
+    color: #FFFFFF; /* White Icon for Dark Mode */
 }
 
 @media (hover: hover) {
   .fab-main:hover { 
       transform: scale(1.08) translateY(-4px); 
-      color: var(--secondary-accent); 
+      background: rgba(248, 101, 22, 0.25);
   }
 }
 
@@ -199,10 +207,11 @@ strong, b {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Spin to X and lock color when active */
+/* Spin to X and turn solid orange when active */
 .fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main {
-    color: var(--secondary-accent);
+    background: var(--secondary-accent); 
+    color: #FFFFFF; 
 }
 
 /* THE POP-UP LIQUID GLASS MENU */
@@ -589,6 +598,7 @@ body.dark-mode .btn-primary {
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
 /* --- GLOBAL BACK NAVIGATION --- */
+/* --- GLOBAL BACK NAVIGATION --- */
 .back-nav {
   position: absolute;
   top: 24px;
@@ -598,20 +608,28 @@ body.dark-mode .btn-primary {
   align-items: center;
   justify-content: center;
   width: 56px;
-  height: 48.5px; /* Restores the old visual mass */
+  height: 48.5px; 
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  color: var(--text-main);
-  background: var(--glass-fab);
+  
+  /* Orange Tinted Glass & WV Blue Icon */
+  background: rgba(248, 101, 22, 0.15); 
+  color: var(--wvc-blue); 
+  
   text-decoration: none;
   border: none; 
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease;
   backdrop-filter: var(--blur-amt) saturate(180%);
   -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
 }
 
+body.dark-mode .back-nav {
+  background: rgba(248, 101, 22, 0.20);
+  color: #FFFFFF;
+}
+
 @media (hover: hover) {
   .back-nav:hover {
-    color: var(--secondary-accent);
+    background: rgba(248, 101, 22, 0.25);
     transform: scale(1.08);
   }
 }
@@ -621,6 +639,6 @@ body.dark-mode .btn-primary {
       top: 16px; 
       left: 16px; 
       width: 48px; 
-      height: 41.5px; /* Upscaled mobile equivalent */
+      height: 41.5px; 
   }
 }
