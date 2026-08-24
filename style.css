@@ -170,8 +170,8 @@ strong, b {
 }
 
 .fab-main {
-    width: 56px; 
-    height: 48.5px; /* Scaled for perfect equilateral geometry */
+    width: 64px; 
+    height: 55.5px; /* Restores the old visual mass */
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     background: var(--glass-fab);
     backdrop-filter: var(--blur-amt) saturate(180%);
@@ -382,8 +382,8 @@ strong, b {
 }
 
 .card-avatar {
-  width: 104px;
-  height: 90px; /* Scaled for perfect equilateral geometry */
+  width: 120px;
+  height: 104px; /* Perfectly matches your original square height */
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   background: var(--primary-accent);
   color: #FFFFFF;
@@ -597,8 +597,8 @@ body.dark-mode .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 41.5px; /* Scaled for perfect equilateral geometry */
+  width: 56px;
+  height: 48.5px; /* Restores the old visual mass */
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   color: var(--text-main);
   background: var(--glass-fab);
@@ -620,7 +620,7 @@ body.dark-mode .btn-primary {
   .back-nav { 
       top: 16px; 
       left: 16px; 
-      width: 40px; 
-      height: 34.6px; /* Scaled for mobile */
+      width: 48px; 
+      height: 41.5px; /* Upscaled mobile equivalent */
   }
 }
