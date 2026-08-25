@@ -262,7 +262,7 @@ window.initBarterBazaar = async function() {
     try {
         const response = await fetch(BARTER_CSV_URL);
         const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
+        const rows = parseCSVToArray(csvText); 
         
         const now = new Date();
         barterData = [];
@@ -390,7 +390,7 @@ window.initCarpoolTool = async function() {
     try {
         const response = await fetch(CARPOOL_CSV_URL);
         const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
+        const rows = parseCSVToArray(csvText); 
         
         const now = new Date();
         carpoolData = [];
@@ -642,45 +642,6 @@ const TRANSFER_FORM_URL = "YOUR_GOOGLE_FORM_LINK_HERE";
 let allTransferData = [];
 let activeTransferCategory = 'All';
 
-// The Hardcoded "Heavy Hitter" Cards (These contain descriptions!)
-const staticTransferTools = [
-    {
-        name: "ASSIST.org",
-        desc: "The official articulation repository for California public colleges. Note: Only applies to CSU, UC, and select private universities.",
-        url: "https://www.assist.org",
-        tags: ["UC", "CSU"],
-        type: "static"
-    },
-    {
-        name: "UC Transfer Admission Guarantee (TAG) & TAP",
-        desc: "Secure guaranteed admission to one of six UCs (excludes UC Berkeley, UCLA, UC San Diego). Use the TAP tool to track your coursework.",
-        url: "https://admission.universityofcalifornia.edu/admission-requirements/transfer-requirements/transfer-admission-guarantee-tag.html",
-        tags: ["UC", "Transfer Help"],
-        type: "static"
-    },
-    {
-        name: "UC Transfers By Major (Common Data)",
-        desc: "The real, unfiltered admission data sets published directly by the University of California system. See exact acceptance rates by major.",
-        url: "https://www.universityofcalifornia.edu/about-us/information-center/transfers-major",
-        tags: ["UC"],
-        type: "static"
-    },
-    {
-        name: "Berkeley CCTS & Starting Point",
-        desc: "Community College Transfer Services (CCTS) and the Starting Point Mentorship Program specifically designed to guide CA community college students to Cal.",
-        url: "https://transfers.berkeley.edu/prospective-students",
-        tags: ["UC", "Transfer Help"],
-        type: "static"
-    },
-    {
-        name: "Yale Eli Whitney Students Program",
-        desc: "A highly selective transfer program for non-traditional students and veterans whose educations have been interrupted for five or more years.",
-        url: "https://admissions.yale.edu/eli-whitney",
-        tags: ["Ivy League", "Non-Traditional", "Veterans"],
-        type: "static"
-    }
-];
-
 window.initTransferTools = async function() {
     const grid = document.getElementById("transfer-grid");
     const searchInput = document.getElementById("transfer-search-input");
@@ -689,37 +650,45 @@ window.initTransferTools = async function() {
     try {
         const response = await fetch(TRANSFER_CSV_URL);
         const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
+        const rows = parseCSVToArray(csvText); 
         
         const dynamicData = [];
 
         // Google Forms Output Mapping: 
-        // [0] Timestamp, [1] Email/Score (Ignored), [2] Name, [3] Tags, [4] URL
+        // [0] Timestamp (Ignored)
+        // [1] Email/Score (Ignored)
+        // [2] Name
+        // [3] Tags
+        // [4] URL
+        // [5] Description (Manually populated in Google Sheets)
         for (let i = 1; i < rows.length; i++) {
             const cols = rows[i];
-            if (cols.length < 4) continue; 
+            if (cols.length < 5) continue; 
             
             const name = cols[2] || "";     
             const tagsRaw = cols[3] || "";     
             const url = cols[4] || "";   
+            const desc = cols[5] || ""; // Pulling your manually added descriptions here!
             
             // Google Forms multi-select separates items with a comma (", ") instead of a semicolon
             const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t);
 
             if (name) {
-                // Notice we assign an empty string to desc for crowdsourced forms
-                dynamicData.push({ name, desc: "", url, tags, type: "dynamic" });
+                dynamicData.push({ name, desc, url, tags, type: "dynamic" });
             }
         }
 
-        allTransferData = [...staticTransferTools, ...dynamicData];
+        allTransferData = dynamicData;
+        
+        // AUTO SORTING MAGIC: Ensures cards are always listed in alphabetical order
         allTransferData.sort((a, b) => a.name.localeCompare(b.name));
+        
         window.filterTransferTools();
         
         if (searchInput) searchInput.addEventListener("input", window.filterTransferTools);
     } catch (error) {
-        console.warn("Could not fetch live Google Form transfer data. Loading static resources only.", error);
-        allTransferData = [...staticTransferTools];
+        console.warn("Could not fetch live Google Form transfer data. Loading empty state.", error);
+        allTransferData = [];
         window.filterTransferTools();
     }
 };
@@ -773,7 +742,7 @@ function renderTransferCards(items) {
     const cardsHtml = items.map(item => {
         const badgesHtml = item.tags.map(tag => `<span class="badge badge-category">${tag}</span>`).join('');
         
-        // This conditional line completely hides the description block if it's empty!
+        // Dynamically hide the description block completely if it's left blank on the spreadsheet
         const descHtml = item.desc ? `<p style="font-size: 0.9375rem; color: var(--text-sub); line-height: 1.5; margin: 0 0 1.5rem 0;">${item.desc}</p>` : `<div style="margin-bottom: 1.5rem;"></div>`;
 
         return `
