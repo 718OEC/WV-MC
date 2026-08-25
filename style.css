@@ -24,7 +24,7 @@
 
   /* Colored Liquid Glass */
   --glass-panel: rgba(183, 204, 234, 0.48); 
-  --glass-fab: rgba(248, 101, 22, 0.48); 
+  --glass-fab: rgba(183, 204, 234, 0.65); /* Icy Blue Frosted Glass */
   --glass-border: rgba(20, 50, 95, 0.12);
   --glass-shadow: 0 8px 32px rgba(20, 50, 95, 0.12); 
   --blur-amt: blur(24px); 
@@ -46,7 +46,7 @@ body.theme-mc {
 }
 .theme-mc.glass, .theme-mc .glass {
   --glass-panel: rgba(12, 119, 153, 0.12);
-  --glass-fab: rgba(234, 115, 11, 0.22);
+  --glass-fab: rgba(12, 119, 153, 0.25); /* MC Teal glass (icy equivalent) */
   --glass-border: rgba(12, 119, 153, 0.15);
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
@@ -58,7 +58,7 @@ body.dark-mode {
   --text-sub: #B7CCEA;
   
   --glass-panel: rgba(20, 50, 95, 0.35); 
-  --glass-fab: rgba(248, 101, 22, 0.30); 
+  --glass-fab: rgba(183, 204, 234, 0.25); /* Dark mode icy blue */
   --glass-border: rgba(86, 131, 186, 0.25);
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.35); 
   --toggle-bg: rgba(183, 204, 234, 0.15);
@@ -69,7 +69,7 @@ body.theme-mc.dark-mode {
 }
 body.theme-mc.dark-mode, body.dark-mode .theme-mc {
   --text-sub: #A8D8EA;
-  --glass-fab: rgba(234, 115, 11, 0.28);
+  --glass-fab: rgba(12, 119, 153, 0.25);
 }
 body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
@@ -190,7 +190,6 @@ strong, b { font-weight: 600; }
     width: 56px; 
     height: 56px; 
     border-radius: 50%;
-    color: var(--secondary-accent);
     
     /* Using !important ties them strictly to your master variables, fixing HTML inconsistencies */
     background: var(--glass-fab) !important;
@@ -198,6 +197,9 @@ strong, b { font-weight: 600; }
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%) !important;
     border: 1px solid var(--glass-border) !important;
     box-shadow: var(--glass-shadow);
+    
+    /* Icon remains secondary accent (orange) */
+    color: var(--secondary-accent) !important;
     
     text-decoration: none;
     cursor: pointer;
@@ -247,8 +249,8 @@ strong, b { font-weight: 600; }
     padding: 0; 
     margin: 0;
     
-    /* Menu keeps high-contrast glass for text readability */
-    background: rgba(255, 255, 255, 0.85);
+    /* Menu uses higher transparency so more of the page blurs through */
+    background: rgba(255, 255, 255, 0.60);
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
     border: 1px solid var(--glass-border);
@@ -264,7 +266,7 @@ strong, b { font-weight: 600; }
     min-width: 200px;
 }
 
-body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
+body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.60); }
 
 .fab-container.active .fab-menu {
     opacity: 1;
@@ -550,15 +552,18 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 [data-tag="CSU"] { background: #C90022 !important; border-color: #C90022 !important; }
 [data-tag="Private"] { background: #4B2E83 !important; border-color: #4B2E83 !important; }
 [data-tag="Ivy League"] { background: #014421 !important; border-color: #014421 !important; }
-[data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } 
+[data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } /* Deepened Gold for white text */
 [data-tag="Top 25"] { background: #E65C00 !important; border-color: #E65C00 !important; }
+
 /* 2. Student Identity */
 [data-tag="Veterans"] { background: #4B5320 !important; border-color: #4B5320 !important; }
 [data-tag="Non-Traditional"] { background: #BF360C !important; border-color: #BF360C !important; }
+
 /* 3. Academic Track */
 [data-tag="STEM"] { background: #008080 !important; border-color: #008080 !important; }
 [data-tag="Pre-Med"] { background: #1565C0 !important; border-color: #1565C0 !important; }
 [data-tag="Pre-Law"] { background: #5D4037 !important; border-color: #5D4037 !important; }
+
 /* 4. Resources & Content */
 [data-tag="Internship"] { background: #2E7D32 !important; border-color: #2E7D32 !important; }
 [data-tag="Transfer Help"] { background: #E64A19 !important; border-color: #E64A19 !important; }
