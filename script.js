@@ -1,4 +1,32 @@
+// ==========================================
+// --- SHARED HELPER FUNCTIONS ---
+// ==========================================
+
+// Optimized Master CSV Parser (Used by Barter, Carpool, and Transfer engines)
+function parseCSVToArray(csvText) {
+    const rows = [];
+    let row = [];
+    let inQuote = false;
+    let val = "";
+    
+    for (let i = 0; i < csvText.length; i++) {
+        let c = csvText[i];
+        let nc = csvText[i+1];
+        if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } 
+        else if (c === '"') { inQuote = !inQuote; }
+        else if (c === ',' && !inQuote) { row.push(val); val = ""; }
+        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
+        else if (c === '\r' && !inQuote) { /* ignore */ }
+        else { val += c; }
+    }
+    if (val || row.length > 0) { row.push(val); rows.push(row); }
+    return rows;
+}
+
+
+// ==========================================
 // --- GLOBAL FAB NAVIGATION LOGIC ---
+// ==========================================
 window.toggleFab = function() {
     const container = document.getElementById('fabContainer');
     const icon = document.getElementById('fabIcon');
@@ -20,11 +48,14 @@ document.addEventListener('click', function(event) {
     }
 });
 
+
+// ==========================================
+// --- MASTER INITIALIZATION ENGINE ---
+// ==========================================
 let activeCategory = 'All';
-let activeCampus = 'All'; // Now defaults to showing everything
+let activeCampus = 'All'; 
 const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
 
-// --- MASTER INITIALIZATION ENGINE ---
 function initializeApp() {
     try {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -47,12 +78,9 @@ function initializeApp() {
         window.filterClubs(); 
     }
 
-    if (typeof window.initBarterBazaar === 'function') {
-        window.initBarterBazaar();
-    }
-    if (typeof window.initCarpoolTool === 'function') {
-        window.initCarpoolTool();
-    }
+    if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
+    if (typeof window.initCarpoolTool === 'function') window.initCarpoolTool();
+    if (typeof window.initTransferTools === 'function') window.initTransferTools();
 }
 
 if (document.readyState === 'loading') {
@@ -61,7 +89,10 @@ if (document.readyState === 'loading') {
     initializeApp();
 }
 
+
+// ==========================================
 // --- CLUB HUB ENGINE ---
+// ==========================================
 window.filterCampus = function(campus, button) {
     document.querySelectorAll('#campus-pills .pill').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
@@ -95,16 +126,11 @@ window.filterClubs = function() {
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []); 
 
-        // 1. Check Campus Filter
         if (activeCampus !== 'All' && school.toUpperCase() !== activeCampus) return false;
+        if (activeCategory !== 'All' && !cats.includes(activeCategory)) return false;
 
-        // 2. Check Category Filter
-        const matchesCategory = (activeCategory === 'All' || cats.includes(activeCategory));
-        if (!matchesCategory) return false;
-
-        // 3. Check Text Search
         const catSearchString = cats.join(' ').toLowerCase();
-        const matchesSearch = !term || 
+        return !term || 
         name.toLowerCase().includes(term) ||
         initials.toLowerCase().includes(term) ||
         president.toLowerCase().includes(term) ||
@@ -113,17 +139,9 @@ window.filterClubs = function() {
         professor.toLowerCase().includes(term) ||
         desc.toLowerCase().includes(term) ||
         school.toLowerCase().includes(term);
-
-        return matchesSearch;
     });
 
-    // 4. ALPHABETICAL SORTING MAGIC
-    filtered.sort((a, b) => {
-        const nameA = a.name || "";
-        const nameB = b.name || "";
-        return nameA.localeCompare(nameB);
-    });
-
+    filtered.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
     renderClubCards(filtered);
 };
 
@@ -131,40 +149,28 @@ function renderClubCards(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-  // 1. Unified CTA Card (Now inherits true glass transparency)
     const unifiedCtaHtml = `
     <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
-        
         <div style="text-align: center;">
             <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
             <h3 style="margin: 0; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
             <p style="font-size: 0.875rem; color: var(--text-sub); margin-top: 0.25rem; margin-bottom: 0;">Can't find your community? Launch your own organization.</p>
         </div>
-
-        <!-- West Valley Action (Themed Blue Border + Colorful Orange Button) -->
         <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid var(--wvc-blue-light);">
-            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.75rem;">
-                West Valley College
-            </div>
+            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.75rem;">West Valley College</div>
             <a href="${wvClubFormUrl}" target="_blank" class="btn" style="background: var(--secondary-accent); color: #FFFFFF; width: 100%; padding: 0.625rem; font-size: 0.8125rem; border: none;">Submit ASG Proposal</a>
         </div>
-
-        <!-- Mission College Action (Themed Teal Border + Neutral Secondary Buttons) -->
         <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid rgba(12, 119, 153, 0.4);">
-            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.25rem;">
-                Mission College
-            </div>
+            <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.25rem;">Mission College</div>
             <div style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem;">Contact Yesenia Melgoza (Student Life)</div>
             <div style="display: flex; gap: 0.5rem;">
                 <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4);"><span class="material-symbols-rounded" style="font-size: 1rem;">mail</span> Email</a>
                 <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4);"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span> Call</a>
             </div>
         </div>
-
     </div>
     `;
 
-    // 2. Empty State Check
     if (!clubs || clubs.length === 0) {
         grid.innerHTML = unifiedCtaHtml + `
         <div class="glass card-small" style="grid-column: 1 / -1; text-align: center; padding: 2.5rem;">
@@ -232,15 +238,13 @@ function renderClubCards(clubs) {
                 <div class="card-desc">${club.desc || ''}</div>
                 ${socialsBlock}
             </div>
-            
-            <div class="card-actions">
-                ${actionBtnHtml}
-            </div>
+            <div class="card-actions">${actionBtnHtml}</div>
         </div>`;
     }).join('');
 
     grid.innerHTML = unifiedCtaHtml + cardsHtml;
 }
+
 
 // ==========================================
 // --- BARTER BAZAAR ENGINE ---
@@ -258,59 +262,35 @@ window.initBarterBazaar = async function() {
     try {
         const response = await fetch(BARTER_CSV_URL);
         const csvText = await response.text();
-        parseAndLoadBarterData(csvText);
+        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
         
-        if (barterSearch) {
-            barterSearch.addEventListener("input", window.filterBarter);
+        const now = new Date();
+        barterData = [];
+
+        for (let i = 1; i < rows.length; i++) {
+            const cols = rows[i];
+            if (cols.length < 5) continue; 
+            
+            const timestamp = new Date(cols[0]);
+            const email = cols[1] || "";        
+            const campus = cols[2] || "WV";     
+            const lookingFor = cols[3] || "";   
+            const offering = cols[4] || "";     
+            
+            if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
+
+            barterData.push({ timestamp, campus, lookingFor, offering, email });
         }
+
+        barterData.sort((a, b) => b.timestamp - a.timestamp);
+        window.filterBarter();
+        
+        if (barterSearch) barterSearch.addEventListener("input", window.filterBarter);
     } catch (error) {
         console.error("Error fetching Barter Bazaar data:", error);
         barterGrid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load trades. Please check your connection.</p>`;
     }
 };
-
-function parseAndLoadBarterData(csvText) {
-    const rows = [];
-    let row = [];
-    let inQuote = false;
-    let val = "";
-    
-    for (let i = 0; i < csvText.length; i++) {
-        let c = csvText[i];
-        let nc = csvText[i+1];
-        if (c === '"' && inQuote && nc === '"') { val += '"'; i++; } 
-        else if (c === '"') { inQuote = !inQuote; }
-        else if (c === ',' && !inQuote) { row.push(val); val = ""; }
-        else if (c === '\n' && !inQuote) { row.push(val); rows.push(row); row = []; val = ""; }
-        else if (c === '\r' && !inQuote) { /* ignore */ }
-        else { val += c; }
-    }
-    if (val || row.length > 0) { row.push(val); rows.push(row); }
-
-    const now = new Date();
-    barterData = [];
-
-    // Skip header row
-    for (let i = 1; i < rows.length; i++) {
-        const cols = rows[i];
-        if (cols.length < 5) continue; 
-        
-        const timestamp = new Date(cols[0]);
-        const email = cols[1] || "";        // Column B: SSO Email
-        const campus = cols[2] || "WV";     // Column C: Campus
-        const lookingFor = cols[3] || "";   // Column D: Procuring
-        const offering = cols[4] || "";     // Column E: Offering
-        
-        // 120-Day Expire Check
-        const ageDays = (now - timestamp) / (1000 * 60 * 60 * 24);
-        if (ageDays > 120) continue;
-
-        barterData.push({ timestamp, campus, lookingFor, offering, email });
-    }
-
-    barterData.sort((a, b) => b.timestamp - a.timestamp);
-    window.filterBarter();
-}
 
 window.filterBarter = function() {
     const searchInput = document.getElementById("barter-search-input");
@@ -318,9 +298,7 @@ window.filterBarter = function() {
 
     const filtered = barterData.filter(item => {
         if (!term) return true;
-        return (item.campus.toLowerCase().includes(term) ||
-                item.lookingFor.toLowerCase().includes(term) ||
-                item.offering.toLowerCase().includes(term));
+        return (item.campus.toLowerCase().includes(term) || item.lookingFor.toLowerCase().includes(term) || item.offering.toLowerCase().includes(term));
     });
 
     renderBarterCards(filtered);
@@ -346,22 +324,17 @@ function renderBarterCards(items) {
         const mailtoSubject = encodeURIComponent("Barter Bazaar Trade");
         const mailtoBody = encodeURIComponent(`Hi! I'm interested in trading with you:\n\n"Looking For: ${safeLookingFor}"\n\nI have ___`);
         
-        // --- Dynamic Campus Pill Logic ---
         let campusBadgesHtml = '';
         const cStr = item.campus.toLowerCase();
         
         if (cStr.includes('both')) {
-            campusBadgesHtml = `
-                <span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>
-                <span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>
-            `;
+            campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span><span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>`;
         } else if (cStr.includes('mission') || cStr.includes('mc')) {
             campusBadgesHtml = `<span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>`;
         } else {
             campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>`;
         }
 
-        // DYNAMIC THEME INJECTION (Stays default WV unless specifically only Mission College)
         const isMC = !cStr.includes('both') && (cStr.includes('mission') || cStr.includes('mc'));
         
         return `
@@ -396,15 +369,101 @@ function renderBarterCards(items) {
 
     grid.innerHTML = ctaCard + cardsHtml;
 }
+
+
 // ==========================================
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
 // +++++++++++++ IMPORTANT +++++++++++++++++ Replace with your actual Microsoft Forms published CSV link
+const CARPOOL_CSV_URL = "YOUR_CSV_LINK_HERE";
+const CARPOOL_FORM_URL = "YOUR_FORM_LINK_HERE"; 
+
+let carpoolData = [];
+let activeCarpoolCampus = 'All';
+let activeCarpoolRole = 'All';
+
+window.initCarpoolTool = async function() {
+    const grid = document.getElementById("carpool-grid");
+    const searchInput = document.getElementById("carpool-search-input");
+    if (!grid) return; 
+
+    try {
+        const response = await fetch(CARPOOL_CSV_URL);
+        const csvText = await response.text();
+        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
+        
+        const now = new Date();
+        carpoolData = [];
+
+        for (let i = 1; i < rows.length; i++) {
+            const cols = rows[i];
+            if (cols.length < 9) continue; 
+            
+            const timestamp = new Date(cols[0]);
+            const email = cols[1] || "";        
+            const campus = cols[3] || "WV";     
+            const city = cols[4] || "";   
+            const zip = cols[5] || "";     
+            const role = cols[6] || "";     
+            const days = cols[7] || "";     
+            const arrive = cols[8] || "";     
+            const leave = cols[9] || "";     
+            
+            if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
+
+            carpoolData.push({ timestamp, email, campus, city, zip, role, days, arrive, leave });
+        }
+
+        carpoolData.sort((a, b) => b.timestamp - a.timestamp);
+        window.filterCarpools();
+        
+        if (searchInput) searchInput.addEventListener("input", window.filterCarpools);
+    } catch (error) {
+        console.error("Error fetching Carpool data:", error);
+        grid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load carpools. Ensure your CSV link is correct.</p>`;
+    }
+};
+
+window.filterCarpoolCampus = function(campus, button) {
+    document.querySelectorAll('#carpool-campus-pills .pill').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    activeCarpoolCampus = campus;
+    window.filterCarpools();
+};
+
+window.filterCarpoolRole = function(role, button) {
+    document.querySelectorAll('#carpool-role-pills .pill').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    activeCarpoolRole = role;
+    window.filterCarpools();
+};
+
+window.filterCarpools = function() {
+    const searchInput = document.getElementById("carpool-search-input");
+    const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    const filtered = carpoolData.filter(item => {
+        const cStr = item.campus.toLowerCase();
+        
+        let matchesCampus = false;
+        if (activeCarpoolCampus === 'All') matchesCampus = true;
+        else if (activeCarpoolCampus === 'WV' && (cStr.includes('west valley') || cStr.includes('both'))) matchesCampus = true;
+        else if (activeCarpoolCampus === 'MC' && (cStr.includes('mission') || cStr.includes('mc') || cStr.includes('both'))) matchesCampus = true;
+        if (!matchesCampus) return false;
+
+        if (activeCarpoolRole !== 'All' && !item.role.includes(activeCarpoolRole)) return false;
+        if (term && !item.city.toLowerCase().includes(term) && !item.zip.toLowerCase().includes(term)) return false;
+
+        return true;
+    });
+
+    renderCarpoolCards(filtered);
+};
+
 function renderCarpoolCards(items) {
     const grid = document.getElementById("carpool-grid");
     if (!grid) return;
 
-    // 1. CTA Card (Shares the true liquid glass style from the Club Hub)
     const ctaCard = `
     <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent);">directions_car</span>
@@ -416,15 +475,12 @@ function renderCarpoolCards(items) {
     </div>
     `;
 
-    // 2. Ever-Present Static Demo Card
     const demoCard = `
     <div class="glass card-small" style="position: relative; border: 2px dashed rgba(248, 101, 22, 0.4);">
-        <!-- Floating Demo Badge -->
         <div style="position: absolute; top: -12px; right: 24px; background: var(--secondary-accent); color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(248, 101, 22, 0.3);">
             Example Post
         </div>
         <div>
-            <!-- Top Row: Location & Avatar -->
             <div class="card-header-row" style="margin-bottom: 1.25rem;">
                 <div style="flex: 1;">
                     <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary-accent); margin-bottom: 0.25rem;">Driver</div>
@@ -439,7 +495,6 @@ function renderCarpoolCards(items) {
             
             <hr style="border: 0; height: 1px; background: var(--glass-border); margin: 0 0 1rem 0;">
             
-            <!-- Logistics Block -->
             <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
                 <div>
                     <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sub);">Campus</div>
@@ -484,12 +539,10 @@ function renderCarpoolCards(items) {
     </div>
     `;
 
-    // 3. Render Real Cards (Mapped from Google Sheets)
     const cardsHtml = items.map(item => {
         const timeString = item.timestamp.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
         const isDriver = item.role.toLowerCase().includes('driving');
         
-        // Dynamic Campus Badges
         let campusBadgesHtml = '';
         const cStr = item.campus.toLowerCase();
         if (cStr.includes('both')) {
@@ -500,12 +553,10 @@ function renderCarpoolCards(items) {
             campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span>`;
         }
 
-        // Role & Avatar Setup
         const roleColor = isDriver ? 'var(--secondary-accent)' : 'var(--wvc-blue)';
         const roleIcon = isDriver ? 'local_taxi' : 'hail';
         const roleText = isDriver ? 'Driver' : 'Rider';
 
-        // 7-Day Schedule Pills Generator
         const dayMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const dayLetters = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
         let scheduleHtml = `<div style="display: flex; gap: 4px; margin-top: 0.5rem;">`;
@@ -520,18 +571,15 @@ function renderCarpoolCards(items) {
         }
         scheduleHtml += `</div>`;
 
-        // Pre-filled Email Setup
         const mailAction = isDriver ? "Request a Ride" : "Offer a Ride";
         const mailSubject = encodeURIComponent(`Carpool Tool: ${roleText} to ${item.campus}`);
         const mailBody = encodeURIComponent(`Hi! I saw your post on the WVM Carpool Tool.\n\nI'm reaching out about your commute to/from ${item.city} (${item.zip}).\n\nLet's chat!`);
 
-        // DYNAMIC THEME INJECTION
         const isMC = !cStr.includes('both') && (cStr.includes('mission') || cStr.includes('mc'));
 
         return `
         <div class="glass card-small ${isMC ? 'theme-mc' : ''}">
             <div>
-                <!-- Top Row: Location & Avatar -->
                 <div class="card-header-row" style="margin-bottom: 1.25rem;">
                     <div style="flex: 1;">
                         <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: ${roleColor}; margin-bottom: 0.25rem;">${roleText}</div>
@@ -546,7 +594,6 @@ function renderCarpoolCards(items) {
                 
                 <hr style="border: 0; height: 1px; background: var(--glass-border); margin: 0 0 1rem 0;">
                 
-                <!-- Logistics Block -->
                 <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
                     <div>
                         <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-sub);">Campus</div>
@@ -581,6 +628,176 @@ function renderCarpoolCards(items) {
         `;
     }).join('');
 
-    // 4. Inject CTA, Demo Card, and Live Data into the Grid!
     grid.innerHTML = ctaCard + demoCard + cardsHtml;
+}
+
+
+// ==========================================
+// --- TRANSFER TOOLS ENGINE ---
+// ==========================================
+const TRANSFER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRW6t1GuKl7Ac1-CWQ91QiASG6jWGLHUVwGrc0JXhO46LMIio56zZNHLZsQ-k_zl1Ox5NVbNQKHMM73/pub?output=csv";
+// TODO: Replace with the actual Google Form link for your Intake CTA Card
+const TRANSFER_FORM_URL = "YOUR_GOOGLE_FORM_LINK_HERE"; 
+
+let allTransferData = [];
+let activeTransferCategory = 'All';
+
+// The Hardcoded "Heavy Hitter" Cards (These contain descriptions!)
+const staticTransferTools = [
+    {
+        name: "ASSIST.org",
+        desc: "The official articulation repository for California public colleges. Note: Only applies to CSU, UC, and select private universities.",
+        url: "https://www.assist.org",
+        tags: ["UC", "CSU"],
+        type: "static"
+    },
+    {
+        name: "UC Transfer Admission Guarantee (TAG) & TAP",
+        desc: "Secure guaranteed admission to one of six UCs (excludes UC Berkeley, UCLA, UC San Diego). Use the TAP tool to track your coursework.",
+        url: "https://admission.universityofcalifornia.edu/admission-requirements/transfer-requirements/transfer-admission-guarantee-tag.html",
+        tags: ["UC", "Transfer Help"],
+        type: "static"
+    },
+    {
+        name: "UC Transfers By Major (Common Data)",
+        desc: "The real, unfiltered admission data sets published directly by the University of California system. See exact acceptance rates by major.",
+        url: "https://www.universityofcalifornia.edu/about-us/information-center/transfers-major",
+        tags: ["UC"],
+        type: "static"
+    },
+    {
+        name: "Berkeley CCTS & Starting Point",
+        desc: "Community College Transfer Services (CCTS) and the Starting Point Mentorship Program specifically designed to guide CA community college students to Cal.",
+        url: "https://transfers.berkeley.edu/prospective-students",
+        tags: ["UC", "Transfer Help"],
+        type: "static"
+    },
+    {
+        name: "Yale Eli Whitney Students Program",
+        desc: "A highly selective transfer program for non-traditional students and veterans whose educations have been interrupted for five or more years.",
+        url: "https://admissions.yale.edu/eli-whitney",
+        tags: ["Ivy League", "Non-Traditional", "Veterans"],
+        type: "static"
+    }
+];
+
+window.initTransferTools = async function() {
+    const grid = document.getElementById("transfer-grid");
+    const searchInput = document.getElementById("transfer-search-input");
+    if (!grid) return; 
+
+    try {
+        const response = await fetch(TRANSFER_CSV_URL);
+        const csvText = await response.text();
+        const rows = parseCSVToArray(csvText); // USING SHARED OPTIMIZED PARSER
+        
+        const dynamicData = [];
+
+        // Google Forms Output Mapping: 
+        // [0] Timestamp, [1] Email/Score (Ignored), [2] Name, [3] Tags, [4] URL
+        for (let i = 1; i < rows.length; i++) {
+            const cols = rows[i];
+            if (cols.length < 4) continue; 
+            
+            const name = cols[2] || "";     
+            const tagsRaw = cols[3] || "";     
+            const url = cols[4] || "";   
+            
+            // Google Forms multi-select separates items with a comma (", ") instead of a semicolon
+            const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t);
+
+            if (name) {
+                // Notice we assign an empty string to desc for crowdsourced forms
+                dynamicData.push({ name, desc: "", url, tags, type: "dynamic" });
+            }
+        }
+
+        allTransferData = [...staticTransferTools, ...dynamicData];
+        allTransferData.sort((a, b) => a.name.localeCompare(b.name));
+        window.filterTransferTools();
+        
+        if (searchInput) searchInput.addEventListener("input", window.filterTransferTools);
+    } catch (error) {
+        console.warn("Could not fetch live Google Form transfer data. Loading static resources only.", error);
+        allTransferData = [...staticTransferTools];
+        window.filterTransferTools();
+    }
+};
+
+window.filterTransfer = function(category, button) {
+    document.querySelectorAll('#transfer-category-pills .pill').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    activeTransferCategory = category;
+    window.filterTransferTools();
+};
+
+window.filterTransferTools = function() {
+    const searchInput = document.getElementById("transfer-search-input");
+    const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    const filtered = allTransferData.filter(item => {
+        let matchesCategory = false;
+        if (activeTransferCategory === 'All') {
+            matchesCategory = true;
+        } else {
+            matchesCategory = item.tags.some(tag => tag.includes(activeTransferCategory));
+        }
+        if (!matchesCategory) return false;
+
+        if (term) {
+            const searchString = `${item.name} ${item.desc} ${item.tags.join(' ')}`.toLowerCase();
+            if (!searchString.includes(term)) return false;
+        }
+
+        return true;
+    });
+
+    renderTransferCards(filtered);
+};
+
+function renderTransferCards(items) {
+    const grid = document.getElementById("transfer-grid");
+    if (!grid) return;
+
+    const ctaCard = `
+    <div class="glass card-small" style="border: 2px dashed var(--secondary-accent); background: rgba(248, 101, 22, 0.05); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;">
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent);">account_balance</span>
+        <div>
+            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Submit a Resource</h3>
+            <p style="font-size: 0.875rem; color: var(--text-sub); margin: 0;">Found a great transfer program, data set, or scholarship? Add it to the hub.</p>
+        </div>
+        <a href="${TRANSFER_FORM_URL}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%; margin-top: 0.5rem;">Add Data</a>
+    </div>
+    `;
+
+    const cardsHtml = items.map(item => {
+        const badgesHtml = item.tags.map(tag => `<span class="badge badge-category">${tag}</span>`).join('');
+        
+        // This conditional line completely hides the description block if it's empty!
+        const descHtml = item.desc ? `<p style="font-size: 0.9375rem; color: var(--text-sub); line-height: 1.5; margin: 0 0 1.5rem 0;">${item.desc}</p>` : `<div style="margin-bottom: 1.5rem;"></div>`;
+
+        return `
+        <div class="glass card-small" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div class="card-header-row" style="margin-bottom: 1rem; align-items: flex-start;">
+                    <h3 style="margin: 0; font-size: 1.35rem; line-height: 1.2; flex: 1;">${item.name}</h3>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem;">
+                    ${badgesHtml}
+                </div>
+                
+                ${descHtml}
+            </div>
+            
+            <div class="card-actions">
+                <a href="${item.url}" target="_blank" class="btn btn-secondary" style="width: 100%; border-color: var(--secondary-accent); color: var(--secondary-accent);">
+                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">open_in_new</span> Visit Resource
+                </a>
+            </div>
+        </div>
+        `;
+    }).join('');
+
+    grid.innerHTML = ctaCard + cardsHtml;
 }
