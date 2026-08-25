@@ -7,21 +7,17 @@
   --viking-orange: #F86516;
   --viking-orange-light: #FFCAB3;
   --wvc-charcoal: #404040;
-  
   --mc-teal: #0C7799;
   --mc-teal-light: rgba(12, 119, 153, 0.2);
   --mc-orange: #EA730B;
   --mc-navy: #003762;
-  
   --primary-accent: var(--wvc-blue);
   --primary-light: var(--wvc-blue-light);
   --secondary-accent: var(--viking-orange);
-
   /* Light Mode UI Mapping */
   --page-bg: #EBF1F8; 
   --text-main: var(--wvc-charcoal);
   --text-sub: #546682;
-
   /* Colored Liquid Glass */
   --glass-panel: rgba(183, 204, 234, 0.48); 
   --glass-fab: rgba(248, 101, 22, 0.48); 
@@ -30,7 +26,6 @@
   --blur-amt: blur(24px); 
   --toggle-bg: rgba(20, 50, 95, 0.08);
 }
-
 /* --- MISSION COLLEGE THEME OVERRIDE --- */
 body.theme-mc, .theme-mc {
   --primary-accent: var(--mc-teal);
@@ -46,7 +41,6 @@ body.theme-mc {
   --glass-border: rgba(12, 119, 153, 0.15);
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
-
 /* --- DARK MODE OVERRIDES --- */
 body.dark-mode {
   --page-bg: #091322;
@@ -61,12 +55,10 @@ body.dark-mode {
 }
 
 body.theme-mc.dark-mode { --page-bg: #031520; }
-
 body.theme-mc.dark-mode, body.dark-mode .theme-mc {
   --text-sub: #A8D8EA;
   --glass-fab: rgba(234, 115, 11, 0.28);
 }
-
 body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
   --glass-border: rgba(12, 119, 153, 0.35);
@@ -77,7 +69,6 @@ body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
 /* --- GLOBAL RESETS & TYPOGRAPHY --- */
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
   font-family: 'Lexend', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -90,27 +81,22 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
 h1, h2, h3 {
   font-family: 'DM Serif Display', serif;
   font-weight: 400; 
   margin-top: 0;
 }
-
 strong, b { font-weight: 600; }
-
 .script-text {
   font-family: 'Lumios', 'Caveat', cursive; 
   font-size: 1.5rem;
 }
-
 .app-wrapper {
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
   padding: 40px 20px 120px;
 }
-
 /* Universal Card Glass Engine */
 .glass {
   background: var(--glass-panel);
@@ -121,7 +107,6 @@ strong, b { font-weight: 600; }
   border-radius: 24px;
   transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 /* --- HERO & TITLES --- */
 .hero {
   text-align: center;
@@ -132,7 +117,6 @@ strong, b { font-weight: 600; }
   flex-direction: column;
   align-items: center;
 }
-
 .subtitle {
   font-family: 'Lexend', sans-serif;
   font-size: 14px;
@@ -143,7 +127,6 @@ strong, b { font-weight: 600; }
   margin: 0 0 8px;
   transition: color 0.3s ease;
 }
-
 .hero h1 {
   font-size: clamp(28px, 6vw, 48px);
   color: var(--text-main);
@@ -152,7 +135,6 @@ strong, b { font-weight: 600; }
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
-
 /* --- MAIN NAVIGATION FAB --- */
 .fab-container {
     position: fixed;
@@ -164,7 +146,6 @@ strong, b { font-weight: 600; }
     align-items: flex-end;
     gap: 12px;
 }
-
 .fab-main {
     width: 64px; 
     height: 55.5px; 
@@ -179,7 +160,6 @@ strong, b { font-weight: 600; }
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
 }
-
 .fab-main::before, .back-nav::before {
     content: '';
     position: absolute;
@@ -189,7 +169,6 @@ strong, b { font-weight: 600; }
     z-index: -2;
     transition: background 0.2s;
 }
-
 .fab-main::after, .back-nav::after {
     content: '';
     position: absolute;
@@ -201,26 +180,21 @@ strong, b { font-weight: 600; }
     z-index: -1;
     transition: background 0.2s;
 }
-
 @media (hover: hover) {
   .fab-main:hover, .back-nav:hover { transform: scale(1.08) translateY(-4px); }
   .fab-main:hover::after, .back-nav:hover::after { background: #FFFFFF; }
 }
-
 body.dark-mode .fab-main::after, body.dark-mode .back-nav::after {
     background: rgba(20, 50, 95, 0.65);
 }
-
 .fab-main span { 
     font-size: 28px; 
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     position: relative;
     z-index: 2;
 }
-
 .fab-container.active .fab-main span { transform: rotate(180deg); }
 .fab-container.active .fab-main { color: var(--secondary-accent); }
-
 /* THE POP-UP LIQUID GLASS MENU */
 .fab-menu {
     list-style: none;
@@ -240,18 +214,14 @@ body.dark-mode .fab-main::after, body.dark-mode .back-nav::after {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 200px;
 }
-
 body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
-
 .fab-container.active .fab-menu {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: all;
 }
-
 .fab-menu li { border-bottom: 1px solid var(--glass-border); }
 .fab-menu li:last-child { border-bottom: none; }
-
 .fab-menu a, .fab-menu button {
     display: flex; 
     align-items: center; 
@@ -269,19 +239,16 @@ body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
     font-family: inherit;
     transition: background 0.2s, color 0.2s;
 }
-
 @media (hover: hover) {
   .fab-menu a:hover, .fab-menu button:hover { 
       background: var(--toggle-bg); 
       color: var(--primary-accent); 
   }
 }
-
 .fab-menu .menu-icon { 
     color: var(--secondary-accent); 
     font-size: 20px; 
 }
-
 /* --- SEARCH & FILTERS --- */
 .search-box {
   display: flex;
@@ -292,9 +259,7 @@ body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
   border-radius: 16px;
   margin-bottom: 16px;
 }
-
 .search-icon { color: var(--text-sub); margin-right: 12px; }
-
 .search-box input {
   border: none;
   background: transparent;
@@ -543,17 +508,11 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 [data-tag="Ivy League"] { background: #014421 !important; border-color: #014421 !important; }
 [data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } /* Deepened Gold for white text */
 [data-tag="Top 25"] { background: #E65C00 !important; border-color: #E65C00 !important; }
-
-/* 2. Student Identity */
 [data-tag="Veterans"] { background: #4B5320 !important; border-color: #4B5320 !important; }
 [data-tag="Non-Traditional"] { background: #BF360C !important; border-color: #BF360C !important; }
-
-/* 3. Academic Track */
 [data-tag="STEM"] { background: #008080 !important; border-color: #008080 !important; }
 [data-tag="Pre-Med"] { background: #1565C0 !important; border-color: #1565C0 !important; }
 [data-tag="Pre-Law"] { background: #5D4037 !important; border-color: #5D4037 !important; }
-
-/* 4. Resources & Content */
 [data-tag="Internship"] { background: #2E7D32 !important; border-color: #2E7D32 !important; }
 [data-tag="Transfer Help"] { background: #E64A19 !important; border-color: #E64A19 !important; }
 [data-tag="Test Prep"] { background: #3F51B5 !important; border-color: #3F51B5 !important; }
