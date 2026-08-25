@@ -31,7 +31,11 @@
   --toggle-bg: rgba(20, 50, 95, 0.08);
 }
 
-/* --- MISSION COLLEGE THEME OVERRIDE --- */
+/* ============================================================== */
+/* --- THEME OVERRIDES (MISSION COLLEGE & DARK MODE) --- */
+/* ============================================================== */
+
+/* Mission College Theme */
 body.theme-mc, .theme-mc {
   --primary-accent: var(--mc-teal);
   --primary-light: var(--mc-teal-light);
@@ -47,7 +51,7 @@ body.theme-mc {
   --glass-shadow: 0 8px 32px rgba(12, 119, 153, 0.08);
 }
 
-/* --- DARK MODE OVERRIDES --- */
+/* Dark Mode Overrides */
 body.dark-mode {
   --page-bg: #091322;
   --text-main: #FFFFFF;
@@ -60,13 +64,13 @@ body.dark-mode {
   --toggle-bg: rgba(183, 204, 234, 0.15);
 }
 
-body.theme-mc.dark-mode { --page-bg: #031520; }
-
+body.theme-mc.dark-mode { 
+  --page-bg: #031520; 
+}
 body.theme-mc.dark-mode, body.dark-mode .theme-mc {
   --text-sub: #A8D8EA;
   --glass-fab: rgba(234, 115, 11, 0.28);
 }
-
 body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-panel: rgba(0, 55, 98, 0.35);
   --glass-border: rgba(12, 119, 153, 0.35);
@@ -74,7 +78,10 @@ body.dark-mode .theme-mc.glass, body.dark-mode .theme-mc .glass {
   --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
+/* ============================================================== */
 /* --- GLOBAL RESETS & TYPOGRAPHY --- */
+/* ============================================================== */
+
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
 
@@ -122,7 +129,10 @@ strong, b { font-weight: 600; }
   transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* --- HERO & TITLES --- */
+/* ============================================================== */
+/* --- HERO, TITLES & CALLOUTS --- */
+/* ============================================================== */
+
 .hero {
   text-align: center;
   margin-bottom: 24px;
@@ -153,7 +163,14 @@ strong, b { font-weight: 600; }
   line-height: 1.15;
 }
 
-/* --- MAIN NAVIGATION FAB (Floating Action Button) --- */
+.callout-box { padding: 36px 24px; text-align: center; margin-bottom: 40px; }
+.callout-box h2 { font-family: 'DM Serif Display', serif; font-size: 26px; }
+.callout-box p { color: var(--text-sub); max-width: 520px; margin: 0 auto 24px; }
+
+/* ============================================================== */
+/* --- MAIN NAVIGATION FAB & BACK NAV UNIFICATION --- */
+/* ============================================================== */
+
 .fab-container {
     position: fixed;
     bottom: 32px;
@@ -165,55 +182,72 @@ strong, b { font-weight: 600; }
     gap: 12px;
 }
 
-.fab-main {
+/* Unified Glass Properties for All Circular Navigation Buttons */
+.fab-main, .back-nav {
+    display: inline-flex;
+    align-items: center; 
+    justify-content: center;
     width: 56px; 
     height: 56px; 
     border-radius: 50%;
     color: var(--secondary-accent);
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: var(--blur-amt) saturate(180%);
-    -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
-    border: 1px solid var(--glass-border);
+    
+    /* Using !important ties them strictly to your master variables, fixing HTML inconsistencies */
+    background: var(--glass-fab) !important;
+    backdrop-filter: var(--blur-amt) saturate(180%) !important;
+    -webkit-backdrop-filter: var(--blur-amt) saturate(180%) !important;
+    border: 1px solid var(--glass-border) !important;
     box-shadow: var(--glass-shadow);
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    
+    text-decoration: none;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
-    z-index: 1;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
+    z-index: 1000;
 }
 
-@media (hover: hover) {
-  .fab-main:hover { 
-      transform: scale(1.08) translateY(-4px); 
-      background: #FFFFFF;
-  }
+/* Back Nav Specific Positioning */
+.back-nav {
+  position: absolute;
+  top: 24px;
+  left: 24px;
 }
 
-body.dark-mode .fab-main {
-    background: rgba(20, 50, 95, 0.65);
-}
-@media (hover: hover) {
-    body.dark-mode .fab-main:hover {
-        background: rgba(20, 50, 95, 0.85);
-    }
-}
-
-.fab-main span { 
+/* Icon Sizing & Layering */
+.fab-main span, .back-nav span, .back-nav svg, .back-nav i, .back-nav img { 
     font-size: 28px; 
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     position: relative;
     z-index: 2;
 }
 
+/* Spin to X for FAB */
 .fab-container.active .fab-main span { transform: rotate(180deg); }
-.fab-container.active .fab-main { color: var(--secondary-accent); }
+
+/* Hover States (Naturally brightens the tinted glass instead of changing colors) */
+@media (hover: hover) {
+  .fab-main:hover { 
+      transform: scale(1.08) translateY(-4px); 
+      filter: brightness(1.2);
+  }
+  .back-nav:hover { 
+      transform: scale(1.08); 
+      filter: brightness(1.2);
+  }
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 768px) {
+  .back-nav { top: 16px; left: 16px; width: 48px; height: 48px; }
+  .fab-main { width: 52px; height: 52px; } 
+}
 
 /* THE POP-UP LIQUID GLASS MENU */
 .fab-menu {
     list-style: none;
     padding: 0; 
     margin: 0;
+    
+    /* Menu keeps high-contrast glass for text readability */
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: var(--blur-amt) saturate(180%);
     -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
@@ -221,6 +255,7 @@ body.dark-mode .fab-main {
     box-shadow: var(--glass-shadow); 
     border-radius: 16px;
     overflow: hidden;
+    
     opacity: 0;
     transform: translateY(20px) scale(0.95);
     transform-origin: bottom right;
@@ -270,7 +305,10 @@ body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
     font-size: 20px; 
 }
 
+/* ============================================================== */
 /* --- SEARCH & FILTERS --- */
+/* ============================================================== */
+
 .search-box {
   display: flex;
   align-items: center;
@@ -333,7 +371,10 @@ body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
   border-color: var(--secondary-accent);
 }
 
-/* --- CARD GRID LAYOUT --- */
+/* ============================================================== */
+/* --- CARD GRID & STYLING --- */
+/* ============================================================== */
+
 .grid-cards {
   display: grid;
   grid-template-columns: 1fr;
@@ -344,7 +385,6 @@ body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.85); }
 @media (min-width: 600px) { .grid-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .grid-cards { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
 
-/* --- CARD COMPONENT STYLING --- */
 .clickable-card-link {
   text-decoration: none;
   color: inherit;
@@ -447,7 +487,10 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 .card-actions { display: flex; gap: 10px; }
 .card-actions .btn-primary { width: 100%; }
 
+/* ============================================================== */
 /* --- BUTTONS --- */
+/* ============================================================== */
+
 .btn {
   font-family: 'Lexend', sans-serif;
   display: inline-flex;
@@ -467,62 +510,15 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 .btn-primary { background: var(--secondary-accent); color: #FFFFFF; flex: 1; }
 .btn-secondary { background: var(--toggle-bg); color: var(--text-main); border: 1px solid var(--glass-border); }
 
-/* --- CALLOUTS & FOOTER --- */
-.callout-box { padding: 36px 24px; text-align: center; margin-bottom: 40px; }
-.callout-box h2 { font-family: 'DM Serif Display', serif; font-size: 26px; }
-.callout-box p { color: var(--text-sub); max-width: 520px; margin: 0 auto 24px; }
+/* ============================================================== */
+/* --- FOOTER / SIGNATURE --- */
+/* ============================================================== */
+
 .sig-block { padding: 28px 32px; margin-top: 40px; }
 .sig-info h3 { margin: 0 0 4px; font-size: 20px; }
 .sig-role { color: var(--secondary-accent); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s ease; }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
-/* --- GLOBAL BACK NAVIGATION (Circle Glass Button) --- */
-.back-nav {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  z-index: 1000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  color: var(--secondary-accent);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: var(--blur-amt) saturate(180%);
-  -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  text-decoration: none;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
-}
-
-.back-nav span, .back-nav svg, .back-nav i, .back-nav img { 
-  position: relative; 
-  z-index: 2; 
-}
-
-@media (hover: hover) {
-  .back-nav:hover { 
-      transform: scale(1.08); 
-      background: #FFFFFF;
-  }
-}
-
-body.dark-mode .back-nav {
-    background: rgba(20, 50, 95, 0.65);
-}
-@media (hover: hover) {
-    body.dark-mode .back-nav:hover {
-        background: rgba(20, 50, 95, 0.85);
-    }
-}
-
-@media (max-width: 768px) {
-  .back-nav { top: 16px; left: 16px; width: 48px; height: 48px; }
-  .fab-main { width: 52px; height: 52px; } /* Scales main fab down slightly for mobile too */
-}
 
 /* ============================================================== */
 /* ================== DYNAMIC TAG COLOR SYSTEM ================== */
@@ -554,18 +550,15 @@ body.dark-mode .back-nav {
 [data-tag="CSU"] { background: #C90022 !important; border-color: #C90022 !important; }
 [data-tag="Private"] { background: #4B2E83 !important; border-color: #4B2E83 !important; }
 [data-tag="Ivy League"] { background: #014421 !important; border-color: #014421 !important; }
-[data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } /* Deepened Gold for white text */
+[data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } 
 [data-tag="Top 25"] { background: #E65C00 !important; border-color: #E65C00 !important; }
-
 /* 2. Student Identity */
 [data-tag="Veterans"] { background: #4B5320 !important; border-color: #4B5320 !important; }
 [data-tag="Non-Traditional"] { background: #BF360C !important; border-color: #BF360C !important; }
-
 /* 3. Academic Track */
 [data-tag="STEM"] { background: #008080 !important; border-color: #008080 !important; }
 [data-tag="Pre-Med"] { background: #1565C0 !important; border-color: #1565C0 !important; }
 [data-tag="Pre-Law"] { background: #5D4037 !important; border-color: #5D4037 !important; }
-
 /* 4. Resources & Content */
 [data-tag="Internship"] { background: #2E7D32 !important; border-color: #2E7D32 !important; }
 [data-tag="Transfer Help"] { background: #E64A19 !important; border-color: #E64A19 !important; }
