@@ -570,3 +570,106 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 [data-tag="Test Prep"] { background: #3F51B5 !important; border-color: #3F51B5 !important; }
 [data-tag="Success Story"] { background: #D81B60 !important; border-color: #D81B60 !important; }
 [data-tag="YouTube"] { background: #E60000 !important; border-color: #E60000 !important; }
+
+/* ============================================================== */
+/* --- MESH GRADIENT BACKGROUNDS (For index.html & high contrast) */
+/* ============================================================== */
+
+/* Adds beautiful glowing orbs behind the glass UI */
+body.mesh-bg {
+  background-color: var(--page-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(20, 50, 95, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(248, 101, 22, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(12, 119, 153, 0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(20, 50, 95, 0.15) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+body.dark-mode.mesh-bg {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(86, 131, 186, 0.25) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(248, 101, 22, 0.2) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(12, 119, 153, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(20, 50, 95, 0.3) 0px, transparent 50%);
+}
+
+/* ============================================================== */
+/* --- UNIQUE SUBPAGE THEMES --- */
+/* ============================================================== */
+
+/* 1. TRANSFER TOOLS (Prestigious Crimson & Gold) */
+body.theme-transfer {
+  --primary-accent: #900000;
+  --primary-light: rgba(144, 0, 0, 0.15);
+  --secondary-accent: #D48806;
+  --page-bg: #FCF5F5;
+}
+body.theme-transfer .glass, .theme-transfer.glass, body.theme-transfer .search-box {
+  --glass-panel: rgba(144, 0, 0, 0.05);
+  --glass-fab: rgba(212, 136, 6, 0.25);
+  --glass-border: rgba(144, 0, 0, 0.12);
+}
+body.theme-transfer.dark-mode { --page-bg: #150505; }
+body.theme-transfer.dark-mode .glass, body.theme-transfer.dark-mode .search-box {
+  --glass-panel: rgba(144, 0, 0, 0.25);
+  --glass-border: rgba(144, 0, 0, 0.35);
+  --toggle-bg: rgba(144, 0, 0, 0.2);
+}
+
+/* 2. CLUB HUB (Vibrant Purple & Pink) */
+body.theme-clubs {
+  --primary-accent: #5E35B1;
+  --primary-light: rgba(94, 53, 177, 0.15);
+  --secondary-accent: #D81B60;
+  --page-bg: #F6F4FA;
+}
+body.theme-clubs .glass, .theme-clubs.glass, body.theme-clubs .search-box {
+  --glass-panel: rgba(94, 53, 177, 0.06);
+  --glass-fab: rgba(216, 27, 96, 0.25);
+  --glass-border: rgba(94, 53, 177, 0.12);
+}
+body.theme-clubs.dark-mode { --page-bg: #0C0714; }
+body.theme-clubs.dark-mode .glass, body.theme-clubs.dark-mode .search-box {
+  --glass-panel: rgba(94, 53, 177, 0.3);
+  --glass-border: rgba(94, 53, 177, 0.4);
+  --toggle-bg: rgba(94, 53, 177, 0.2);
+}
+
+/* 3. BARTER BAZAAR (Forest Green & Mint) */
+body.theme-barter {
+  --primary-accent: #2E7D32;
+  --primary-light: rgba(46, 125, 50, 0.15);
+  --secondary-accent: #00897B;
+  --page-bg: #F3F9F4;
+}
+body.theme-barter .glass, .theme-barter.glass, body.theme-barter .search-box {
+  --glass-panel: rgba(46, 125, 50, 0.06);
+  --glass-fab: rgba(0, 137, 123, 0.25);
+  --glass-border: rgba(46, 125, 50, 0.12);
+}
+body.theme-barter.dark-mode { --page-bg: #061107; }
+body.theme-barter.dark-mode .glass, body.theme-barter.dark-mode .search-box {
+  --glass-panel: rgba(46, 125, 50, 0.25);
+  --glass-border: rgba(46, 125, 50, 0.35);
+  --toggle-bg: rgba(46, 125, 50, 0.2);
+}
+
+/* 4. CARPOOL TOOL (Warm Amber & Rust) */
+body.theme-carpool {
+  --primary-accent: #D84315;
+  --primary-light: rgba(216, 67, 21, 0.15);
+  --secondary-accent: #FBC02D;
+  --page-bg: #FCF6F4;
+}
+body.theme-carpool .glass, .theme-carpool.glass, body.theme-carpool .search-box {
+  --glass-panel: rgba(216, 67, 21, 0.05);
+  --glass-fab: rgba(251, 192, 45, 0.25);
+  --glass-border: rgba(216, 67, 21, 0.15);
+}
+body.theme-carpool.dark-mode { --page-bg: #1A0A04; }
+body.theme-carpool.dark-mode .glass, body.theme-carpool.dark-mode .search-box {
+  --glass-panel: rgba(216, 67, 21, 0.25);
+  --glass-border: rgba(216, 67, 21, 0.35);
+  --toggle-bg: rgba(216, 67, 21, 0.2);
+}
