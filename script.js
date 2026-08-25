@@ -740,7 +740,7 @@ function renderTransferCards(items) {
     `;
 
     const cardsHtml = items.map(item => {
-        const badgesHtml = item.tags.map(tag => `<span class="badge badge-category">${tag}</span>`).join('');
+        const badgesHtml = item.tags.map(tag => `<span class="badge" data-tag="${tag}">${tag}</span>`).join('');
         
         // Dynamically hide the description block completely if it's left blank on the spreadsheet
         const descHtml = item.desc ? `<p style="font-size: 0.9375rem; color: var(--text-sub); line-height: 1.5; margin: 0 0 1.5rem 0;">${item.desc}</p>` : `<div style="margin-bottom: 1.5rem;"></div>`;
