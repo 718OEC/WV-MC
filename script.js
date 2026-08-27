@@ -375,8 +375,8 @@ function renderBarterCards(items) {
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
 // +++++++++++++ IMPORTANT +++++++++++++++++ Replace with your actual Microsoft Forms published CSV link
-const CARPOOL_CSV_URL = "YOUR_CSV_LINK_HERE";
-const CARPOOL_FORM_URL = "YOUR_FORM_LINK_HERE"; 
+const CARPOOL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGSOOpXC8NcawdRxKd4bHDhYywxrl6l1EnkjaX0RpPCHSC9BuNIFjXhU_PeNgiCFm5oDNak5nHbQxM/pub?output=csv";
+const CARPOOL_FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=iuGPAuNTGkqSmD2pznHsk5knvlMprIFFhStOR1s7mZhURFJQRjI4MTRaRTg0OEVKT1dWTDEwWjcwVS4u"; 
 
 let carpoolData = [];
 let activeCarpoolCampus = 'All';
