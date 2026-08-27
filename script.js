@@ -414,8 +414,8 @@ window.initCarpoolTool = async function() {
             const zip = cols[7] || "";     
             const role = cols[8] || "";     
             const days = cols[9] || "";     
-            const arrive = cols[10] || "";     
-            const leave = cols[11] || "";     
+            const arrive = (cols[10] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');     
+            const leave = (cols[11] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');  
             
             if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
 
