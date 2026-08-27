@@ -549,7 +549,7 @@ function renderCarpoolCards(items) {
 
     const cardsHtml = items.map(item => {
         const timeString = item.timestamp.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-        const isDriver = item.role.toLowerCase().includes('driving');
+        const isDriver = item.role.toLowerCase().includes('driver');
         
         let campusBadgesHtml = '';
         const cStr = item.campus.toLowerCase();
