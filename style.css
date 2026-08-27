@@ -521,10 +521,34 @@ body.dark-mode .badge-category { color: #FFFFFF; background: var(--primary-accen
 .sig-role { color: var(--secondary-accent); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s ease; }
 .sig-text { color: var(--text-sub); font-size: 14px; margin: 8px 0 0; }
 
+/* ========================================== */
+/* --- BADGE & TAG PILL ENGINE ---            */
+/* ========================================== */
 
-/* ============================================================== */
-/* ================== DYNAMIC TAG COLOR SYSTEM ================== */
-/* ============================================================== */
+/* Base Pill Shape */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px; /* Creates the perfect pill shape */
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--toggle-bg);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(4px); /* Subtle inner glass effect */
+  white-space: nowrap;
+}
+
+/* Master School Override */
+.badge-school {
+  background: var(--primary-accent);
+  color: #FFFFFF;
+  border: none;
+}
 
 /* Force all custom-colored tags and pills to have clean white text */
 .pill[data-tag], .badge[data-tag] {
