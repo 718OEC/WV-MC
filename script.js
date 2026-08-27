@@ -52,10 +52,6 @@ document.addEventListener('click', function(event) {
 // ==========================================
 // --- MASTER INITIALIZATION ENGINE ---
 // ==========================================
-let activeCategory = 'All';
-let activeCampus = 'All'; 
-const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
-
 function initializeApp() {
     try {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -69,20 +65,19 @@ function initializeApp() {
     } catch(e) { console.warn("Theme engine fallback:", e); }
 
     const startClubBtn = document.getElementById("start-club-btn");
-    if (startClubBtn) startClubBtn.href = wvClubFormUrl;
+    if (startClubBtn && typeof wvClubFormUrl !== 'undefined') startClubBtn.href = wvClubFormUrl;
     
     const searchInput = document.getElementById("search-input");
     const clubGrid = document.getElementById("club-grid");
     if (searchInput && clubGrid) {
         searchInput.addEventListener("input", window.filterClubs);
-        window.filterClubs(); 
+        // We do not call filterClubs() here yet because the data needs to fetch first.
     }
 
     if (typeof window.initClubHub === 'function') window.initClubHub();
     if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
     if (typeof window.initCarpoolTool === 'function') window.initCarpoolTool();
     if (typeof window.initTransferTools === 'function') window.initTransferTools();
-}
 }
 
 if (document.readyState === 'loading') {
@@ -96,11 +91,11 @@ if (document.readyState === 'loading') {
 // --- CLUB HUB ENGINE ---
 // ==========================================
 const CLUB_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTy11HreahFilE0XgWif_cKd7OE1OA4fZ900qy9FwrDVyXIi0LUpPmwpJZpiR2uqd7UJJlg-QW2PoZX/pub?gid=60267321&single=true&output=csv";
+const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
 
 let allClubsData = [];
 let activeCategory = 'All';
 let activeCampus = 'All'; 
-const wvClubFormUrl = "https://forms.cloud.microsoft/pages/responsepage.aspx?id=iuGPAuNTGkqSmD2pznHsk9KIcIjCLeNHvF6H_GifXXVUMUg3OFc2RU85V1U2R1hIQzVLU0pJN1NOWi4u&route=shorturl";
 
 window.initClubHub = async function() {
     const grid = document.getElementById("club-grid");
@@ -202,7 +197,9 @@ window.filterClubs = function() {
         school.toLowerCase().includes(term);
     });
 
-    renderClubCards(filtered);
+    if (typeof window.renderClubCards === 'function') {
+        window.renderClubCards(filtered);
+    }
 };
 
 
@@ -329,6 +326,7 @@ function renderBarterCards(items) {
 
     grid.innerHTML = ctaCard + cardsHtml;
 }
+
 // ==========================================
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
@@ -598,6 +596,7 @@ function renderCarpoolCards(items) {
 
     grid.innerHTML = ctaCard + demoCard + cardsHtml;
 }
+
 // ==========================================
 // --- TRANSFER TOOLS ENGINE ---
 // ==========================================
