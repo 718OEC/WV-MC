@@ -369,12 +369,9 @@ function renderBarterCards(items) {
 
     grid.innerHTML = ctaCard + cardsHtml;
 }
-
-
 // ==========================================
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
-// +++++++++++++ IMPORTANT +++++++++++++++++ Replace with your actual Microsoft Forms published CSV link
 const CARPOOL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGSOOpXC8NcawdRxKd4bHDhYywxrl6l1EnkjaX0RpPCHSC9BuNIFjXhU_PeNgiCFm5oDNak5nHbQxM/pub?output=csv";
 const CARPOOL_FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=iuGPAuNTGkqSmD2pznHsk5knvlMprIFFhStOR1s7mZhURFJQRjI4MTRaRTg0OEVKT1dWTDEwWjcwVS4u"; 
 
@@ -395,19 +392,30 @@ window.initCarpoolTool = async function() {
         const now = new Date();
         carpoolData = [];
 
+        // Spreadsheet Column Mapping:
+        // A [0] intake ID
+        // B [1] Timestamp
+        // D [3] Email
+        // F [5] Campus
+        // G [6] City
+        // H [7] Zip
+        // I [8] Role
+        // J [9] Days
+        // K [10] Arrival
+        // L [11] Departure
         for (let i = 1; i < rows.length; i++) {
             const cols = rows[i];
-            if (cols.length < 9) continue; 
+            if (cols.length < 12) continue; // Ensures row has enough columns up to L
             
-            const timestamp = new Date(cols[0]);
-            const email = cols[1] || "";        
-            const campus = cols[3] || "WV";     
-            const city = cols[4] || "";   
-            const zip = cols[5] || "";     
-            const role = cols[6] || "";     
-            const days = cols[7] || "";     
-            const arrive = cols[8] || "";     
-            const leave = cols[9] || "";     
+            const timestamp = new Date(cols[1]);
+            const email = cols[3] || "";        
+            const campus = cols[5] || "WV";     
+            const city = cols[6] || "";   
+            const zip = cols[7] || "";     
+            const role = cols[8] || "";     
+            const days = cols[9] || "";     
+            const arrive = cols[10] || "";     
+            const leave = cols[11] || "";     
             
             if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
 
@@ -630,8 +638,6 @@ function renderCarpoolCards(items) {
 
     grid.innerHTML = ctaCard + demoCard + cardsHtml;
 }
-
-
 // ==========================================
 // --- TRANSFER TOOLS ENGINE ---
 // ==========================================
