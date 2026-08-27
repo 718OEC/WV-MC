@@ -78,9 +78,11 @@ function initializeApp() {
         window.filterClubs(); 
     }
 
+    if (typeof window.initClubHub === 'function') window.initClubHub();
     if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
     if (typeof window.initCarpoolTool === 'function') window.initCarpoolTool();
     if (typeof window.initTransferTools === 'function') window.initTransferTools();
+}
 }
 
 if (document.readyState === 'loading') {
