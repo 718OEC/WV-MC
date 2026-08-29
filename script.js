@@ -228,8 +228,8 @@ window.renderClubCards = function(clubs) {
         const primaryEmail = emailStr.split(' ')[0] || "";
         
         const avatarHtml = club.logo 
-        ? `<img src="${club.logo}" alt="${club.name || 'Club Logo'}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${initials.slice(0,3)}';">`
-        : initials.slice(0,3);
+        ? `<img src="${club.logo}" alt="${club.name || 'Club Logo'}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerText='${initials.slice(0,5)}';">`
+        : initials.slice(0,5);
 
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []);
