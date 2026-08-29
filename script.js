@@ -1,4 +1,22 @@
 // ==========================================
+// --- HOVER PRE-FETCH ---
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    const internalLinks = document.querySelectorAll('.fab-menu a[href^="/"], .fab-menu a[href^="./"], .fab-menu a[href^="http"]:not([target="_blank"])');
+    const preloaded = new Set();
+
+    internalLinks.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            const url = link.href;
+            if (!preloaded.has(url)) {
+                // Silently fetch the HTML in the background
+                fetch(url, { priority: 'low' }).catch(() => {}); 
+                preloaded.add(url);
+            }
+        }, { once: true }); // Only fetch it the first time they hover
+    });
+});
+// ==========================================
 // --- SHARED HELPER FUNCTIONS ---
 // ==========================================
 
