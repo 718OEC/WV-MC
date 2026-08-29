@@ -4,73 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WV//MC ClubHub</title>
+  
   <!-- Performance Optimizations -->
   <link rel="preconnect" href="https://docs.google.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap" as="style">
+  
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body id="top">
   <div class="app-wrapper">
+    
     <!-- Hero Header -->
     <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
       <p class="subtitle" style="margin-bottom: 0.5rem;">West Valley & Mission College</p>
       <h1 id="college-title" style="margin-bottom: 0; font-size: 2.5rem; padding: 0;">Student Organizations</h1>
     </header>
-    <!-- THE FLOATING DOCK PILL -->
-<nav class="floating-pill">
-    <!-- Back to Hub -->
-    <a href="index.html" class="pill-btn" aria-label="Back to Hub">
-        <span class="material-symbols-rounded">arrow_back</span>
-    </a>
     
-    <!-- Unified Search -->
-    <div class="pill-search">
-        <span class="material-symbols-rounded search-icon">search</span>
-        <!-- IMPORTANT: Change this ID depending on the page (see note below) -->
-        <input type="text" id="search-input" placeholder="Search...">
-    </div>
-</nav>
-    <!-- Responsive Club Cards Grid -->
+    <!-- Main Content Area -->
     <main id="clubs">
+      
+      <!-- TOP SEARCH BAR -->
+      <div class="top-search">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <input type="text" id="search-input" placeholder="Search clubs, categories, or keywords...">
+      </div>
+
+      <!-- Responsive Club Cards Grid -->
       <div id="club-grid" class="grid-cards">
+        
         <!-- Skeleton Card 1 -->
-    <article class="glass card-small skeleton-card">
-        <div class="skel-header">
-            <div class="skel-avatar"></div>
-            <div class="skel-badges"></div>
-        </div>
-        <div class="skel-title"></div>
-        <div class="skel-line"></div>
-        <div class="skel-line short"></div>
-        <div class="skel-btn"></div>
-    </article>
-    <!-- Skeleton Card 2 -->
-    <article class="glass card-small skeleton-card">
-        <div class="skel-header">
-            <div class="skel-avatar"></div>
-            <div class="skel-badges"></div>
-        </div>
-        <div class="skel-title"></div>
-        <div class="skel-line"></div>
-        <div class="skel-line short"></div>
-        <div class="skel-btn"></div>
-    </article>
-    <!-- Skeleton Card 3 -->
-    <article class="glass card-small skeleton-card">
-        <div class="skel-header">
-            <div class="skel-avatar"></div>
-            <div class="skel-badges"></div>
-        </div>
-        <div class="skel-title"></div>
-        <div class="skel-line"></div>
-        <div class="skel-line short"></div>
-        <div class="skel-btn"></div>
-    </article>
+        <article class="glass card-small skeleton-card">
+            <div class="skel-header">
+                <div class="skel-avatar"></div>
+                <div class="skel-badges"></div>
+            </div>
+            <div class="skel-title"></div>
+            <div class="skel-line"></div>
+            <div class="skel-line short"></div>
+            <div class="skel-btn"></div>
+        </article>
+        
+        <!-- Skeleton Card 2 -->
+        <article class="glass card-small skeleton-card">
+            <div class="skel-header">
+                <div class="skel-avatar"></div>
+                <div class="skel-badges"></div>
+            </div>
+            <div class="skel-title"></div>
+            <div class="skel-line"></div>
+            <div class="skel-line short"></div>
+            <div class="skel-btn"></div>
+        </article>
+        
+        <!-- Skeleton Card 3 -->
+        <article class="glass card-small skeleton-card">
+            <div class="skel-header">
+                <div class="skel-avatar"></div>
+                <div class="skel-badges"></div>
+            </div>
+            <div class="skel-title"></div>
+            <div class="skel-line"></div>
+            <div class="skel-line short"></div>
+            <div class="skel-btn"></div>
+        </article>
+        
       </div>
     </main>
 
@@ -80,6 +83,34 @@
         <h3>About</h3>
         <div class="sig-role">For students, by students: an open-source campus initiative</div>
         <p class="sig-text">Founder: Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)
+        <br>Special thanks to Rory West (WVC c/o 2027)</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- THE FLOATING APP DOCK -->
+  <nav class="floating-dock">
+      <a href="index.html" class="dock-btn" aria-label="Home">
+          <span class="material-symbols-rounded">home</span>
+      </a>
+      <a href="clubhub.html" class="dock-btn active" aria-label="Club Hub">
+          <span class="material-symbols-rounded">groups</span>
+      </a>
+      <a href="calendar.html" class="dock-btn" aria-label="Calendar">
+          <span class="material-symbols-rounded">calendar_month</span>
+      </a>
+      <a href="barterbazaar.html" class="dock-btn" aria-label="Barter Bazaar">
+          <span class="material-symbols-rounded">swap_horiz</span>
+      </a>
+      <a href="carpooltool.html" class="dock-btn" aria-label="Carpool Tool">
+          <span class="material-symbols-rounded">directions_car</span>
+      </a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>        <p class="sig-text">Founder: Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)
         <br>Special thanks to Rory West (WVC c/o 2027)</p>
       </div>
     </footer>
