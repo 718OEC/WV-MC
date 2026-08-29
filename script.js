@@ -41,30 +41,6 @@ function parseCSVToArray(csvText) {
 }
 
 // ==========================================
-// --- GLOBAL FAB NAVIGATION LOGIC ---
-// ==========================================
-window.toggleFab = function() {
-    const container = document.getElementById('fabContainer');
-    const icon = document.getElementById('fabIcon');
-    if (!container || !icon) return; 
-
-    container.classList.toggle('active');
-    
-    if (container.classList.contains('active')) {
-        icon.textContent = 'close';
-    } else {
-        icon.textContent = 'explore'; 
-    }
-};
-
-document.addEventListener('click', function(event) {
-    const container = document.getElementById('fabContainer');
-    if (container && !container.contains(event.target) && container.classList.contains('active')) {
-        window.toggleFab();
-    }
-});
-
-// ==========================================
 // --- MASTER INITIALIZATION ENGINE ---
 // ==========================================
 function initializeApp() {
