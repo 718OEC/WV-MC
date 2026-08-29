@@ -2,20 +2,15 @@
 
 :root {
   --wvc-blue: #14325F;
-  --wvc-blue-light: #B7CCEA;
-  --wvc-blue-dark: #09234D;
-  --viking-orange: #F86516;
-  --viking-orange-light: #FFCAB3;
-  --wvc-charcoal: #404040;
-  
   --mc-teal: #0C7799;
-  --mc-teal-light: rgba(12, 119, 153, 0.2);
-  --mc-orange: #EA730B;
-  --mc-navy: #003762;
+  --pale-red: #FFBFCA;
+  --pale-green: #D8F4DE;
+  --pale-blue: #E0F2FF;
+  --baby-blue: #A6E5FF;
   
-  --primary-accent: var(--wvc-blue);
-  --primary-light: var(--wvc-blue-light);
-  --secondary-accent: var(--viking-orange);
+  --primary-accent: var(--baby-blue);
+  --primary-light: var(--pale-blue);
+  --secondary-accent: var(--pale-red);
 
   /* Light Mode UI Mapping */
   --page-bg: #EBF1F8; 
