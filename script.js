@@ -9,15 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener('mouseenter', () => {
             const url = link.href;
             if (!preloaded.has(url)) {
-                // Silently fetch the HTML in the background
                 fetch(url, { priority: 'low' }).catch(() => {}); 
                 preloaded.add(url);
             }
-        }, { once: true }); // Only fetch it the first time they hover
+        }, { once: true }); 
     });
 });
+
 // ==========================================
-// --- SHARED HELPER FUNCTIONS ---
+// --- SHARED HELPER FUNCTIONS & CACHE ---
 // ==========================================
 
 function parseCSVToArray(csvText) {
@@ -38,6 +38,33 @@ function parseCSVToArray(csvText) {
     }
     if (val || row.length > 0) { row.push(val); rows.push(row); }
     return rows;
+}
+
+/**
+ * THE SWR CACHE ENGINE
+ * Instantly loads saved data from the browser, then silently updates from Google Sheets.
+ */
+async function fetchWithCache(url, cacheKey, processCallback) {
+    const cachedData = localStorage.getItem(cacheKey);
+    
+    if (cachedData) {
+        console.log(`⚡️ Instant Load: ${cacheKey}`);
+        processCallback(cachedData);
+    }
+
+    try {
+        const response = await fetch(url);
+        const freshData = await response.text();
+
+        if (freshData !== cachedData) {
+            console.log(`🔄 Live Update: ${cacheKey}`);
+            localStorage.setItem(cacheKey, freshData);
+            processCallback(freshData); 
+        }
+    } catch (error) {
+        console.error(`Error fetching fresh data for ${cacheKey}:`, error);
+        // If Google fails but we have a cache, we still show the cache!
+    }
 }
 
 // ==========================================
@@ -86,57 +113,51 @@ let allClubsData = [];
 let activeCategory = 'All';
 let activeCampus = 'All'; 
 
-window.initClubHub = async function() {
+window.initClubHub = function() {
     const grid = document.getElementById("club-grid");
     if (!grid) return; 
+    // Trigger Cache Engine
+    fetchWithCache(CLUB_CSV_URL, 'cache_clubData', processClubData);
+};
 
-    try {
-        const response = await fetch(CLUB_CSV_URL);
-        const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); 
+function processClubData(csvText) {
+    const rows = parseCSVToArray(csvText); 
+    const dynamicData = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i];
+        if (cols.length < 3 || !cols[2]) continue; 
         
-        const dynamicData = [];
+        const school = cols[0] || "";     
+        const logo = cols[1] || "";     
+        const name = cols[2] || "";     
+        const initials = cols[3] || "";     
+        const catsRaw = cols[4] || "";     
+        const president = cols[5] || "";     
+        const email = cols[6] || "";     
+        const memberCount = cols[7] || "";     
+        const desc = cols[8] || "";     
+        const signUpForm = cols[9] || "";     
+        const socialsRaw = cols[10] || "";     
+        
+        const categories = catsRaw.split(',').map(c => c.trim()).filter(c => c);
 
-        for (let i = 1; i < rows.length; i++) {
-            const cols = rows[i];
-            if (cols.length < 3 || !cols[2]) continue; 
-            
-            const school = cols[0] || "";     
-            const logo = cols[1] || "";     
-            const name = cols[2] || "";     
-            const initials = cols[3] || "";     
-            const catsRaw = cols[4] || "";     
-            const president = cols[5] || "";     
-            const email = cols[6] || "";     
-            const memberCount = cols[7] || "";     
-            const desc = cols[8] || "";     
-            const signUpForm = cols[9] || "";     
-            const socialsRaw = cols[10] || "";     
-            
-            const categories = catsRaw.split(',').map(c => c.trim()).filter(c => c);
-
-            let socials = {};
-            if (socialsRaw) {
-                const links = socialsRaw.split(/[\s,]+/); 
-                links.forEach(link => {
-                    if (link.toLowerCase().includes('instagram.com')) socials.ig = link;
-                    else if (link.toLowerCase().includes('http')) socials.web = link;
-                });
-            }
-
-            dynamicData.push({ school, logo, name, initials, categories, president, email, memberCount, desc, signUpForm, socials });
+        let socials = {};
+        if (socialsRaw) {
+            const links = socialsRaw.split(/[\s,]+/); 
+            links.forEach(link => {
+                if (link.toLowerCase().includes('instagram.com')) socials.ig = link;
+                else if (link.toLowerCase().includes('http')) socials.web = link;
+            });
         }
 
-        allClubsData = dynamicData;
-        allClubsData.sort((a, b) => a.name.localeCompare(b.name));
-        window.filterClubs();
-        
-    } catch (error) {
-        console.warn("Could not fetch live Google Sheet club data.", error);
-        allClubsData = [];
-        window.filterClubs();
+        dynamicData.push({ school, logo, name, initials, categories, president, email, memberCount, desc, signUpForm, socials });
     }
-};
+
+    allClubsData = dynamicData;
+    allClubsData.sort((a, b) => a.name.localeCompare(b.name));
+    window.filterClubs();
+}
 
 window.filterCampus = function(campus, button) {
     document.querySelectorAll('#campus-pills .pill').forEach(btn => btn.classList.remove('active'));
@@ -233,7 +254,6 @@ window.renderClubCards = function(clubs) {
 
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []);
-        // Using data-tag so they automatically get the beautiful dynamic colors
         const categoriesHtml = cats.slice(0, 3).map(cat => `<span class="badge" data-tag="${cat}">${cat}</span>`).join('');
 
         let socialsHtml = '';
@@ -297,43 +317,44 @@ const BARTER_FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?i
 
 let barterData = [];
 
-window.initBarterBazaar = async function() {
+window.initBarterBazaar = function() {
     const barterGrid = document.getElementById("barter-grid");
     const barterSearch = document.getElementById("barter-search-input");
     if (!barterGrid) return; 
 
-    try {
-        const response = await fetch(BARTER_CSV_URL);
-        const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); 
-        
-        const now = new Date();
-        barterData = [];
-
-        for (let i = 1; i < rows.length; i++) {
-            const cols = rows[i];
-            if (cols.length < 5) continue; 
-            
-            const timestamp = new Date(cols[0]);
-            const email = cols[1] || "";        
-            const campus = cols[2] || "WV";     
-            const lookingFor = cols[3] || "";   
-            const offering = cols[4] || "";     
-            
-            if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
-
-            barterData.push({ timestamp, campus, lookingFor, offering, email });
-        }
-
-        barterData.sort((a, b) => b.timestamp - a.timestamp);
-        window.filterBarter();
-        
-        if (barterSearch) barterSearch.addEventListener("input", window.filterBarter);
-    } catch (error) {
-        console.error("Error fetching Barter Bazaar data:", error);
-        barterGrid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load trades. Please check your connection.</p>`;
+    // Attach search listener safely
+    if (barterSearch) {
+        barterSearch.removeEventListener("input", window.filterBarter);
+        barterSearch.addEventListener("input", window.filterBarter);
     }
+    
+    // Trigger Cache Engine
+    fetchWithCache(BARTER_CSV_URL, 'cache_barterData', processBarterData);
 };
+
+function processBarterData(csvText) {
+    const rows = parseCSVToArray(csvText); 
+    const now = new Date();
+    barterData = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i];
+        if (cols.length < 5) continue; 
+        
+        const timestamp = new Date(cols[0]);
+        const email = cols[1] || "";        
+        const campus = cols[2] || "WV";     
+        const lookingFor = cols[3] || "";   
+        const offering = cols[4] || "";     
+        
+        if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
+
+        barterData.push({ timestamp, campus, lookingFor, offering, email });
+    }
+
+    barterData.sort((a, b) => b.timestamp - a.timestamp);
+    window.filterBarter();
+}
 
 window.filterBarter = function() {
     const searchInput = document.getElementById("barter-search-input");
@@ -424,47 +445,48 @@ let carpoolData = [];
 let activeCarpoolCampus = 'All';
 let activeCarpoolRole = 'All';
 
-window.initCarpoolTool = async function() {
+window.initCarpoolTool = function() {
     const grid = document.getElementById("carpool-grid");
     const searchInput = document.getElementById("carpool-search-input");
     if (!grid) return; 
 
-    try {
-        const response = await fetch(CARPOOL_CSV_URL);
-        const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); 
-        
-        const now = new Date();
-        carpoolData = [];
-
-        for (let i = 1; i < rows.length; i++) {
-            const cols = rows[i];
-            if (cols.length < 12) continue; 
-            
-            const timestamp = new Date(cols[1]);
-            const email = cols[3] || "";        
-            const campus = cols[5] || "WV";     
-            const city = cols[6] || "";   
-            const zip = cols[7] || "";     
-            const role = cols[8] || "";     
-            const days = cols[9] || "";     
-            const arrive = (cols[10] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');     
-            const leave = (cols[11] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');  
-            
-            if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
-
-            carpoolData.push({ timestamp, email, campus, city, zip, role, days, arrive, leave });
-        }
-
-        carpoolData.sort((a, b) => b.timestamp - a.timestamp);
-        window.filterCarpools();
-        
-        if (searchInput) searchInput.addEventListener("input", window.filterCarpools);
-    } catch (error) {
-        console.error("Error fetching Carpool data:", error);
-        grid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-sub);">Failed to load carpools. Ensure your CSV link is correct.</p>`;
+    // Attach search listener safely
+    if (searchInput) {
+        searchInput.removeEventListener("input", window.filterCarpools);
+        searchInput.addEventListener("input", window.filterCarpools);
     }
+    
+    // Trigger Cache Engine
+    fetchWithCache(CARPOOL_CSV_URL, 'cache_carpoolData', processCarpoolData);
 };
+
+function processCarpoolData(csvText) {
+    const rows = parseCSVToArray(csvText); 
+    const now = new Date();
+    carpoolData = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i];
+        if (cols.length < 12) continue; 
+        
+        const timestamp = new Date(cols[1]);
+        const email = cols[3] || "";        
+        const campus = cols[5] || "WV";     
+        const city = cols[6] || "";   
+        const zip = cols[7] || "";     
+        const role = cols[8] || "";     
+        const days = cols[9] || "";     
+        const arrive = (cols[10] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');     
+        const leave = (cols[11] || "").split(';').map(s => s.trim()).filter(s => s).join(', ');  
+        
+        if ((now - timestamp) / (1000 * 60 * 60 * 24) > 120) continue;
+
+        carpoolData.push({ timestamp, email, campus, city, zip, role, days, arrive, leave });
+    }
+
+    carpoolData.sort((a, b) => b.timestamp - a.timestamp);
+    window.filterCarpools();
+}
 
 window.filterCarpoolCampus = function(campus, button) {
     document.querySelectorAll('#carpool-campus-pills .pill').forEach(btn => btn.classList.remove('active'));
@@ -682,45 +704,45 @@ const TRANSFER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdvx3ztug0Ex
 let allTransferData = [];
 let activeTransferCategory = 'All';
 
-window.initTransferTools = async function() {
+window.initTransferTools = function() {
     const grid = document.getElementById("transfer-grid");
     const searchInput = document.getElementById("transfer-search-input");
     if (!grid) return; 
 
-    try {
-        const response = await fetch(TRANSFER_CSV_URL);
-        const csvText = await response.text();
-        const rows = parseCSVToArray(csvText); 
-        
-        const dynamicData = [];
-
-        for (let i = 1; i < rows.length; i++) {
-            const cols = rows[i];
-            if (cols.length < 5) continue; 
-            
-            const name = cols[2] || "";     
-            const tagsRaw = cols[3] || "";     
-            const url = cols[4] || "";   
-            const desc = cols[5] || ""; 
-            
-            const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t);
-
-            if (name) {
-                dynamicData.push({ name, desc, url, tags, type: "dynamic" });
-            }
-        }
-
-        allTransferData = dynamicData;
-        allTransferData.sort((a, b) => a.name.localeCompare(b.name));
-        window.filterTransferTools();
-        
-        if (searchInput) searchInput.addEventListener("input", window.filterTransferTools);
-    } catch (error) {
-        console.warn("Could not fetch live Google Form transfer data. Loading empty state.", error);
-        allTransferData = [];
-        window.filterTransferTools();
+    // Attach search listener safely
+    if (searchInput) {
+        searchInput.removeEventListener("input", window.filterTransferTools);
+        searchInput.addEventListener("input", window.filterTransferTools);
     }
+    
+    // Trigger Cache Engine
+    fetchWithCache(TRANSFER_CSV_URL, 'cache_transferData', processTransferData);
 };
+
+function processTransferData(csvText) {
+    const rows = parseCSVToArray(csvText); 
+    const dynamicData = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i];
+        if (cols.length < 5) continue; 
+        
+        const name = cols[2] || "";     
+        const tagsRaw = cols[3] || "";     
+        const url = cols[4] || "";   
+        const desc = cols[5] || ""; 
+        
+        const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t);
+
+        if (name) {
+            dynamicData.push({ name, desc, url, tags, type: "dynamic" });
+        }
+    }
+
+    allTransferData = dynamicData;
+    allTransferData.sort((a, b) => a.name.localeCompare(b.name));
+    window.filterTransferTools();
+}
 
 window.filterTransfer = function(category, button) {
     document.querySelectorAll('#transfer-category-pills .pill').forEach(btn => btn.classList.remove('active'));
