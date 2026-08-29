@@ -15,19 +15,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
-  
-  <a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
-      <span class="material-symbols-rounded">arrow_back</span>
-  </a>
-
   <div class="app-wrapper">
-    
     <!-- Hero Header -->
     <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
       <p class="subtitle" style="margin-bottom: 0.5rem;">West Valley & Mission College</p>
       <h1 style="margin-bottom: 0.25rem; font-size: 2.5rem; padding: 0;">Carpool Tool</h1>
       <div style="font-family: 'Lexend', sans-serif; font-weight: 700; color: var(--secondary-accent); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px;">(In Beta)</div>
-      
       <!-- Rules Panel -->
       <div style="width: 100%; text-align: left; background: var(--toggle-bg); padding: 1.5rem 2rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
         <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 1rem;">Carpool Rules & Guidelines:</strong>
@@ -39,15 +32,6 @@
         </ul>
       </div>
     </header>
-
-    <!-- Search & Filter Control Panel -->
-    <section id="search-section" class="glass control-panel">
-      <div class="search-box">
-        <span class="material-symbols-rounded search-icon">search</span>
-        <input type="text" id="carpool-search-input" placeholder="Search by city (e.g. Campbell) or ZIP code...">
-      </div>
-    </section>
-
     <!-- Responsive Carpool Cards Grid -->
     <main id="carpools">
       <div id="carpool-grid" class="grid-cards">
@@ -97,22 +81,20 @@
     </footer>
 
   </div>
-
- <!-- THE GLOBAL NAV FAB -->
-  <div class="fab-container" id="fabContainer">
-      <ul class="fab-menu">
-          <li><a href="index.html"><span class="material-symbols-rounded menu-icon">home</span> Student Hub</a></li>
-          <li><a href="clubhub.html"><span class="material-symbols-rounded menu-icon">groups</span> Club Hub</a></li>
-          <li><a href="calendar.html"><span class="material-symbols-rounded menu-icon">calendar_month</span> Calendar</a></li>
-          <li><a href="barterbazaar.html"><span class="material-symbols-rounded menu-icon">swap_horiz</span> Barter Bazaar</a></li>
-          <li><a href="carpooltool.html"><span class="material-symbols-rounded menu-icon">directions_car</span> Carpool Tool</a></li>
-          <li><a href="transfertools.html"><span class="material-symbols-rounded menu-icon">account_balance</span> Transfer Tools</a></li>
-          <li><a href="anonasks.html"><span class="material-symbols-rounded menu-icon">campaign</span> Anon Asks</a></li>
-      </ul>
-      <button class="fab-main" onclick="toggleFab()" aria-label="Open Navigation">
-          <span class="material-symbols-rounded" id="fabIcon">explore</span>
-      </button>
-  </div>
+<!-- THE FLOATING DOCK PILL -->
+<nav class="floating-pill">
+    <!-- Back to Hub -->
+    <a href="index.html" class="pill-btn" aria-label="Back to Hub">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </a>
+    
+    <!-- Unified Search -->
+    <div class="pill-search">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <!-- IMPORTANT: Change this ID depending on the page (see note below) -->
+        <input type="text" id="carpool-search-input" placeholder="Search...">
+    </div>
+</nav>
 
   <script src="script.js"></script>
 </body>
