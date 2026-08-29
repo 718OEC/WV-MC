@@ -144,20 +144,51 @@ strong, b { font-weight: 600; }
 .callout-box p { color: var(--text-sub); max-width: 520px; margin: 0 auto 24px; }
 
 /* ============================================================== */
-/* --- FLOATING NAV & SEARCH PILL --- */
+/* --- TOP SEARCH & BOTTOM APP DOCK --- */
 /* ============================================================== */
 
-.floating-pill {
+/* Top Search Bar */
+.top-search {
+  display: flex;
+  align-items: center;
+  background: var(--toggle-bg);
+  border: 1px solid var(--glass-border);
+  padding: 16px 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  grid-column: 1 / -1; /* Spans the full width of the grid */
+}
+
+.top-search .search-icon {
+  color: var(--text-sub);
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.top-search input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.top-search input::placeholder { color: var(--text-sub); }
+
+/* The Floating App Dock */
+.floating-dock {
   position: fixed;
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px); 
-  max-width: 800px;
+  max-width: 400px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px 10px 10px; 
+  justify-content: space-between;
+  padding: 8px 16px; 
   border-radius: 99px;
   z-index: 1000;
   
@@ -169,62 +200,45 @@ strong, b { font-weight: 600; }
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
-.pill-btn {
+body.dark-mode .floating-dock {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.dock-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--toggle-bg);
-  color: var(--text-main);
-  text-decoration: none;
-  border: 1px solid var(--glass-border);
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.pill-btn .material-symbols-rounded { font-size: 24px; }
-
-.pill-search {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pill-search .search-icon {
   color: var(--text-sub);
-  font-size: 22px;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.pill-search input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-family: 'Lexend', sans-serif;
-  font-size: 16px;
-  color: var(--text-main);
-  outline: none;
-  padding: 8px 0;
+.dock-btn .material-symbols-rounded { 
+  font-size: 26px; 
+  transition: all 0.2s ease;
 }
 
-.pill-search input::placeholder { color: var(--text-sub); }
-
-
-/* Top-Level Search Box (If used on pages without the floating pill) */
-.search-box {
-  display: flex;
-  align-items: center;
-  background: var(--glass-nav);
-  border: 1px solid var(--glass-nav-border);
-  padding: 20px 20px;
-  border-radius: 16px;
-  margin-bottom: 16px;
+/* Active State using Real-Pink */
+.dock-btn.active {
+  color: var(--secondary-accent);
 }
-.search-icon { color: var(--text-sub); margin-right: 12px; }
-.search-box input { border: none; background: transparent; width: 100%; font-family: 'Lexend', sans-serif; font-size: 16px; color: var(--text-main); outline: none; }
-.search-box input::placeholder { color: var(--text-sub); }
+.dock-btn.active .material-symbols-rounded {
+  font-variation-settings: 'FILL' 1; /* Makes the active icon solid */
+}
+
+/* Hover States for Desktop */
+@media (hover: hover) and (pointer: fine) {
+  .dock-btn:hover {
+    color: var(--text-main);
+    transform: scale(1.1);
+  }
+  .dock-btn.active:hover {
+    color: var(--secondary-accent);
+  }
+}
 
 /* ============================================================== */
 /* --- FILTERS --- */
