@@ -15,19 +15,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body id="top">
-  
-  <a href="index.html" class="glass back-nav" aria-label="Back to Student Hub">
-      <span class="material-symbols-rounded">arrow_back</span>
-  </a>
-
   <div class="app-wrapper">
-    
     <!-- Hero Header -->
     <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
       <p class="subtitle" style="margin-bottom: 0.5rem;">Strategic Resources & Data</p>
       <h1 style="margin-bottom: 0.25rem; font-size: 2.5rem; padding: 0;">Transfer Tools</h1>
       <div style="font-family: 'Lexend', sans-serif; font-weight: 700; color: var(--secondary-accent); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px;">(In Beta)</div>
-      
       <!-- Liability & Rules Panel -->
       <div style="width: 100%; text-align: left; background: var(--toggle-bg); padding: 1.5rem 2rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
         <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 1rem;">Important Disclaimer:</strong>
@@ -89,7 +82,20 @@
     </footer>
 
   </div>
-
+<!-- THE FLOATING DOCK PILL -->
+<nav class="floating-pill">
+    <!-- Back to Hub -->
+    <a href="index.html" class="pill-btn" aria-label="Back to Hub">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </a>
+    
+    <!-- Unified Search -->
+    <div class="pill-search">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <!-- IMPORTANT: Change this ID depending on the page (see note below) -->
+        <input type="text" id="search-input" placeholder="Search...">
+    </div>
+</nav>
   <script src="script.js"></script>
 </body>
 </html>
