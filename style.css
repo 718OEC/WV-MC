@@ -167,153 +167,94 @@ strong, b { font-weight: 600; }
 .callout-box p { color: var(--text-sub); max-width: 520px; margin: 0 auto 24px; }
 
 /* ============================================================== */
-/* --- MAIN NAVIGATION FAB & BACK NAV UNIFICATION --- */
+/* --- FLOATING NAV & SEARCH PILL --- */
 /* ============================================================== */
 
-.fab-container {
+.floating-pill {
   position: fixed;
   bottom: 32px;
-  right: 32px;
-  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px); /* Responsive padding on mobile */
+  max-width: 500px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
-}
-
-.fab-main, .back-nav {
-  display: inline-flex;
-  align-items: center; 
-  justify-content: center;
-  width: 56px; 
-  height: 56px; 
-  border-radius: 50%;
+  padding: 10px 16px 10px 10px; /* Asymmetric padding to cradle the button */
+  border-radius: 99px;
+  z-index: 1000;
+  
+  /* Icy Glass Styling */
   background: var(--glass-fab) !important;
   backdrop-filter: var(--blur-amt) saturate(180%) !important;
   -webkit-backdrop-filter: var(--blur-amt) saturate(180%) !important;
   border: 1px solid var(--glass-border) !important;
-  box-shadow: var(--glass-shadow);
-  color: var(--secondary-accent) !important;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.2s ease;
-  z-index: 1000;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
 
-.back-nav { position: absolute; top: 24px; left: 24px; }
-
-.fab-main span, .back-nav span, .back-nav svg, .back-nav i, .back-nav img { 
-  font-size: 28px; 
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-  position: relative;
-  z-index: 2;
+body.dark-mode .floating-pill {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
-.fab-container.active .fab-main span { transform: rotate(180deg); }
-
-/* THE POP-UP LIQUID GLASS MENU */
-.fab-menu {
-  list-style: none;
-  padding: 0; 
-  margin: 0;
-  background: rgba(255, 255, 255, 0.60);
-  backdrop-filter: var(--blur-amt) saturate(180%);
-  -webkit-backdrop-filter: var(--blur-amt) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow); 
-  border-radius: 16px;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transform-origin: bottom right;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-width: 200px;
-}
-
-body.dark-mode .fab-menu { background: rgba(20, 50, 95, 0.60); }
-
-.fab-container.active .fab-menu {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: all;
-}
-
-.fab-menu li { border-bottom: 1px solid var(--glass-border); }
-.fab-menu li:last-child { border-bottom: none; }
-
-.fab-menu a, .fab-menu button {
-  display: flex; 
-  align-items: center; 
-  gap: 12px;
-  padding: 14px 20px;
-  text-decoration: none;
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--toggle-bg);
   color: var(--text-main);
-  font-weight: 600;
-  font-size: 14px;
-  background: transparent;
-  border: none; 
-  width: 100%; 
-  text-align: left;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+  border: 1px solid var(--glass-border);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.fab-menu .menu-icon { 
-  color: var(--secondary-accent); 
-  font-size: 20px; 
+.pill-btn .material-symbols-rounded {
+  font-size: 24px;
 }
 
-@media (max-width: 768px) {
-  .back-nav { top: 16px; left: 16px; width: 48px; height: 48px; }
-  .fab-main { width: 52px; height: 52px; } 
-}
-
-/* ============================================================== */
-/* --- SEARCH & FILTERS --- */
-/* ============================================================== */
-
-.search-box {
+.pill-search {
+  flex: 1;
   display: flex;
   align-items: center;
-  background: var(--toggle-bg);
-  border: 1px solid var(--glass-border);
-  padding: 20px 20px;
-  border-radius: 16px;
-  margin-bottom: 16px;
+  gap: 8px;
 }
 
-.search-icon { color: var(--text-sub); margin-right: 12px; }
+.pill-search .search-icon {
+  color: var(--text-sub);
+  font-size: 22px;
+}
 
-.search-box input {
+.pill-search input {
+  width: 100%;
   border: none;
   background: transparent;
-  width: 100%;
   font-family: 'Lexend', sans-serif;
   font-size: 16px;
   color: var(--text-main);
   outline: none;
+  padding: 8px 0;
 }
-.search-box input::placeholder { color: var(--text-sub); }
 
-.control-panel { padding: 24px; margin-bottom: 24px; }
-
-.filter-row {
-  display: block; 
-  width: 100%;
-  margin-left: -24px;
-  margin-right: -24px;
-  padding-left: 24px;
-  padding-right: 24px;
-  scrollbar-width: none; 
+.pill-search input::placeholder {
+  color: var(--text-sub);
 }
-.filter-row::-webkit-scrollbar { display: none; }
 
-.filter-pills {
-  display: flex;
-  flex-wrap: wrap; 
-  gap: 12px 8px; 
+/* Add some bottom padding to the app wrapper so content doesn't hide behind the pill */
+.app-wrapper {
+  padding-bottom: 140px; 
+}
+
+/* Smooth Desktop Hover States */
+@media (hover: hover) and (pointer: fine) {
+  .pill-btn:hover {
+    background: var(--secondary-accent);
+    color: #FFF;
+    border-color: var(--secondary-accent);
+    transform: scale(1.05);
+  }
 }
 
 /* ============================================================== */
