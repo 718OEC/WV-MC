@@ -275,8 +275,58 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
 .contact-item strong { color: var(--text-main); font-weight: 600; }
 
 .card-desc { font-size: 0.875rem; color: var(--text-main); margin-bottom: 1.25rem; }
-.card-actions { display: flex; gap: 0.75rem; }
-.card-actions .btn-primary { width: 100%; }
+.card-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+/* --- CTA Unified Card Styles (Replaces inline styles) --- */
+.cta-card-glass {
+  border: 2px dashed var(--secondary-accent) !important;
+  background: color-mix(in srgb, var(--secondary-accent) 5%, var(--glass-panel)) !important;
+  padding: 2rem 1.5rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+@supports not (background: color-mix(in srgb, red 5%, blue)) {
+  .cta-card-glass { background: rgba(128, 128, 128, 0.05) !important; }
+}
+
+/* --- Club Hub CTA Mini-Cards Layout --- */
+.cta-mini-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.cta-mini-card {
+  background: var(--toggle-bg);
+  border: 0.0625rem solid var(--glass-border);
+  border-radius: 1.25rem;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.cta-mini-card .material-symbols-rounded {
+  font-size: 2rem;
+  color: var(--secondary-accent);
+}
+
+.cta-mini-card span {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
 
 /* ============================================================== */
 /* --- BUTTONS --- */
@@ -288,7 +338,8 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  height: 3rem; /* Fixed height for uniform consistency */
+  padding: 0 1.5rem; /* Standard vertical padding equivalent */
   font-size: 0.875rem;
   font-weight: 700;
   border-radius: 999px; /* HIG: Capsule Buttons */
@@ -296,10 +347,11 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
   cursor: pointer;
   border: none;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  white-space: nowrap; /* Prevents wrapping */
 }
 .btn:active { transform: scale(0.96); }
 
-.btn-primary { background: var(--secondary-accent); color: var(--accent-text) !important; flex: 1; }
+.btn-primary { background: var(--secondary-accent); color: var(--accent-text) !important; }
 .btn-secondary { background: var(--toggle-bg); color: var(--text-main); border: 0.0625rem solid var(--glass-border); }
 
 /* ============================================================== */
@@ -368,6 +420,8 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
   .social-link:hover, .card-contact a:hover { opacity: 0.7; }
   .pill[data-tag]:hover { opacity: 1; filter: saturate(100%); }
   .btn:hover { filter: brightness(1.05); transform: translateY(-0.0625rem); }
+  
+  .cta-mini-card:hover { transform: translateY(-0.125rem); border-color: var(--secondary-accent); background: color-mix(in srgb, var(--secondary-accent) 5%, var(--toggle-bg)); }
 }
 
 /* ============================================================== */
@@ -393,7 +447,7 @@ body.dark-mode .skeleton-card::after { background: linear-gradient(90deg, transp
 .skel-title { width: 70%; height: 1.75rem; background: var(--toggle-bg); border-radius: 0.5rem; margin: 0.5rem 0 1rem; }
 .skel-line { width: 100%; height: 1rem; background: var(--toggle-bg); border-radius: 0.5rem; margin-bottom: 0.75rem; }
 .skel-line.short { width: 60%; }
-.skel-btn { width: 100%; height: 2.75rem; background: var(--toggle-bg); border-radius: 999px; margin-top: 1.5rem; }
+.skel-btn { width: 100%; height: 3rem; background: var(--toggle-bg); border-radius: 999px; margin-top: 1.5rem; }
 
 /* ============================================================== */
 /* --- CARPOOL LEGIBILITY OVERRIDE --- */
@@ -416,15 +470,4 @@ body.theme-carpool .card-avatar {
 
 body.theme-carpool [style*="border-radius: 50%"] {
     flex-shrink: 0 !important;
-}
-
-/* ============================================================== */
-/* --- LINK UNDERLINE FIX --- */
-/* ============================================================== */
-
-a.clickable-card-link, 
-a.clickable-card-link:visited, 
-a.clickable-card-link:hover, 
-a.clickable-card-link:active {
-    text-decoration: none !important;
 }
