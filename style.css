@@ -94,7 +94,8 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   font-size: 1rem;
-  transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  /* HIG: Apple's exact easing curve for seamless color cross-fading */
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -103,6 +104,9 @@ h1, h2, h3 {
   font-family: 'DM Serif Display', serif;
   font-weight: 400; 
   margin-top: 0;
+  /* HIG: Dynamic Typography scaling & kerning */
+  font-feature-settings: "cv05", "cv08", "cv11";
+  letter-spacing: -0.015em;
 }
 
 strong, b { font-weight: 600; }
@@ -116,7 +120,9 @@ strong, b { font-weight: 600; }
   padding: 2.5rem 1.25rem 8.75rem; 
 }
 
+/* --- HIG: The Glass Engine --- */
 .glass {
+  position: relative; /* Anchors the noise pseudo-element */
   background: var(--glass-panel);
   /* HIG: Saturate pulls background colors through the glass making them pop */
   backdrop-filter: var(--blur-amt) saturate(180%);
@@ -127,13 +133,25 @@ strong, b { font-weight: 600; }
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* HIG: SF-Style Noise Texturing */
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  z-index: 0;
+}
+
 /* ============================================================== */
 /* --- HERO, TITLES & CALLOUTS --- */
 /* ============================================================== */
 
 .hero { text-align: center; margin-bottom: 1.5rem; padding: 0.75rem 0; position: relative; display: flex; flex-direction: column; align-items: center; }
 .subtitle { font-family: 'Lexend', sans-serif; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.0625rem; color: var(--text-sub); margin: 0 0 0.5rem; }
-.hero h1 { font-size: clamp(1.75rem, 6vw, 3rem); color: var(--text-main); margin: 0 0 1.5rem; padding: 0 1rem; letter-spacing: -0.02em; line-height: 1.15; }
+.hero h1 { font-size: clamp(1.75rem, 6vw, 3rem); color: var(--text-main); margin: 0 0 1.5rem; padding: 0 1rem; line-height: 1.15; }
 
 .callout-box { padding: 2.25rem 1.5rem; text-align: center; margin-bottom: 2.5rem; }
 .callout-box h2 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; }
@@ -212,7 +230,18 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
 /* ============================================================== */
 
 .control-panel { padding: 1.5rem; margin-bottom: 1.5rem; }
-.filter-row { display: block; width: 100%; margin-left: -1.5rem; margin-right: -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; scrollbar-width: none; }
+.filter-row { 
+  display: block; 
+  width: 100%; 
+  margin-left: -1.5rem; 
+  margin-right: -1.5rem; 
+  padding-left: 1.5rem; 
+  padding-right: 1.5rem; 
+  scrollbar-width: none; 
+  /* HIG: Native rubber-band scrolling */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
 .filter-row::-webkit-scrollbar { display: none; }
 .filter-pills { display: flex; flex-wrap: wrap; gap: 0.75rem 0.5rem; }
 
@@ -349,7 +378,6 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   white-space: nowrap; /* Prevents wrapping */
 }
-.btn:active { transform: scale(0.96); }
 
 .btn-primary { background: var(--secondary-accent); color: var(--accent-text) !important; }
 .btn-secondary { background: var(--toggle-bg); color: var(--text-main); border: 0.0625rem solid var(--glass-border); }
@@ -369,8 +397,19 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
 
 .badge-group { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.25rem; flex: 1; min-width: 0; }
 
-.pill, .badge { font-family: 'Lexend', sans-serif; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; font-weight: 700; white-space: nowrap; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-.badge { padding: 0.25rem 0.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.0625rem; background: var(--toggle-bg); color: var(--text-main); border: 0.0625rem solid var(--glass-border); backdrop-filter: blur(0.25rem); }
+.pill, .badge { 
+  font-family: 'Lexend', sans-serif; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  border-radius: 999px; 
+  font-weight: 700; 
+  white-space: nowrap; 
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  /* HIG: Enhanced tracking for small caps/tags */
+  letter-spacing: 0.04em;
+}
+.badge { padding: 0.25rem 0.5rem; font-size: 0.75rem; text-transform: uppercase; background: var(--toggle-bg); color: var(--text-main); border: 0.0625rem solid var(--glass-border); backdrop-filter: blur(0.25rem); }
 .pill { padding: 0.5rem 1rem; font-size: 0.875rem; background: var(--toggle-bg); color: var(--text-sub); border: 0.0625rem solid var(--glass-border); cursor: pointer; }
 
 /* SCHOOL TAGS (Strictly Protected Colors) */
@@ -424,6 +463,13 @@ body.dark-mode .floating-dock { box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), in
   .cta-mini-card:hover { transform: translateY(-0.125rem); border-color: var(--secondary-accent); background: color-mix(in srgb, var(--secondary-accent) 5%, var(--toggle-bg)); }
 }
 
+/* --- HIG: Active State Physics (Deep touch press simulation) --- */
+.card-small:active, .cta-mini-card:active { transform: scale(0.98); transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1); }
+.dock-btn:active { transform: scale(0.92); transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1); }
+.pill:active, .badge:active { transform: scale(0.95); transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1); }
+.btn:active { transform: scale(0.96); transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1); }
+
+
 /* ============================================================== */
 /* --- SKELETON LOADING ENGINE (GLASS GLARE) --- */
 /* ============================================================== */
@@ -470,4 +516,15 @@ body.theme-carpool .card-avatar {
 
 body.theme-carpool [style*="border-radius: 50%"] {
     flex-shrink: 0 !important;
+}
+
+/* ============================================================== */
+/* --- LINK UNDERLINE FIX --- */
+/* ============================================================== */
+
+a.clickable-card-link, 
+a.clickable-card-link:visited, 
+a.clickable-card-link:hover, 
+a.clickable-card-link:active {
+    text-decoration: none !important;
 }
