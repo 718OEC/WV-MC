@@ -8,81 +8,45 @@
   /* Strictly Protected School Tags */
   --wvc-blue: #14325F;
   --mc-teal: #0C7799;
-
-  /* Fallback/Default Theme */
-  --glass-rgb: 166, 229, 255; 
-  --theme-accent: #F84C6C;
-  --accent-text: #FFFFFF;
-}
-
-/* 1. Index Theme (Blue Glass & Orange Accent) */
-body.theme-index {
-  --glass-rgb: 183, 204, 234; 
-  --theme-accent: #F86516; 
-  --accent-text: #FFFFFF;
-}
-
-/* 2. Barter Bazaar Theme (Berry Glass & Green Accent) */
-body.theme-barter {
-  --glass-rgb: 228, 160, 183; 
-  --theme-accent: #71B300; 
-  --accent-text: #FFFFFF;
-}
-
-/* 3. Carpool Tool Theme (Purple Glass & Yellow Accent) */
-body.theme-carpool {
-  --glass-rgb: 195, 167, 214; 
-  --theme-accent: #FFB60A; 
-  --accent-text: #1D1D1D; /* Dark text required on yellow buttons */
-}
-
-/* 4. Club Hub Theme (Yellow Glass & Blue Accent) */
-body.theme-club {
-  --glass-rgb: 253, 224, 139; 
-  --theme-accent: #14325F; 
-  --accent-text: #FFFFFF;
-}
-
-/* 5. Transfer Tools Theme (Green Glass & Purple Accent) */
-body.theme-transfer {
-  --glass-rgb: 203, 229, 142; 
-  --theme-accent: #5F259F; 
-  --accent-text: #FFFFFF;
-}
-
-/* --- Dark Mode Smart Overrides --- */
-/* Swaps accents to "Ice" variants so they pop on dark backgrounds */
-body.dark-mode.theme-index { --theme-accent: #FFCAB3; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-barter { --theme-accent: #CBE58E; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-carpool { --theme-accent: #FDE08B; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-club { --theme-accent: #B7CCEA; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-transfer { --theme-accent: #C3A7D6; --accent-text: #1D1D1D; } 
-
-/* ============================================================== */
-/* --- SYSTEM VARIABLES --- */
-/* ============================================================== */
-
-:root {
+  
+  /* Global Defaults */
   --wvc-charcoal: #1D1D1D;
   --page-bg: #F5F9FD; 
   --text-main: var(--wvc-charcoal);
   --text-sub: #5A6A85;
   --toggle-bg: rgba(0, 0, 0, 0.04); 
-
-  /* Dynamic Accent Mapping */
-  --primary-accent: var(--wvc-charcoal); 
-  --secondary-accent: var(--theme-accent);
-
-  /* Dynamic Glass Mapping */
-  --glass-panel: rgba(var(--glass-rgb), 0.35);
-  --glass-border: rgba(var(--glass-rgb), 0.65);
-  --glass-shadow: 0 8px 32px rgba(var(--glass-rgb), 0.25); 
+  --blur-amt: blur(12px); 
 
   /* Nav Dock Mapping */
   --glass-nav: rgba(255, 255, 255, 0.75);
   --glass-nav-border: rgba(255, 255, 255, 0.95);
-  --blur-amt: blur(12px); 
 }
+
+/* THE FIX: Variables are mapped here on the body so they instantly react to your HTML themes */
+body {
+  /* Default Fallback (Real-Pink & Baby Blue) */
+  --glass-rgb: 166, 229, 255; 
+  --theme-accent: #F84C6C;
+  --accent-text: #FFFFFF;
+
+  /* The Engine (Calculates based on the active theme below) */
+  --primary-accent: var(--wvc-charcoal); 
+  --secondary-accent: var(--theme-accent);
+  --glass-panel: rgba(var(--glass-rgb), 0.35);
+  --glass-border: rgba(var(--glass-rgb), 0.65);
+  --glass-shadow: 0 8px 32px rgba(var(--glass-rgb), 0.25); 
+}
+
+/* 1. Index Theme */
+body.theme-index { --glass-rgb: 183, 204, 234; --theme-accent: #F86516; --accent-text: #FFFFFF; }
+/* 2. Barter Bazaar Theme */
+body.theme-barter { --glass-rgb: 228, 160, 183; --theme-accent: #71B300; --accent-text: #FFFFFF; }
+/* 3. Carpool Tool Theme */
+body.theme-carpool { --glass-rgb: 195, 167, 214; --theme-accent: #FFB60A; --accent-text: #1D1D1D; }
+/* 4. Club Hub Theme */
+body.theme-club { --glass-rgb: 253, 224, 139; --theme-accent: #14325F; --accent-text: #FFFFFF; }
+/* 5. Transfer Tools Theme */
+body.theme-transfer { --glass-rgb: 203, 229, 142; --theme-accent: #5F259F; --accent-text: #FFFFFF; }
 
 /* --- Dark Mode Base --- */
 body.dark-mode {
@@ -102,6 +66,16 @@ body.dark-mode {
   --glass-nav-border: rgba(255, 255, 255, 0.12);
 }
 
+/* --- Dark Mode Smart Overrides --- */
+/* Forces accents to their bright 'Ice' versions so they are visible on dark screens */
+body.dark-mode.theme-index { --theme-accent: #FFCAB3; --accent-text: #1D1D1D; } 
+body.dark-mode.theme-barter { --theme-accent: #CBE58E; --accent-text: #1D1D1D; } 
+body.dark-mode.theme-carpool { --theme-accent: #FDE08B; --accent-text: #1D1D1D; } 
+body.dark-mode.theme-club { --theme-accent: #B7CCEA; --accent-text: #1D1D1D; } 
+body.dark-mode.theme-transfer { --theme-accent: #C3A7D6; --accent-text: #1D1D1D; } 
+
+/* ============================================================== */
+/* --- GLOBAL RESETS & TYPOGRAPHY --- */
 /* ============================================================== */
 /* --- GLOBAL RESETS & TYPOGRAPHY --- */
 /* ============================================================== */
