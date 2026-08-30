@@ -552,7 +552,7 @@ function renderCarpoolCards(items) {
                     <div style="font-size: 0.875rem; color: var(--text-sub); font-weight: 600;">ZIP: 95128</div>
                 </div>
                 
-                <div class="card-avatar" style="width: 64px; height: 55.5px; background: var(--secondary-accent);">
+                <div class="card-avatar" style="width: 64px; height: 64px; background: var(--secondary-accent);">
                     <span class="material-symbols-rounded" style="font-size: 1.75rem; color: #FFF;">local_taxi</span>
                 </div>
             </div>
@@ -651,7 +651,7 @@ function renderCarpoolCards(items) {
                         <div style="font-size: 0.875rem; color: var(--text-sub); font-weight: 600;">ZIP: ${item.zip}</div>
                     </div>
                     
-                    <div class="card-avatar" style="width: 64px; height: 55.5px; background: ${roleColor};">
+                    <div class="card-avatar" style="width: 64px; height: 64px; background: ${roleColor};">
                         <span class="material-symbols-rounded" style="font-size: 1.75rem; color: #FFF;">${roleIcon}</span>
                     </div>
                 </div>
