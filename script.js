@@ -212,27 +212,24 @@ window.renderClubCards = function(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-    // THE FIX: Converted to Flex Column, removed .glass, added uniform dashed border, cleaned button classes
+// Separate CTA's to start clubs
     const unifiedCtaHtml = `
-    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
-        <div style="text-align: center;">
-            <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
-            <h3 style="margin: 0; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin-top: 0.25rem; margin-bottom: 0;">Can't find your community? Launch your own organization.</p>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
-            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--glass-border); display: flex; flex-direction: column;">
-                <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.75rem;">West Valley College</div>
-                <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="width: 100%;">Submit ASG Proposal</a>
-            </div>
-            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--glass-border); display: flex; flex-direction: column;">
-                <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.25rem;">Mission College</div>
-                <div style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem;">Contact Yesenia Melgoza (Student Life)</div>
-                <div style="display: flex; gap: 0.5rem;">
-                    <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Email</a>
-                    <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">call</span> Call</a>
-                </div>
-            </div>
+    <!-- 1. WVC CTA Card -->
+    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
+        <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Start a WVC Club</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Can't find your community? Submit an ASG proposal to launch your own.</p>
+        <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="width: 100%;">Submit Proposal</a>
+    </div>
+
+    <!-- 2. Mission College CTA Card -->
+    <div class="card-small theme-mc" style="border: 2px dashed var(--mc-teal); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--mc-teal); margin-bottom: 0.5rem;">add_circle</span>
+        <h3 style="margin: 0 0 0.5rem; color: var(--mc-teal);">Start an MC Club</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Contact Yesenia Melgoza (Student Life) to launch an organization.</p>
+        <div style="display: flex; gap: 0.5rem; width: 100%;">
+            <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Email</a>
+            <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">call</span> Call</a>
         </div>
     </div>
     `;
