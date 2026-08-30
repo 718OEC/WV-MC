@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WV//MC Student Hub</title>
+  <title>WV//MC Campus Compass</title>
+  
   <!-- Performance Optimizations -->
   <link rel="preconnect" href="https://docs.google.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap" as="style">
+  
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lexend:wght@300;400;600;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
@@ -20,16 +22,20 @@
   <div class="app-wrapper">
     
     <!-- Hero Header -->
-    <header class="hero" style="margin-bottom: 2rem;">
+    <header class="hero" style="margin-bottom: 3rem;">
       <p class="subtitle" style="margin: 0 0 0.5rem;">West Valley & Mission College</p>
-      <h1 id="college-title" style="margin: 0 0 0.75rem; font-size: 2rem;">Student Hub</h1>
-      <p style="color: var(--text-sub); max-width: 30rem; margin: 0 auto; font-size: 1rem; line-height: 1.5;">Your centralized directory for campus resources, clubs, and peer-to-peer exchange.</p>
+      <h1 id="college-title" style="margin: 0 0 0.75rem; font-size: 2.5rem;">Campus Compass</h1>
+      <p style="color: var(--text-sub); max-width: 32rem; margin: 0 auto; font-size: 1rem; line-height: 1.5;">Your centralized directory for campus resources, student organizations, and peer-to-peer exchange.</p>
     </header>
-    <main class="grid-cards" style="gap: 1.5rem; margin-bottom: 3rem;">
+
+    <!-- SECTION 1: The App Tools -->
+    <h2 style="font-family: 'Lexend', sans-serif; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 1.25rem; text-align: center;">Student Tools</h2>
+    
+    <main class="grid-cards" style="gap: 1.5rem; margin-bottom: 4rem;">
       <!-- Club Hub Card -->
       <a href="clubhub.html" class="clickable-card-link">
         <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
-          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">groups</span>
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 1rem;">groups</span>
           <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Club Hub</h2>
           <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Browse, join, or create active student organizations across campus.</p>
         </article>
@@ -37,63 +43,103 @@
       <!-- Barter Bazaar Card -->
       <a href="barterbazaar.html" class="clickable-card-link">
         <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
-          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">swap_horiz</span>
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 1rem;">swap_horiz</span>
           <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Barter Bazaar</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Trade textbooks, chargers, or tutoring. For FREE.</p>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Trade textbooks, lab gear, or tutoring services with peers.</p>
         </article>
       </a>
       <!-- Carpool Tool Card -->
       <a href="carpooltool.html" class="clickable-card-link">
         <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
-          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">directions_car</span>
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 1rem;">directions_car</span>
           <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Carpool Tool</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Find or offer carpools to/from campus.</p>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Find or offer carpools to save gas and secure campus parking.</p>
         </article>
       </a>
       <!-- Transfer Tools Card -->
       <a href="transfertools.html" class="clickable-card-link">
         <article class="glass card-small" style="text-align: center; padding: 2.5rem 1.5rem; align-items: center; width: 100%;">
-          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--primary-accent); margin-bottom: 1rem;">account_balance</span>
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 1rem;">account_balance</span>
           <h2 style="margin: 0 0 0.5rem; font-size: 1.25rem;">Transfer Tools</h2>
-          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Access success stories, tips, or pathways.</p>
+          <p style="margin: 0; color: var(--text-sub); font-size: 0.875rem;">Access student-submitted success stories, tips, and pathways.</p>
         </article>
       </a>
-      
     </main>
+
+    <!-- SECTION 2: The Campus Compass (Quick Links) -->
+    <h2 style="font-family: 'Lexend', sans-serif; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); margin-bottom: 1.25rem; text-align: center;">Campus Quick Links</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 3rem;">
+        
+        <!-- Canvas Link -->
+        <a href="https://wvm.instructure.com/" target="_blank" class="clickable-card-link">
+            <article class="glass" style="display: flex; align-items: center; padding: 1.25rem 1.5rem; gap: 1rem; width: 100%;">
+                <span class="material-symbols-rounded" style="color: var(--secondary-accent); font-size: 1.75rem;">school</span>
+                <div style="font-weight: 600; color: var(--text-main);">Canvas Login</div>
+            </article>
+        </a>
+
+        <!-- Portal Link -->
+        <a href="https://ssb.wvm.edu/" target="_blank" class="clickable-card-link">
+            <article class="glass" style="display: flex; align-items: center; padding: 1.25rem 1.5rem; gap: 1rem; width: 100%;">
+                <span class="material-symbols-rounded" style="color: var(--secondary-accent); font-size: 1.75rem;">laptop_mac</span>
+                <div style="font-weight: 600; color: var(--text-main);">WVM Portal</div>
+            </article>
+        </a>
+
+        <!-- Transfer Center Link -->
+        <a href="https://www.westvalley.edu/services/transfer/" target="_blank" class="clickable-card-link">
+            <article class="glass" style="display: flex; align-items: center; padding: 1.25rem 1.5rem; gap: 1rem; width: 100%;">
+                <span class="material-symbols-rounded" style="color: var(--secondary-accent); font-size: 1.75rem;">flight_takeoff</span>
+                <div style="font-weight: 600; color: var(--text-main);">Transfer Center</div>
+            </article>
+        </a>
+
+        <!-- Basic Needs / Pantry Link -->
+        <a href="https://www.westvalley.edu/services/basic-needs/" target="_blank" class="clickable-card-link">
+            <article class="glass" style="display: flex; align-items: center; padding: 1.25rem 1.5rem; gap: 1rem; width: 100%;">
+                <span class="material-symbols-rounded" style="color: var(--secondary-accent); font-size: 1.75rem;">local_dining</span>
+                <div style="font-weight: 600; color: var(--text-main);">Food Pantry & Basic Needs</div>
+            </article>
+        </a>
+    </div>
+
     <!-- Footer Signature Block -->
-    <footer class="sig-block glass" style="margin-top: 2.5rem; padding: 1.75rem 2rem;">
+    <footer class="sig-block glass" style="margin-top: 2.5rem; padding: 2rem;">
       <div class="sig-info">
         <h3 style="margin: 0 0 0.25rem; font-size: 1.25rem;">About</h3>
-        <div class="sig-role" style="font-size: 0.75rem;">For students, by students: an open-source campus initiative</div>
+        <div class="sig-role" style="font-size: 0.75rem; color: var(--secondary-accent);">For students, by students: an open-source campus initiative</div>
         <p class="sig-text" style="font-size: 0.875rem; margin: 0.5rem 0 0;">Founded by Oscar "Deion" Espinosa | Biz & Econ Major (c/o 2028)
         <br>Special thanks to Rory West (WVC c/o 2027)</p>
       </div>
     </footer>
 
   </div>
-   <!-- THE FLOATING APP DOCK -->
-<nav class="floating-dock">
-    <!-- 1. Home -->
-    <a href="index.html" class="dock-btn active" aria-label="Home">
-        <span class="material-symbols-rounded">home</span>
-    </a>
-    <!-- 2. Club Hub -->
-    <a href="clubhub.html" class="dock-btn" aria-label="Club Hub">
-        <span class="material-symbols-rounded">groups</span>
-    </a>
-    <!-- 3. Barter Bazaar -->
-    <a href="barterbazaar.html" class="dock-btn" aria-label="Barter Bazaar">
-        <span class="material-symbols-rounded">swap_horiz</span>
-    </a>
-    <!-- 4. Carpool Tool -->
-    <a href="carpooltool.html" class="dock-btn" aria-label="Carpool Tool">
-        <span class="material-symbols-rounded">directions_car</span>
-    </a>
-    <!-- 5. Transfer Tools -->
-    <a href="transfertools.html" class="dock-btn" aria-label="Transfer Tools">
-        <span class="material-symbols-rounded">account_balance</span>
-    </a>
-</nav>
+
+  <!-- THE FLOATING APP DOCK -->
+  <nav class="floating-dock">
+      <!-- 1. Home -->
+      <a href="index.html" class="dock-btn active" aria-label="Home">
+          <span class="material-symbols-rounded">home</span>
+      </a>
+      <!-- 2. Club Hub -->
+      <a href="clubhub.html" class="dock-btn" aria-label="Club Hub">
+          <span class="material-symbols-rounded">groups</span>
+      </a>
+      <!-- 3. Barter Bazaar -->
+      <a href="barterbazaar.html" class="dock-btn" aria-label="Barter Bazaar">
+          <span class="material-symbols-rounded">swap_horiz</span>
+      </a>
+      <!-- 4. Carpool Tool -->
+      <a href="carpooltool.html" class="dock-btn" aria-label="Carpool Tool">
+          <span class="material-symbols-rounded">directions_car</span>
+      </a>
+      <!-- 5. Transfer Tools -->
+      <a href="transfertools.html" class="dock-btn" aria-label="Transfer Tools">
+          <span class="material-symbols-rounded">account_balance</span>
+      </a>
+  </nav>
+  
   <script src="script.js"></script>
 </body>
 </html>
