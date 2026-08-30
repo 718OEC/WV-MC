@@ -818,18 +818,3 @@ function renderTransferCards(items) {
 
     grid.innerHTML = ctaCard + cardsHtml;
 }
-// ==========================================
-// --- HIG: HAPTIC FEEDBACK ENGINE ---
-// ==========================================
-function initHaptics() {
-    // Listen for physical screen touches/clicks globally
-    document.body.addEventListener('pointerdown', (e) => {
-        // If the tapped element is interactive (button, link, pill, or card)
-        const interactiveElement = e.target.closest('a, button, .pill, .btn, .dock-btn, .card-small');
-        
-        if (interactiveElement && navigator.vibrate) {
-            // Trigger a 10ms micro-vibration (Apple Taptic Engine simulation)
-            navigator.vibrate(10);
-        }
-    });
-}
