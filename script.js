@@ -212,26 +212,25 @@ window.renderClubCards = function(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
+    // THE FIX: Converted to Flex Column, removed .glass, added uniform dashed border, cleaned button classes
     const unifiedCtaHtml = `
-    <div class="glass card-small" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
         <div style="text-align: center;">
             <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--secondary-accent); margin-bottom: 0.25rem;">add_circle</span>
             <h3 style="margin: 0; color: var(--secondary-accent); font-size: 1.25rem;">Start a New Club</h3>
             <p style="font-size: 0.875rem; color: var(--text-sub); margin-top: 0.25rem; margin-bottom: 0;">Can't find your community? Launch your own organization.</p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
-            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid var(--wvc-blue-light); display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--glass-border); display: flex; flex-direction: column;">
                 <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.75rem;">West Valley College</div>
-                <div style="margin-top: auto;">
-                    <a href="${wvClubFormUrl}" target="_blank" class="btn" style="background: var(--secondary-accent); color: #FFFFFF; width: 100%; padding: 0.625rem; font-size: 0.8125rem; border: none; text-align: center; display: block; box-sizing: border-box;">Submit ASG Proposal</a>
-                </div>
+                <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="width: 100%;">Submit ASG Proposal</a>
             </div>
-            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 2px solid rgba(12, 119, 153, 0.4); display: flex; flex-direction: column;">
+            <div style="background: var(--toggle-bg); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--glass-border); display: flex; flex-direction: column;">
                 <div style="font-weight: 700; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 0.25rem;">Mission College</div>
                 <div style="font-size: 0.75rem; color: var(--text-sub); margin-bottom: 0.75rem;">Contact Yesenia Melgoza (Student Life)</div>
-                <div style="display: flex; gap: 0.5rem; margin-top: auto;">
-                    <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.25rem; box-sizing: border-box;"><span class="material-symbols-rounded" style="font-size: 1rem;">mail</span> Email</a>
-                    <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1; padding: 0.625rem; font-size: 0.8125rem; border-color: rgba(12, 119, 153, 0.4); text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.25rem; box-sizing: border-box;"><span class="material-symbols-rounded" style="font-size: 1rem;">call</span> Call</a>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="mailto:yesenia.melgoza@missioncollege.edu" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Email</a>
+                    <a href="tel:4088555406" class="btn btn-secondary" style="flex: 1;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">call</span> Call</a>
                 </div>
             </div>
         </div>
@@ -376,12 +375,13 @@ function renderBarterCards(items) {
     const grid = document.getElementById("barter-grid");
     if (!grid) return;
 
+    // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
-    <div class="glass card-small" style="display:flex; flex-direction: column; align-items:center; justify-content:center; text-align:center; background: rgba(248, 101, 22, 0.05); padding: 3rem 1.5rem;">
+    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
         <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Post a Trade</h3>
         <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Need a textbook or lab gear? Offer a trade to the campus community.</p>
-        <a href="${BARTER_FORM_URL}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%;">Create Listing</a>
+        <a href="${BARTER_FORM_URL}" target="_blank" class="btn btn-primary" style="width: 100%;">Create Listing</a>
     </div>
     `;
 
@@ -532,14 +532,13 @@ function renderCarpoolCards(items) {
     const grid = document.getElementById("carpool-grid");
     if (!grid) return;
 
+    // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
-    <div class="glass card-small" style="padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;">
-        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent);">directions_car</span>
-        <div>
-            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Join the Carpool</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin: 0;">Save gas, split costs, and meet fellow students. Offer a ride or request a seat today.</p>
-        </div>
-        <a href="${CARPOOL_FORM_URL}" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Create Listing</a>
+    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">directions_car</span>
+        <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Join the Carpool</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Save gas, split costs, and meet fellow students. Offer a ride or request a seat today.</p>
+        <a href="${CARPOOL_FORM_URL}" target="_blank" class="btn btn-primary" style="width: 100%;">Create Listing</a>
     </div>
     `;
 
@@ -783,14 +782,13 @@ function renderTransferCards(items) {
     const grid = document.getElementById("transfer-grid");
     if (!grid) return;
 
-const ctaCard = `
-    <div class="glass card-small" style="background: rgba(248, 101, 22, 0.05); padding: 2rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;">
-        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent);">account_balance</span>
-        <div>
-            <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Submit a Resource</h3>
-            <p style="font-size: 0.875rem; color: var(--text-sub); margin: 0;">Found a great transfer program, data set, or scholarship? Add it to the hub.</p>
-        </div>
-        <a href="${TRANSFER_FORM_URL}" target="_blank" class="btn btn-primary" style="background: var(--secondary-accent); border: none; width: 100%; margin-top: 0.5rem;">Add Data</a>
+    // THE FIX: Uniform dashed card & uniform button
+    const ctaCard = `
+    <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">account_balance</span>
+        <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Submit a Resource</h3>
+        <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Found a great transfer program, data set, or scholarship? Add it to the hub.</p>
+        <a href="${TRANSFER_FORM_URL}" target="_blank" class="btn btn-primary" style="width: 100%;">Add Data</a>
     </div>
     `;
 
