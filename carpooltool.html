@@ -17,20 +17,35 @@
 </head>
 <body id="top" class="theme-carpool">
   <div class="app-wrapper">
-    <header class="hero" style="margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
-      <p class="subtitle" style="margin-bottom: 0.5rem;">West Valley & Mission College</p>
-      <h1 id="college-title" style="margin-bottom: 1.5rem; font-size: 2.5rem; padding: 0;">Carpool Tool</h1>
-      <div style="font-family: 'Lexend', sans-serif; font-weight: 700; color: var(--secondary-accent); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px;">(In Beta)</div>
-      <!-- Rules Panel -->
-      <div style="width: 100%; text-align: left; background: var(--toggle-bg); padding: 1.5rem 2rem; border-radius: 1rem; border: 1px solid var(--glass-border);">
-        <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 1rem;">Carpool Rules & Guidelines:</strong>
-        <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-sub); font-size: 0.9375rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.5rem;">
-            <li>Your verified school email is used to initiate contact and connect with peers.</li>
-            <li>Coordinate gas-splitting, tolls, and exact meeting spots privately before the trip.</li>
-            <li>Listings automatically expire after 120 days to keep the board accurate for the current semester.</li>
-            <li>We do <strong>not</strong> vet drivers, inspect vehicles, verify licenses/insurance, or assume liability for ridesharing. Please practice common sense and prioritize personal safety.</li>
-        </ul>
-      </div>
+    <header class="hero" style="margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <p class="subtitle" style="margin: 0 0 0.5rem;">West Valley & Mission College</p>
+      <h1 id="college-title" style="margin: 0 0 0.25rem; font-size: 2.5rem; padding: 0;">Carpool Tool</h1>
+      <div style="font-family: 'Lexend', sans-serif; font-weight: 700; color: var(--secondary-accent); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;">(In Beta)</div>
+      <!-- Liquid Glass Rules Dropdown Panel -->
+      <style>
+          details.rules-dropdown summary::-webkit-details-marker { display: none; }
+          details.rules-dropdown summary { list-style: none; outline: none; }
+          details.rules-dropdown[open] summary .dropdown-icon { transform: rotate(180deg); }
+          details.rules-dropdown summary .dropdown-icon { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+      </style>
+      <details class="rules-dropdown glass" style="width: 100%; text-align: left; overflow: hidden; cursor: pointer;">
+        <summary style="padding: 1.25rem 1.5rem; color: var(--text-main); font-size: 1rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span class="material-symbols-rounded" style="color: var(--secondary-accent); font-size: 1.25rem;">gavel</span>
+                Carpool Rules & Guidelines
+            </div>
+            <span class="material-symbols-rounded dropdown-icon" style="color: var(--text-sub);">expand_more</span>
+        </summary>
+        <div style="padding: 0 1.5rem 1.5rem 1.5rem;">
+            <hr style="border: 0; height: 1px; background: var(--glass-border); margin: 0 0 1.25rem 0;">
+            <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-sub); font-size: 0.875rem; line-height: 1.6; display: flex; flex-direction: column; gap: 0.5rem;">
+                <li>Your verified school email is used to initiate contact and connect with peers.</li>
+                <li>Coordinate gas-splitting, tolls, and exact meeting spots privately before the trip.</li>
+                <li>Listings automatically expire after 120 days to keep the board accurate for the current semester.</li>
+                <li>We do <strong>not</strong> vet drivers, inspect vehicles, verify licenses/insurance, or assume liability for ridesharing. Please practice common sense and prioritize personal safety.</li>
+            </ul>
+        </div>
+      </details>
     </header>
     <!-- Responsive Carpool Cards Grid -->
     <main id="carpools">
