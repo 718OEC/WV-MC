@@ -68,6 +68,22 @@ async function fetchWithCache(url, cacheKey, processCallback) {
 }
 
 // ==========================================
+// --- HIG: HAPTIC FEEDBACK ENGINE ---
+// ==========================================
+function initHaptics() {
+    // Listen for physical screen touches/clicks globally
+    document.body.addEventListener('pointerdown', (e) => {
+        // If the tapped element is interactive (button, link, pill, or card)
+        const interactiveElement = e.target.closest('a, button, .pill, .btn, .dock-btn, .card-small');
+        
+        if (interactiveElement && navigator.vibrate) {
+            // Trigger a 10ms micro-vibration (Apple Taptic Engine simulation)
+            navigator.vibrate(10);
+        }
+    });
+}
+
+// ==========================================
 // --- MASTER INITIALIZATION ENGINE ---
 // ==========================================
 function initializeApp() {
@@ -90,6 +106,9 @@ function initializeApp() {
     if (searchInput && clubGrid) {
         searchInput.addEventListener("input", window.filterClubs);
     }
+
+    // Initialize Haptic Engine
+    initHaptics();
 
     if (typeof window.initClubHub === 'function') window.initClubHub();
     if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
@@ -191,7 +210,6 @@ window.filterClubs = function() {
 
         if (activeCampus !== 'All' && school.toUpperCase() !== activeCampus) return false;
         if (activeCategory !== 'All' && !cats.includes(activeCategory)) return false;
-
         const catSearchString = cats.join(' ').toLowerCase();
         return !term || 
         name.toLowerCase().includes(term) ||
@@ -766,6 +784,7 @@ window.filterTransferTools = function() {
 
         if (term) {
             const searchString = `${item.name} ${item.desc} ${item.tags.join(' ')}`.toLowerCase();
+            const searchString = `${item.name} ${item.desc}`.toLowerCase();
             if (!searchString.includes(term)) return false;
         }
 
