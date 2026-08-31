@@ -434,8 +434,6 @@ function renderBarterCards(items) {
 
     grid.innerHTML = ctaCard + cardsHtml;
 }
-
-
 // ==========================================
 // --- CARPOOL TOOL ENGINE ---
 // ==========================================
