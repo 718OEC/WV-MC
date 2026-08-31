@@ -198,7 +198,7 @@ window.filterClubs = function() {
         initials.toLowerCase().includes(term) ||
         president.toLowerCase().includes(term) ||
         email.toLowerCase().includes(term) ||
-        catSearchString.includes(term) ||
+        catSearchString.tolowercase().includes(term) ||
         desc.toLowerCase().includes(term) ||
         school.toLowerCase().includes(term);
     });
@@ -763,7 +763,7 @@ window.filterTransferTools = function() {
         if (!matchesCategory) return false;
 
         if (term) {
-            const searchString = `${item.name} ${item.desc} ${item.tags.join(' ')}`.toLowerCase();
+           const searchString = `${item.name} ${item.desc} ${item.tags.join(' ')}`.toLowerCase();
             if (!searchString.includes(term)) return false;
         }
 
