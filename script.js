@@ -198,7 +198,6 @@ window.filterClubs = function() {
         initials.toLowerCase().includes(term) ||
         president.toLowerCase().includes(term) ||
         email.toLowerCase().includes(term) ||
-        catSearchString.tolowercase().includes(term) ||
         desc.toLowerCase().includes(term) ||
         school.toLowerCase().includes(term);
     });
