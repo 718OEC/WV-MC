@@ -202,20 +202,11 @@ body.dark-mode .floating-dock {
 
 /* --- THE GLASS-ON-GLASS ACTIVE STATE --- */
 .dock-btn.active {
-  /* Mix a tiny hint of the theme color into full transparency */
   background: color-mix(in srgb, var(--secondary-accent) 15%, transparent);
-  
-  /* Apply a second layer of frost over the dock's frost */
   backdrop-filter: blur(12px) saturate(200%);
   -webkit-backdrop-filter: blur(12px) saturate(200%);
-  
-  /* Delicate glassy rim-light border */
   border: 0.0625rem solid color-mix(in srgb, var(--secondary-accent) 30%, rgba(255, 255, 255, 0.6));
-  
-  /* Make the icon pop in the theme color since the background is now transparent */
   color: var(--secondary-accent);
-  
-  /* Soft colored glow */
   box-shadow: 0 0.25rem 0.75rem color-mix(in srgb, var(--secondary-accent) 15%, transparent), 
               inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
@@ -224,7 +215,6 @@ body.dark-mode .floating-dock {
   font-variation-settings: 'FILL' 1; 
 }
 
-/* Dark mode adjustments for nested glass */
 body.dark-mode .dock-btn.active {
   background: color-mix(in srgb, var(--secondary-accent) 20%, rgba(0, 0, 0, 0.2));
   border-color: color-mix(in srgb, var(--secondary-accent) 40%, rgba(255, 255, 255, 0.15));
@@ -378,44 +368,30 @@ body.dark-mode .dock-btn.active {
   border-radius: 999px; /* HIG: Capsule Buttons */
   text-decoration: none;
   cursor: pointer;
-  border: none;
+  border: 0.0625rem solid transparent; 
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   white-space: nowrap; /* Prevents wrapping */
 }
 
 .btn:active { transform: scale(0.96); }
 
-/* --- GLASS-ON-GLASS PRIMARY BUTTON --- */
+/* --- GEM-LIKE PRIMARY BUTTON --- */
+/* Uses the highly legible solid base color but adds a glass rim-light for depth */
 .btn-primary {
-  background: color-mix(in srgb, var(--secondary-accent) 15%, transparent);
-  backdrop-filter: blur(12px) saturate(200%);
-  -webkit-backdrop-filter: blur(12px) saturate(200%);
-  border: 0.0625rem solid color-mix(in srgb, var(--secondary-accent) 30%, rgba(255, 255, 255, 0.6));
-  color: var(--secondary-accent) !important; /* Tinted text matches the Apple tinted glass aesthetic */
-  box-shadow: 0 0.25rem 0.75rem color-mix(in srgb, var(--secondary-accent) 15%, transparent),
+  background: var(--secondary-accent) !important;
+  color: var(--accent-text) !important;
+  border-color: color-mix(in srgb, var(--accent-text) 20%, transparent) !important;
+  box-shadow: 0 0.5rem 1rem color-mix(in srgb, var(--secondary-accent) 40%, transparent),
               inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
-body.dark-mode .btn-primary {
-  background: color-mix(in srgb, var(--secondary-accent) 20%, rgba(0, 0, 0, 0.2));
-  border-color: color-mix(in srgb, var(--secondary-accent) 40%, rgba(255, 255, 255, 0.15));
-  color: color-mix(in srgb, var(--secondary-accent) 80%, #FFFFFF) !important;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.3),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1);
-}
-
-/* Carpool Legibility Override (Deepens the yellow text so it stays readable on light glass) */
-body:not(.dark-mode).theme-carpool .btn-primary {
-  color: #996A00 !important; 
-}
-
-/* --- GLASS-ON-GLASS SECONDARY BUTTON --- */
+/* --- FROSTED SECONDARY BUTTON --- */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px) saturate(200%);
   -webkit-backdrop-filter: blur(12px) saturate(200%);
   color: var(--text-main);
-  border: 0.0625rem solid var(--glass-border);
+  border-color: var(--glass-border);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
@@ -424,19 +400,16 @@ body.dark-mode .btn-secondary {
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
-/* --- GLASS BUTTON HOVER STATES --- */
+/* --- GEM BUTTON HOVER STATES --- */
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background: color-mix(in srgb, var(--secondary-accent) 25%, transparent);
-    box-shadow: 0 0.5rem 1rem color-mix(in srgb, var(--secondary-accent) 25%, transparent), 
+    filter: brightness(1.1);
+    box-shadow: 0 0.5rem 1rem color-mix(in srgb, var(--secondary-accent) 60%, transparent), 
                 inset 0 1px 1px rgba(255, 255, 255, 0.6);
-  }
-  body.dark-mode .btn-primary:hover {
-    background: color-mix(in srgb, var(--secondary-accent) 30%, rgba(0, 0, 0, 0.3));
   }
   
   .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
   }
   body.dark-mode .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -549,6 +522,18 @@ body.theme-carpool [style*="background: var(--secondary-accent)"],
 body.theme-carpool [style*="background: #FFB60A"],
 body.theme-carpool [style*="background: #FDE08B"] {
     color: var(--accent-text) !important;
+}
+
+/* Force the Gem-Glass effect on Carpool's inline-styled buttons */
+#carpool-grid .btn {
+    border: 0.0625rem solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+#carpool-grid .btn[style*="var(--toggle-bg)"] {
+    /* Excludes the grey "Demo Only" button from getting the gem shadow */
+    box-shadow: none !important;
+    border: 1px solid var(--glass-border) !important;
 }
 
 body.theme-carpool .card-avatar {
