@@ -807,7 +807,7 @@ function renderTransferCards(items) {
             
             <div class="card-actions">
                 <a href="${item.url}" target="_blank" class="btn btn-primary" style="width: 100%;">
-                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">open_in_new</span> Visit Resource
+                    <span class="material-symbols-rounded" style="font-size: 1.125rem;">link_2</span> Open resource
                 </a>
             </div>
         </div>
