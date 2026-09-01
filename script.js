@@ -85,22 +85,10 @@ function initializeApp() {
     const startClubBtn = document.getElementById("start-club-btn");
     if (startClubBtn && typeof wvClubFormUrl !== 'undefined') startClubBtn.href = wvClubFormUrl;
     
-    const searchInput = document.getElementById("search-input");
-    const clubGrid = document.getElementById("club-grid");
-    if (searchInput && clubGrid) {
-        searchInput.addEventListener("input", window.filterClubs);
-    }
-
     if (typeof window.initClubHub === 'function') window.initClubHub();
     if (typeof window.initBarterBazaar === 'function') window.initBarterBazaar();
     if (typeof window.initCarpoolTool === 'function') window.initCarpoolTool();
     if (typeof window.initTransferTools === 'function') window.initTransferTools();
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener("DOMContentLoaded", initializeApp);
-} else {
-    initializeApp();
 }
 
 // ==========================================
@@ -115,7 +103,15 @@ let activeCampus = 'All';
 
 window.initClubHub = function() {
     const grid = document.getElementById("club-grid");
+    const searchInput = document.getElementById("search-input");
     if (!grid) return; 
+
+    // Attach search listener safely inside the Hub
+    if (searchInput) {
+        searchInput.removeEventListener("input", window.filterClubs);
+        searchInput.addEventListener("input", window.filterClubs);
+    }
+
     // Trigger Cache Engine
     fetchWithCache(CLUB_CSV_URL, 'cache_clubData', processClubData);
 };
@@ -176,6 +172,7 @@ window.filterCategory = function(category, button) {
 window.filterClubs = function() {
     const searchInput = document.getElementById("search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const terms = term ? term.split(/\s+/) : [];
     const dataToFilter = allClubsData || [];
 
     const filtered = dataToFilter.filter(club => {
@@ -189,16 +186,24 @@ window.filterClubs = function() {
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []); 
 
-        if (activeCampus !== 'All' && school.toUpperCase() !== activeCampus) return false;
+        // THE FIX: Flexible Campus Filtering (catches "Mission" and "MC")
+        let matchesCampus = false;
+        const cStr = school.toLowerCase();
+        if (activeCampus === 'All') matchesCampus = true;
+        else if (activeCampus === 'WV' && (cStr.includes('wv') || cStr.includes('west valley') || cStr.includes('both'))) matchesCampus = true;
+        else if (activeCampus === 'MC' && (cStr.includes('mc') || cStr.includes('mission') || cStr.includes('both'))) matchesCampus = true;
+        if (!matchesCampus) return false;
+
+        // Category Match
         if (activeCategory !== 'All' && !cats.includes(activeCategory)) return false;
 
-        return !term || 
-        name.toLowerCase().includes(term) ||
-        initials.toLowerCase().includes(term) ||
-        president.toLowerCase().includes(term) ||
-        email.toLowerCase().includes(term) ||
-        desc.toLowerCase().includes(term) ||
-        school.toLowerCase().includes(term);
+        // THE FIX: Multi-word search evaluation
+        if (terms.length > 0) {
+            const searchString = `${name} ${initials} ${president} ${email} ${desc} ${school}`.toLowerCase();
+            if (!terms.every(t => searchString.includes(t))) return false;
+        }
+
+        return true;
     });
 
     if (typeof window.renderClubCards === 'function') {
@@ -272,7 +277,8 @@ window.renderClubCards = function(clubs) {
             actionBtnHtml = `<a href="mailto:${primaryEmail}" class="btn btn-primary" style="width: 100%;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Email to Join</a>`;
         }
 
-        const isMC = club.school === 'MC' || club.school === 'Mission';
+        const cStr = (club.school || "").toLowerCase();
+        const isMC = !cStr.includes('both') && (cStr.includes('mission') || cStr.includes('mc'));
 
         return `
         <div class="glass card-small ${isMC ? 'theme-mc' : ''}">
@@ -317,13 +323,11 @@ window.initBarterBazaar = function() {
     const barterSearch = document.getElementById("barter-search-input");
     if (!barterGrid) return; 
 
-    // Attach search listener safely
     if (barterSearch) {
         barterSearch.removeEventListener("input", window.filterBarter);
         barterSearch.addEventListener("input", window.filterBarter);
     }
     
-    // Trigger Cache Engine
     fetchWithCache(BARTER_CSV_URL, 'cache_barterData', processBarterData);
 };
 
@@ -354,10 +358,14 @@ function processBarterData(csvText) {
 window.filterBarter = function() {
     const searchInput = document.getElementById("barter-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
 
     const filtered = barterData.filter(item => {
-        if (!term) return true;
-        return (item.campus.toLowerCase().includes(term) || item.lookingFor.toLowerCase().includes(term) || item.offering.toLowerCase().includes(term));
+        if (terms.length > 0) {
+            const searchString = `${item.campus} ${item.lookingFor} ${item.offering}`.toLowerCase();
+            if (!terms.every(t => searchString.includes(t))) return false;
+        }
+        return true;
     });
 
     renderBarterCards(filtered);
@@ -367,7 +375,6 @@ function renderBarterCards(items) {
     const grid = document.getElementById("barter-grid");
     if (!grid) return;
 
-    // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
     <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
@@ -445,13 +452,11 @@ window.initCarpoolTool = function() {
     const searchInput = document.getElementById("carpool-search-input");
     if (!grid) return; 
 
-    // Attach search listener safely
     if (searchInput) {
         searchInput.removeEventListener("input", window.filterCarpools);
         searchInput.addEventListener("input", window.filterCarpools);
     }
     
-    // Trigger Cache Engine
     fetchWithCache(CARPOOL_CSV_URL, 'cache_carpoolData', processCarpoolData);
 };
 
@@ -500,18 +505,23 @@ window.filterCarpoolRole = function(role, button) {
 window.filterCarpools = function() {
     const searchInput = document.getElementById("carpool-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
 
     const filtered = carpoolData.filter(item => {
         const cStr = item.campus.toLowerCase();
         
         let matchesCampus = false;
         if (activeCarpoolCampus === 'All') matchesCampus = true;
-        else if (activeCarpoolCampus === 'WV' && (cStr.includes('west valley') || cStr.includes('both'))) matchesCampus = true;
+        else if (activeCarpoolCampus === 'WV' && (cStr.includes('wv') || cStr.includes('west valley') || cStr.includes('both'))) matchesCampus = true;
         else if (activeCarpoolCampus === 'MC' && (cStr.includes('mission') || cStr.includes('mc') || cStr.includes('both'))) matchesCampus = true;
         if (!matchesCampus) return false;
 
         if (activeCarpoolRole !== 'All' && !item.role.includes(activeCarpoolRole)) return false;
-        if (term && !item.city.toLowerCase().includes(term) && !item.zip.toLowerCase().includes(term)) return false;
+        
+        if (terms.length > 0) {
+            const searchString = `${item.city} ${item.zip}`.toLowerCase();
+            if (!terms.every(t => searchString.includes(t))) return false;
+        }
 
         return true;
     });
@@ -523,7 +533,6 @@ function renderCarpoolCards(items) {
     const grid = document.getElementById("carpool-grid");
     if (!grid) return;
 
-    // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
     <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
@@ -703,13 +712,11 @@ window.initTransferTools = function() {
     const searchInput = document.getElementById("transfer-search-input");
     if (!grid) return; 
 
-    // Attach search listener safely
     if (searchInput) {
         searchInput.removeEventListener("input", window.filterTransferTools);
         searchInput.addEventListener("input", window.filterTransferTools);
     }
     
-    // Trigger Cache Engine
     fetchWithCache(TRANSFER_CSV_URL, 'cache_transferData', processTransferData);
 };
 
@@ -748,6 +755,7 @@ window.filterTransfer = function(category, button) {
 window.filterTransferTools = function() {
     const searchInput = document.getElementById("transfer-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
 
     const filtered = allTransferData.filter(item => {
         let matchesCategory = false;
@@ -758,10 +766,10 @@ window.filterTransferTools = function() {
         }
         if (!matchesCategory) return false;
 
-        if (term) {
+        if (terms.length > 0) {
             // THE FIX: Ensured tags are stripped out of the search evaluation string
             const searchString = `${item.name} ${item.desc}`.toLowerCase();
-            if (!searchString.includes(term)) return false;
+            if (!terms.every(t => searchString.includes(t))) return false;
         }
 
         return true;
@@ -774,7 +782,6 @@ function renderTransferCards(items) {
     const grid = document.getElementById("transfer-grid");
     if (!grid) return;
 
-    // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
     <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">school</span>
@@ -812,4 +819,14 @@ function renderTransferCards(items) {
     }).join('');
 
     grid.innerHTML = ctaCard + cardsHtml;
+}
+
+// ==========================================
+// --- EXECUTION BLOCK ---
+// ==========================================
+// THE FIX: Moved to the absolute bottom to ensure all functions are defined before listeners attach.
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", initializeApp);
+} else {
+    initializeApp();
 }
