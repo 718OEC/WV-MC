@@ -526,7 +526,7 @@ function renderCarpoolCards(items) {
     // THE FIX: Uniform dashed card & uniform button
     const ctaCard = `
     <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">directions_car</span>
+        <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--secondary-accent); margin-bottom: 0.5rem;">add_circle</span>
         <h3 style="margin: 0 0 0.5rem; color: var(--secondary-accent);">Join the Carpool</h3>
         <p style="font-size: 0.875rem; color: var(--text-sub); margin-bottom: 1.5rem;">Save gas, split costs, and meet fellow students. Offer a ride or request a seat today.</p>
         <a href="${CARPOOL_FORM_URL}" target="_blank" class="btn btn-primary" style="width: 100%;">Create Listing</a>
