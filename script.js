@@ -267,7 +267,7 @@ window.renderClubCards = function(clubs) {
         
         let actionBtnHtml = '';
         if (club.signUpForm) {
-            actionBtnHtml = `<a href="${club.signUpForm}" target="_blank" class="btn btn-primary" style="width: 100%;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">signature</span> Sign Up</a>`;
+            actionBtnHtml = `<a href="${club.signUpForm}" target="_blank" class="btn btn-primary" style="width: 100%;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">stylus_note</span> Sign Up</a>`;
         } else if (primaryEmail) {
             actionBtnHtml = `<a href="mailto:${primaryEmail}" class="btn btn-primary" style="width: 100%;"><span class="material-symbols-rounded" style="font-size: 1.125rem;">mail</span> Email to Join</a>`;
         }
