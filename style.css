@@ -54,30 +54,58 @@ body.theme-transfer { --glass-rgb: 203, 229, 142; --theme-accent: #5F259F; --acc
 
 /* --- Dark Mode Base --- */
 body.dark-mode {
+  /* Default Fallback (Index Slate) */
   --page-bg: #0B101A; 
   --text-main: #FFFFFF;
   --text-sub: #94A3B8; 
   --primary-accent: #FFFFFF; 
-  --toggle-bg: rgba(255, 255, 255, 0.08);
-  
+  --toggle-bg: rgba(255, 255, 255, 0.08);  
   /* Dimmed Ghostly Glass */
   --glass-panel: rgba(var(--glass-rgb), 0.06); 
   --glass-border: rgba(var(--glass-rgb), 0.15);
-  
   /* HIG Dark Mode: Deep diffuse shadow + faint rim light */
   --glass-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08); 
-
-  /* Dark Nav Dock */
+  /* Default Dark Nav Dock */
   --glass-nav: rgba(18, 25, 38, 0.65);
   --glass-nav-border: rgba(255, 255, 255, 0.12);
 }
 
 /* --- Dark Mode Smart Overrides --- */
-body.dark-mode.theme-index { --theme-accent: #FFCAB3; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-barter { --theme-accent: #CBE58E; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-carpool { --theme-accent: #FDE08B; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-club { --theme-accent: #B7CCEA; --accent-text: #1D1D1D; } 
-body.dark-mode.theme-transfer { --theme-accent: #C3A7D6; --accent-text: #1D1D1D; } 
+/* 1. Index Theme (Cool Slate) */
+body.dark-mode.theme-index { 
+  --theme-accent: #FFCAB3; 
+  --accent-text: #1D1D1D; 
+  --page-bg: #0B101A; 
+  --glass-nav: rgba(18, 25, 38, 0.65);
+} 
+/* 2. Barter Bazaar Theme (Deep Plum / Rose tint) */
+body.dark-mode.theme-barter { 
+  --theme-accent: #CBE58E; 
+  --accent-text: #1D1D1D; 
+  --page-bg: #170D11; 
+  --glass-nav: rgba(38, 20, 28, 0.65);
+} 
+/* 3. Carpool Tool Theme (Deep Indigo / Violet tint) */
+body.dark-mode.theme-carpool { 
+  --theme-accent: #FDE08B; 
+  --accent-text: #1D1D1D; 
+  --page-bg: #120C17; 
+  --glass-nav: rgba(28, 20, 38, 0.65);
+} 
+/* 4. Club Hub Theme (Deep Bronze / Gold tint) */
+body.dark-mode.theme-club { 
+  --theme-accent: #B7CCEA; 
+  --accent-text: #1D1D1D; 
+  --page-bg: #17150C; 
+  --glass-nav: rgba(38, 34, 20, 0.65);
+} 
+/* 5. Transfer Tools Theme (Deep Pine / Green tint) */
+body.dark-mode.theme-transfer { 
+  --theme-accent: #C3A7D6; 
+  --accent-text: #1D1D1D; 
+  --page-bg: #0D1711; 
+  --glass-nav: rgba(20, 38, 28, 0.65);
+}
 
 /* ============================================================== */
 /* --- GLOBAL RESETS & TYPOGRAPHY --- */
