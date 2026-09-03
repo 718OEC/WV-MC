@@ -207,21 +207,45 @@ strong, b { font-weight: 600; }
 body.dark-mode .floating-dock { 
   box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08); 
 }
+
 .dock-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 3.5rem; 
-  width: 4.5rem;  
+  width: 4.5rem; /* Mobile Pill shape */
   border-radius: 999px;
   color: var(--text-sub);
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+  overflow: hidden; /* Prevents text overflow during transition */
 }
+
 .dock-btn .material-symbols-rounded { 
-  font-size: 1.875rem; /* Proportionally enlarged icon size */
+  font-size: 1.875rem; 
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+  flex-shrink: 0;
+}
+
+.dock-label {
+  display: none; /* Hidden on mobile */
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* DESKTOP EXPANSION STRATEGY */
+@media (min-width: 48rem) {
+  .dock-btn {
+    width: auto; /* Shrink-wrap around icon + text */
+    padding: 0 1.5rem; /* Internal padding for the expanded pill */
+    gap: 0.5rem; /* Precise spacing between icon and text */
+  }
+  .dock-label {
+    display: block; /* Reveal text */
+  }
 }
 
 /* --- THE GLASS-ON-GLASS ACTIVE STATE --- */
@@ -272,6 +296,7 @@ body.dark-mode .dock-btn.active {
   grid-template-columns: repeat(4, 1fr); 
   gap: 1.25rem; 
   margin-bottom: 2.5rem; 
+  align-items: stretch; /* Forces all cards in a row to match height */
 }
 .grid-cards > * { grid-column: span 4; }
 
@@ -282,12 +307,18 @@ body.dark-mode .dock-btn.active {
 
 @media (min-width: 64rem) { 
   .grid-cards { grid-template-columns: repeat(12, 1fr); gap: 1.5rem; } 
-  .grid-cards > * { grid-column: span 4; }
+  .grid-cards > * { grid-column: span 3; } /* THE FIX: 12 / 3 = exactly 4 cards per row */
 }
 
 .clickable-card-link { text-decoration: none; color: inherit; display: flex; height: 100%; }
 
-.card-small { padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+.card-small { 
+  padding: 1.5rem; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  height: 100%; /* Force the card to fill its stretched grid cell */
+}
 
 .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
 
