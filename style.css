@@ -194,8 +194,8 @@ strong, b { font-weight: 600; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem; /* Uniform spacing between buttons */
-  padding: 0.625rem; /* Equal outer padding matching the gap */
+  gap: 0.75rem; /* Expanded gap */
+  padding: 1rem; /* Significantly expanded padding for more breathing room */
   border-radius: 999px;
   z-index: 1000;
   background: var(--glass-nav) !important;
@@ -213,13 +213,14 @@ body.dark-mode .floating-dock {
   align-items: center;
   justify-content: center;
   height: 3.5rem; 
-  width: 4.5rem; /* Mobile Pill shape */
+  padding: 0 1rem; /* Compact padding for mobile icons */
+  min-width: 3.5rem; /* Ensures square/pill balance on mobile */
   border-radius: 999px;
   color: var(--text-sub);
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
-  overflow: hidden; /* Prevents text overflow during transition */
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .dock-btn .material-symbols-rounded { 
@@ -239,12 +240,12 @@ body.dark-mode .floating-dock {
 /* DESKTOP EXPANSION STRATEGY */
 @media (min-width: 48rem) {
   .dock-btn {
-    width: auto; /* Shrink-wrap around icon + text */
-    padding: 0 1.5rem; /* Internal padding for the expanded pill */
+    width: auto; /* Shrink-wraps perfectly around icon + full text */
+    padding: 0 1.25rem; /* Balanced internal padding */
     gap: 0.5rem; /* Precise spacing between icon and text */
   }
   .dock-label {
-    display: block; /* Reveal text */
+    display: block; /* Reveals text cleanly without clipping */
   }
 }
 
@@ -282,13 +283,14 @@ body.dark-mode .dock-btn.active {
 /* --- FILTERS --- */
 /* ============================================================== */
 
-.control-panel { padding: 1.5rem; margin-bottom: 1.5rem; }
-.filter-row { display: block; width: 100%; margin-left: -1.5rem; margin-right: -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; scrollbar-width: none; }
+/* FIXED: Removed negative margins that caused horizontal scroll breaking on mobile */
+.control-panel { margin-bottom: 1.5rem; }
+.filter-row { display: flex; width: 100%; scrollbar-width: none; }
 .filter-row::-webkit-scrollbar { display: none; }
-.filter-pills { display: flex; flex-wrap: wrap; gap: 0.75rem 0.5rem; }
+.filter-pills { display: flex; flex-wrap: wrap; gap: 0.75rem 0.5rem; width: 100%; }
 
 /* ============================================================== */
-/* --- 12-COLUMN CARD GRID (4-Point Scale) --- */
+/* --- 12-COLUMN CARD GRID (3-Cards Per Row Fix) --- */
 /* ============================================================== */
 
 .grid-cards { 
@@ -307,7 +309,7 @@ body.dark-mode .dock-btn.active {
 
 @media (min-width: 64rem) { 
   .grid-cards { grid-template-columns: repeat(12, 1fr); gap: 1.5rem; } 
-  .grid-cards > * { grid-column: span 3; } /* THE FIX: 12 / 3 = exactly 4 cards per row */
+  .grid-cards > * { grid-column: span 4; } /* FIXED: 12 / 4 = exactly 3 cards per row */
 }
 
 .clickable-card-link { text-decoration: none; color: inherit; display: flex; height: 100%; }
@@ -355,7 +357,7 @@ body.dark-mode .dock-btn.active {
 .card-desc { font-size: 0.875rem; color: var(--text-main); margin-bottom: 1.25rem; }
 .card-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
-/* --- CTA Unified Card Styles (Replaces inline styles) --- */
+/* --- CTA Unified Card Styles --- */
 .cta-card-glass {
   border: 2px dashed var(--secondary-accent) !important;
   background: color-mix(in srgb, var(--secondary-accent) 5%, var(--glass-panel)) !important;
@@ -416,22 +418,21 @@ body.dark-mode .dock-btn.active {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 3rem; /* Fixed height for uniform consistency */
-  padding: 0 1.5rem; /* Standard vertical padding equivalent */
+  height: 3rem; 
+  padding: 0 1.5rem; 
   font-size: 0.875rem;
   font-weight: 700;
-  border-radius: 999px; /* HIG: Capsule Buttons */
+  border-radius: 999px; 
   text-decoration: none;
   cursor: pointer;
   border: 0.0625rem solid transparent; 
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  white-space: nowrap; /* Prevents wrapping */
+  white-space: nowrap;
 }
 
 .btn:active { transform: scale(0.96); }
 
 /* --- GEM-LIKE PRIMARY BUTTON --- */
-/* Uses the highly legible solid base color but adds a glass rim-light for depth */
 .btn-primary {
   background: var(--secondary-accent) !important;
   color: var(--accent-text) !important;
@@ -500,29 +501,6 @@ body.dark-mode .btn-secondary {
 /* Active Pills */
 .pill.active { background: var(--secondary-accent); color: var(--accent-text) !important; border-color: var(--secondary-accent); }
 
-.pill[data-tag], .badge[data-tag] { color: #FFFFFF !important; }
-.pill[data-tag] { opacity: 0.65; filter: saturate(40%); }
-.pill.active[data-tag] { opacity: 1; filter: saturate(100%); }
-
-/* THE COLOR MAP */
-[data-tag="UC"] { background: #005587 !important; border-color: #005587 !important; }
-[data-tag="CSU"] { background: #C90022 !important; border-color: #C90022 !important; }
-[data-tag="Private"] { background: #4B2E83 !important; border-color: #4B2E83 !important; }
-[data-tag="Ivy League"] { background: #014421 !important; border-color: #014421 !important; }
-[data-tag="Top 10"] { background: #D48806 !important; border-color: #D48806 !important; } 
-[data-tag="Top 25"] { background: #E65C00 !important; border-color: #E65C00 !important; }
-[data-tag="Veterans"] { background: #4B5320 !important; border-color: #4B5320 !important; }
-[data-tag="Non-Traditional"] { background: #BF360C !important; border-color: #BF360C !important; }
-[data-tag="Minority"] { background: #8E24AA !important; border-color: #8E24AA !important; }
-[data-tag="STEM"] { background: #008080 !important; border-color: #008080 !important; }
-[data-tag="Pre-Med"] { background: #1565C0 !important; border-color: #1565C0 !important; }
-[data-tag="Pre-Law"] { background: #5D4037 !important; border-color: #5D4037 !important; }
-[data-tag="Internship"] { background: #2E7D32 !important; border-color: #2E7D32 !important; }
-[data-tag="Transfer Help"] { background: #E64A19 !important; border-color: #E64A19 !important; }
-[data-tag="Test Prep"] { background: #3F51B5 !important; border-color: #3F51B5 !important; }
-[data-tag="Success Story"] { background: #D81B60 !important; border-color: #D81B60 !important; }
-[data-tag="YouTube"] { background: #E60000 !important; border-color: #E60000 !important; }
-
 /* ============================================================== */
 /* --- iOS DOUBLE-TAP FIX & HOVER STATES --- */
 /* ============================================================== */
@@ -535,7 +513,6 @@ body.dark-mode .btn-secondary {
   body.dark-mode .card-small:hover { box-shadow: 0 1.5rem 3.5rem rgba(0,0,0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15); }
   
   .social-link:hover, .card-contact a:hover { opacity: 0.7; }
-  .pill[data-tag]:hover { opacity: 1; filter: saturate(100%); }
   .btn:hover { filter: brightness(1.05); transform: translateY(-0.0625rem); }
   
   .cta-mini-card:hover { transform: translateY(-0.125rem); border-color: var(--secondary-accent); background: color-mix(in srgb, var(--secondary-accent) 5%, var(--toggle-bg)); }
