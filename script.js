@@ -2,7 +2,8 @@
 // --- HOVER PRE-FETCH ---
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    const internalLinks = document.querySelectorAll('.fab-menu a[href^="/"], .fab-menu a[href^="./"], .fab-menu a[href^="http"]:not([target="_blank"])');
+    // FIXED: Updated to target the new floating dock so instant-loading works again
+    const internalLinks = document.querySelectorAll('.floating-dock a:not([target="_blank"])');
     const preloaded = new Set();
 
     internalLinks.forEach(link => {
@@ -106,13 +107,11 @@ window.initClubHub = function() {
     const searchInput = document.getElementById("search-input");
     if (!grid) return; 
 
-    // Attach search listener safely inside the Hub
     if (searchInput) {
         searchInput.removeEventListener("input", window.filterClubs);
         searchInput.addEventListener("input", window.filterClubs);
     }
 
-    // Trigger Cache Engine
     fetchWithCache(CLUB_CSV_URL, 'cache_clubData', processClubData);
 };
 
@@ -186,7 +185,6 @@ window.filterClubs = function() {
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []); 
 
-        // THE FIX: Flexible Campus Filtering (catches "Mission" and "MC")
         let matchesCampus = false;
         const cStr = school.toLowerCase();
         if (activeCampus === 'All') matchesCampus = true;
@@ -194,10 +192,8 @@ window.filterClubs = function() {
         else if (activeCampus === 'MC' && (cStr.includes('mc') || cStr.includes('mission') || cStr.includes('both'))) matchesCampus = true;
         if (!matchesCampus) return false;
 
-        // Category Match
         if (activeCategory !== 'All' && !cats.includes(activeCategory)) return false;
 
-        // THE FIX: Multi-word search evaluation
         if (terms.length > 0) {
             const searchString = `${name} ${initials} ${president} ${email} ${desc} ${school}`.toLowerCase();
             if (!terms.every(t => searchString.includes(t))) return false;
@@ -215,7 +211,6 @@ window.renderClubCards = function(clubs) {
     const grid = document.getElementById("club-grid");
     if (!grid) return;
 
-// Separate CTA's to start clubs
     const unifiedCtaHtml = `
     <!-- 1. WVC CTA Card -->
     <div class="card-small" style="border: 2px dashed var(--secondary-accent); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
@@ -225,7 +220,7 @@ window.renderClubCards = function(clubs) {
         <a href="${wvClubFormUrl}" target="_blank" class="btn btn-primary" style="width: 100%;">Make my club</a>
     </div>
 
-<!-- 2. Mission College CTA Card -->
+    <!-- 2. Mission College CTA Card -->
     <div class="card-small theme-mc" style="border: 2px dashed var(--mc-teal); border-radius: 1.75rem; background: transparent; box-shadow: none; padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--mc-teal); margin-bottom: 0.5rem;">group_add</span>
         <h3 style="margin: 0 0 0.5rem; color: var(--mc-teal);">Start an MC Club</h3>
@@ -254,7 +249,9 @@ window.renderClubCards = function(clubs) {
 
         let rawCats = club.categories;
         let cats = Array.isArray(rawCats) ? rawCats : (typeof rawCats === 'string' ? [rawCats] : []);
-        const categoriesHtml = cats.slice(0, 3).map(cat => `<span class="badge" data-tag="${cat}">${cat}</span>`).join('');
+        
+        // CLEANED: Removed data-tag lookup
+        const categoriesHtml = cats.slice(0, 3).map(cat => `<span class="badge">${cat}</span>`).join('');
 
         let socialsHtml = '';
         if (club.socials) {
@@ -358,7 +355,7 @@ function processBarterData(csvText) {
 window.filterBarter = function() {
     const searchInput = document.getElementById("barter-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
+    const terms = term ? term.split(/\s+/) : []; 
 
     const filtered = barterData.filter(item => {
         if (terms.length > 0) {
@@ -394,6 +391,7 @@ function renderBarterCards(items) {
         let campusBadgesHtml = '';
         const cStr = item.campus.toLowerCase();
         
+        // Retained inline protected colors for multi-campus flexibility
         if (cStr.includes('both')) {
             campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span><span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>`;
         } else if (cStr.includes('mission') || cStr.includes('mc')) {
@@ -505,7 +503,7 @@ window.filterCarpoolRole = function(role, button) {
 window.filterCarpools = function() {
     const searchInput = document.getElementById("carpool-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
+    const terms = term ? term.split(/\s+/) : []; 
 
     const filtered = carpoolData.filter(item => {
         const cStr = item.campus.toLowerCase();
@@ -612,6 +610,8 @@ function renderCarpoolCards(items) {
         
         let campusBadgesHtml = '';
         const cStr = item.campus.toLowerCase();
+        
+        // Retained inline protected colors for multi-campus flexibility
         if (cStr.includes('both')) {
             campusBadgesHtml = `<span class="badge" style="background: var(--wvc-blue); color: #FFFFFF;">WV</span><span class="badge" style="background: var(--mc-teal); color: #FFFFFF;">MC</span>`;
         } else if (cStr.includes('mission') || cStr.includes('mc')) {
@@ -730,7 +730,7 @@ function processTransferData(csvText) {
         
         const name = cols[2] || "";     
         const tagsRaw = cols[3] || "";     
-        const url = cols[4] || "";   
+        const url = cols[4] || "";  
         const desc = cols[5] || ""; 
         
         const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t);
@@ -755,7 +755,7 @@ window.filterTransfer = function(category, button) {
 window.filterTransferTools = function() {
     const searchInput = document.getElementById("transfer-search-input");
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    const terms = term ? term.split(/\s+/) : []; // THE FIX: Split to array
+    const terms = term ? term.split(/\s+/) : []; 
 
     const filtered = allTransferData.filter(item => {
         let matchesCategory = false;
@@ -767,7 +767,6 @@ window.filterTransferTools = function() {
         if (!matchesCategory) return false;
 
         if (terms.length > 0) {
-            // THE FIX: Ensured tags are stripped out of the search evaluation string
             const searchString = `${item.name} ${item.desc}`.toLowerCase();
             if (!terms.every(t => searchString.includes(t))) return false;
         }
@@ -792,7 +791,8 @@ function renderTransferCards(items) {
     `;
 
     const cardsHtml = items.map(item => {
-        const badgesHtml = item.tags.map(tag => `<span class="badge" data-tag="${tag}">${tag}</span>`).join('');
+        // CLEANED: Removed data-tag lookup
+        const badgesHtml = item.tags.map(tag => `<span class="badge">${tag}</span>`).join('');
         const descHtml = item.desc ? `<p style="font-size: 0.9375rem; color: var(--text-sub); line-height: 1.5; margin: 0 0 1.5rem 0;">${item.desc}</p>` : `<div style="margin-bottom: 1.5rem;"></div>`;
 
         return `
@@ -824,7 +824,6 @@ function renderTransferCards(items) {
 // ==========================================
 // --- EXECUTION BLOCK ---
 // ==========================================
-// THE FIX: Moved to the absolute bottom to ensure all functions are defined before listeners attach.
 if (document.readyState === 'loading') {
     document.addEventListener("DOMContentLoaded", initializeApp);
 } else {
